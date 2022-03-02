@@ -18,9 +18,7 @@ function AmountPicker(props) {
         options={amounts}
         sx={{ width: 200 }}
         size={"small"}
-        renderInput={(params) => (
-          <TextField {...params} label="Choose amount" />
-        )}
+        renderInput={(params) => <TextField {...params} />}
       />
     </Box>
   );

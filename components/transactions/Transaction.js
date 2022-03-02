@@ -3,14 +3,37 @@ import { Box } from "@mui/system";
 import React from "react";
 
 function Transaction(props) {
+  const transData = props.data;
   return (
     <Box sx={{ borderRadius: 5, my: 5 }}>
-      <h3>Date</h3>
       <Paper sx={{ p: 5, borderRadius: 5, my: 5 }}>
-        <p>content 1</p>
-      </Paper>
-      <Paper sx={{ p: 5, borderRadius: 5, my: 5 }}>
-        <p>content 2</p>
+        <p>Amount {transData.amount}</p>
+        <p>
+          Reference Owner{" "}
+          {transData.refOwner === null ? (
+            <label className="null-data">null</label>
+          ) : (
+            transData.refOwner
+          )}
+        </p>
+        <p>
+          Reference Asi{" "}
+          {transData.refAsi === null ? (
+            <label className="null-data">null</label>
+          ) : (
+            transData.refAsi
+          )}
+        </p>
+        <p>ttic {transData.ttic}</p>
+        <p>
+          info{" "}
+          {transData.iao === null ? (
+            <label className="null-data">null</label>
+          ) : (
+            transData.iao
+          )}
+        </p>
+        <p>Type {transData.mark === "C" ? "Credit" : "Debit"}</p>
       </Paper>
     </Box>
   );

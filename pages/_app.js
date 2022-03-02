@@ -1,14 +1,11 @@
 import * as React from "react";
 
-import NextNProgress from "nextjs-progressbar";
-import { BallTriangle } from "react-loader-spinner";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 import "../styles/globals.css";
-import { Box } from "@mui/material";
 
 const client = new ApolloClient({
-  uri: "https://admin-server-6bn7q3qbbq-nw.a.run.app/graphql",
+  uri: "https://mt940-server-s47opgtmgq-uc.a.run.app/graphql",
   cache: new InMemoryCache(),
 });
 

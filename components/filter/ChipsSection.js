@@ -4,7 +4,7 @@ import React from "react";
 
 import styles from "../../styles/components/ChipsSection.module.css";
 
-function ChipsSection(props) {
+function ChipsSection() {
   return (
     <Box>
       <Chip className={styles.chip} variant="outlined" label="Jan" />
@@ -17,6 +17,11 @@ function ChipsSection(props) {
       <Chip className={styles.chip} variant="outlined" label="April" />
       <Chip className={styles.chip} variant="outlined" label="May" />
       <Chip className={styles.chip} variant="outlined" label="July" />
+      <Chip className={styles.chip} variant="outlined" label="Aug" />
+      <Chip className={styles.chip} variant="outlined" label="Sep" />
+      <Chip className={styles.chip} variant="outlined" label="Oct" />
+      <Chip className={styles.chip} variant="outlined" label="Nov" />
+      <Chip className={styles.chip} variant="outlined" label="Dec" />
     </Box>
   );
 }

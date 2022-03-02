@@ -6,7 +6,7 @@ import ChipsSection from "./ChipsSection";
 
 function Filter(props) {
   return (
-    <Box sx={{ pt: 5 }}>
+    <Box sx={{ mt: 12, mb: 8 }}>
       <ChipsSection />
       <PickDate />
       <AmountPicker />
