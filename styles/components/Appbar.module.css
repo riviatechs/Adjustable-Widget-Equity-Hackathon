@@ -1,12 +1,16 @@
 .appbar {
-  padding: 0 50px;
+  padding: 0 11%;
   background: #ffffff !important;
 }
 
 .iconButton {
-  margin-right: 10px !important;
+  margin-left: 10px !important;
 }
 
 .iconButton:hover {
   color: #a42d2d !important;
+}
+.content {
+  flex-flow: 1;
+  display: block;
 }

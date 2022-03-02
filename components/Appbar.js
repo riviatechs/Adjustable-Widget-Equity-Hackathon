@@ -84,7 +84,7 @@ export default function Appbar(props) {
               variant="h6"
               noWrap
               component="div"
-              sx={{ flexGrow: 1, display: { xs: "block" } }}
+              sx={{ flexGrow: 1, display: { xs: "block" }, pl: 5 }}
             >
               <Image src={"/logo.png"} alt="logo" height={40} width={61} />
             </Typography>

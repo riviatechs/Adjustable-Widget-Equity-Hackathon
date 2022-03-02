@@ -1,6 +1,7 @@
 import { Box } from "@mui/system";
 import React from "react";
 import PickDate from "../PickDate";
+import AmountPicker from "./AmountPicker";
 import ChipsSection from "./ChipsSection";
 
 function Filter(props) {
@@ -8,6 +9,7 @@ function Filter(props) {
     <Box sx={{ pt: 5 }}>
       <ChipsSection />
       <PickDate />
+      <AmountPicker />
     </Box>
   );
 }

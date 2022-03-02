@@ -7,12 +7,25 @@ function PickDate() {
   const [value, setValue] = useState(null);
   const [value2, setValue2] = useState([null, null]);
   return (
-    <Box sx={{ py: 2 }}>
+    <Box sx={{ pb: 2, mt: 10, width: "100%" }}>
       <Box>
         <h2>Filter</h2>
       </Box>
-      <Box sx={{ display: "flex", alignItems: "center" }}>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            width: "30%",
+            justifyContent: "space-between",
+          }}
+        >
           <label>Date</label>
           <Box sx={{ pl: 5 }}>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -26,16 +39,20 @@ function PickDate() {
                 onChange={(newValue) => {
                   setValue(newValue);
                 }}
-                renderInput={(params) => <TextField size="small" {...params} />}
+                renderInput={(params) => (
+                  <TextField sx={{ width: 200 }} size="small" {...params} />
+                )}
               />
             </LocalizationProvider>
           </Box>
         </Box>
-        <Box sx={{ display: "flex", alignItems: "center", pl: 5 }}>
+        <Box
+          sx={{ display: "flex", alignItems: "center", pl: 5, width: "60%" }}
+        >
           <label>Period</label>
           <Box sx={{ pl: 5 }}>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <Box sx={{ pl: 5 }}>
+              <Box sx={{ pl: 2 }}>
                 <DateRangePicker
                   startText="From"
                   endText="To"
@@ -45,9 +62,17 @@ function PickDate() {
                   }}
                   renderInput={(startProps, endProps) => (
                     <Box sx={{ display: "flex", alignItems: "center" }}>
-                      <TextField size="small" {...startProps} />
+                      <TextField
+                        sx={{ width: 200 }}
+                        size="small"
+                        {...startProps}
+                      />
                       <Box sx={{ mx: 2 }}> to </Box>
-                      <TextField size="small" {...endProps} />
+                      <TextField
+                        sx={{ width: 200 }}
+                        size="small"
+                        {...endProps}
+                      />
                     </Box>
                   )}
                 />

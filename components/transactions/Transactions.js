@@ -4,7 +4,7 @@ import Transaction from "./Transaction";
 
 function Transactions(props) {
   return (
-    <Box>
+    <Box sx={{ py: 10 }}>
       <h2>Transactions</h2>
       <Transaction />
       <Transaction />
