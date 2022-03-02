@@ -1,42 +1,24 @@
 import Header from "../components/Header";
 import styles from "../styles/Home.module.css";
-
-import { useState } from "react";
-import { LocalizationProvider } from "@mui/lab";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import TextField from "@mui/material/TextField";
-import DatePicker from "@mui/lab/DatePicker";
-
 import Appbar from "../components/Appbar";
+import PickDate from "../components/PickDate";
+import { Box, Paper } from "@mui/material";
 
 export default function HomePage() {
-  const [value, setValue] = useState(null);
   return (
-    <div>
+    <Box sx={{ mt: 10, mx: 15 }}>
       <Header />
-      <Appbar />
-      <p>content</p>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <DatePicker
-          label="Choose Date"
-          value={value}
-          onClose={() => {
-            console.log("choosen!!");
-          }}
-          cancelText="Back"
-          todayText="Today Statements"
-          onChange={(newValue) => {
-            setValue(newValue);
-          }}
-          renderInput={(params) => (
-            <TextField
-              className={styles["date-picker-textfield"]}
-              {...params}
-            />
-          )}
-        />
-      </LocalizationProvider>
+      <Appbar
+        sx={{
+          px: 6,
+          background: "#ffffff",
+        }}
+      />
+      <PickDate />
+      <Paper sx={{ p: 5, borderRadius: 5, my: 5 }}>
+        <p>content</p>
+      </Paper>
       <button>Next page</button>
-    </div>
+    </Box>
   );
 }
