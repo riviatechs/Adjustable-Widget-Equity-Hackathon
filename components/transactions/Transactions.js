@@ -4,17 +4,10 @@ import Transaction from "./Transaction";
 
 import { useQuery } from "@apollo/client";
 import { GET_TRANSACTION } from "../../queries/TRANSCTION_QUERY";
+import { getDate } from "../../util/util";
 
 function Transactions(props) {
-  const {
-    data: fullMT940,
-    loading,
-    error,
-  } = useQuery(GET_TRANSACTION, {
-    variables: {
-      id: 1,
-    },
-  });
+  const { data: fullMT940, loading, error } = useQuery(GET_TRANSACTION);
 
   if (loading)
     return <Box sx={{ width: "100%", padding: "10% 25%" }}>Loading...</Box>;
@@ -25,15 +18,25 @@ function Transactions(props) {
       >{`${error}`}</Box>
     );
 
-  console.log(fullMT940.custStmtMsg);
+  console.log(fullMT940.getStmtLineGroupedByDate);
 
   return (
-    <Box sx={{ mt: 2 }}>
+    <Box sx={{ mt: 5 }}>
       <h2>Transactions</h2>
-      <h3>{fullMT940.custStmtMsg.cb.dateY}</h3>
-      {fullMT940.custStmtMsg.sl.map((trans) => (
-        <Transaction key={trans.refAsi} data={trans} />
-      ))}
+      {fullMT940.getStmtLineGroupedByDate.map((MT940) => {
+        const transDate = getDate(MT940.ValueDate);
+        return (
+          <Box key={MT940.ValueDate}>
+            <h3>
+              {transDate.dayName} {transDate.day} {transDate.month}{" "}
+              {transDate.year}
+            </h3>
+            {MT940.Sls.map((trans) => (
+              <Transaction key={trans.refAsi} data={trans} />
+            ))}
+          </Box>
+        );
+      })}
     </Box>
   );
 }

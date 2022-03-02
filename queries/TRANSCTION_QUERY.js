@@ -1,26 +1,11 @@
 import { gql } from "@apollo/client";
 
 export const GET_TRANSACTION = gql`
-  query GetCustStmtMessage($id: Int!) {
-    custStmtMsg(id: $id) {
-      id
-      trn
-      rr
-      ai {
+  query GetStmtLineGroupDate {
+    getStmtLineGroupedByDate {
+      ValueDate
+      Sls {
         custStmtMsgID
-        id
-        account
-        ic
-      }
-      sn
-      ob {
-        id
-        mark
-        dateY
-        currency
-        amount
-      }
-      sl {
         valueDate
         entryDate
         mark
@@ -32,28 +17,6 @@ export const GET_TRANSACTION = gql`
         supp
         iao
       }
-      cb {
-        id
-        mark
-        dateY
-        currency
-        amount
-      }
-      cab {
-        id
-        mark
-        dateY
-        currency
-        amount
-      }
-      fwab {
-        id
-        mark
-        dateY
-        currency
-        amount
-      }
-      iao
     }
   }
 `;
