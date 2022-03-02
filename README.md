@@ -1,6 +1,10 @@
-## Introduction
+# MT940(Customer Message Statement)
 
-This app has been created by nextjs react framework.
+This purely for the front-end development checkout [https://github.com/riviatechs/mt940_server](https://github.com/riviatechs/mt940_server) for the server details.
+
+Enjoy!!
+
+## Run
 
 After cloning the repo run the series of the below commands to be up and running, within the root project folder.
 
@@ -21,8 +25,11 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Note
+## Deployment
 
-This purely for the front-end development checkout [https://github.com/riviatechs/mt940_server](https://github.com/riviatechs/mt940_server) for the server details.
+### Staging
 
-## Enjoy!!
+service-name: mt940-website
+Region: us-central1
+
+### Production
