@@ -21,7 +21,7 @@ function Transaction(props) {
         <Avatar sx={{ color: "#a42d2d", p: 5, background: "#a42d2d12" }}>
           {transData.refAsi.slice(0, 2)}
         </Avatar>
-        <Box width={"90%"}>
+        <Box width={"85%"}>
           <Box
             sx={{
               display: "flex",
