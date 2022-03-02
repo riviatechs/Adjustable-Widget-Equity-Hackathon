@@ -7,7 +7,7 @@ function PickDate() {
   const [value, setValue] = useState(null);
   const [value2, setValue2] = useState([null, null]);
   return (
-    <Box sx={{ pb: 2, width: "100%" }}>
+    <Box sx={{ my: 5, width: "100%" }}>
       <Box>
         <h2>Filter</h2>
       </Box>
