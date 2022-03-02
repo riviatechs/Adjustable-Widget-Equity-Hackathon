@@ -1,7 +1,6 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Button from "@mui/material/Button";
 import MenuIcon from "@mui/icons-material/Menu";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
@@ -12,7 +11,10 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
 import IosShareIcon from "@mui/icons-material/IosShare";
+import LightModeIcon from "@mui/icons-material/LightMode";
 import Image from "next/image";
+
+import styles from "../styles/components/Appbar.module.css";
 
 export default function Appbar(props) {
   const [state, setState] = React.useState({
@@ -68,10 +70,10 @@ export default function Appbar(props) {
   return (
     <div>
       <Box>
-        <AppBar position="fixed" sx={props.sx}>
+        <AppBar position="fixed" className={styles.appbar}>
           <Toolbar>
             <IconButton
-              sx={{ color: "#a42d2d", mr: 2 }}
+              className={styles.iconButton}
               aria-label="open drawer"
               onClick={toggleDrawer("left", true)}
               edge="start"
@@ -82,12 +84,15 @@ export default function Appbar(props) {
               variant="h6"
               noWrap
               component="div"
-              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+              sx={{ flexGrow: 1, display: { xs: "block" } }}
             >
               <Image src={"/logo.png"} alt="logo" height={40} width={61} />
             </Typography>
-            <IconButton edge="end" sx={{ right: 0 }}>
+            <IconButton className={styles.iconButton}>
               <IosShareIcon />
+            </IconButton>
+            <IconButton className={styles.iconButton}>
+              <LightModeIcon />
             </IconButton>
           </Toolbar>
         </AppBar>

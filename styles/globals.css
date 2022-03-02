@@ -18,7 +18,8 @@ a {
   box-sizing: border-box;
 }
 
-h1 {
+h1,
+h2 {
   color: #a42d2d;
 }
 
@@ -35,3 +36,10 @@ button {
   color: #a42d2d;
   border: none !important;
 } */
+
+.active-chip {
+  background: #a42d2d !important;
+  color: #ffffff !important;
+  border: none !important;
+  margin-right: 10px;
+}

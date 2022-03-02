@@ -1,8 +1,3 @@
-.date-picker-textfield {
-  border: none !important;
-}
-
-.date-picker-textfield.MuiTextField-root {
-  border: none !important;
-  outline: none !important;
+.home {
+  margin: 50px 20%;
 }
