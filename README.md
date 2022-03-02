@@ -25,4 +25,4 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 This purely for the front-end development checkout [https://github.com/riviatechs/mt940_server](https://github.com/riviatechs/mt940_server) for the server details.
 
-Enjoy!!
+## Enjoy!!
