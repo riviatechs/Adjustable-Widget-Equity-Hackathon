@@ -1,5 +1,5 @@
-import Head from "next/head";
-import React from "react";
+import Head from "next/head"
+import React from "react"
 
 function Header() {
   return (
@@ -11,7 +11,7 @@ function Header() {
       />
       <link rel="manifest" href="/site.webmanifest" />
     </Head>
-  );
+  )
 }
 
-export default Header;
+export default Header

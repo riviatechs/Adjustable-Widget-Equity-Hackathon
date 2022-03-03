@@ -5,11 +5,11 @@ import {
   SliderThumb,
   styled,
   TextField,
-} from "@mui/material";
-import { Box } from "@mui/system";
-import React from "react";
-import PropTypes from "prop-types";
-import { priceSeparator } from "../../util/util";
+} from "@mui/material"
+import { Box } from "@mui/system"
+import React from "react"
+import PropTypes from "prop-types"
+import { priceSeparator } from "../../util/util"
 
 const AirbnbSlider = styled(Slider)(() => ({
   color: "#a42d2d",
@@ -38,10 +38,10 @@ const AirbnbSlider = styled(Slider)(() => ({
     color: "#d8d8d8",
     height: 3,
   },
-}));
+}))
 
 function AirbnbThumbComponent(props) {
-  const { children, ...other } = props;
+  const { children, ...other } = props
   return (
     <SliderThumb {...other}>
       {children}
@@ -49,12 +49,12 @@ function AirbnbThumbComponent(props) {
       <span className="airbnb-bar" />
       <span className="airbnb-bar" />
     </SliderThumb>
-  );
+  )
 }
 
 AirbnbThumbComponent.propTypes = {
   children: PropTypes.node,
-};
+}
 
 // const MyTextField = styled(TextField)({
 //   "& label.Mui-focused": {
@@ -98,7 +98,7 @@ function AmountPicker(props) {
         defaultValue={[20, 40]}
       />
     </Box>
-  );
+  )
 }
 
-export default AmountPicker;
+export default AmountPicker

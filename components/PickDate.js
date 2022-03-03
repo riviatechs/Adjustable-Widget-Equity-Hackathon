@@ -1,7 +1,7 @@
-import { DatePicker, DateRangePicker, LocalizationProvider } from "@mui/lab";
-import { Box, styled, TextField } from "@mui/material";
-import { useState } from "react";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import { DatePicker, DateRangePicker, LocalizationProvider } from "@mui/lab"
+import { Box, styled, TextField } from "@mui/material"
+import { useState } from "react"
+import AdapterDateFns from "@mui/lab/AdapterDateFns"
 
 const MyTextField = styled(TextField)({
   "& label.Mui-focused": {
@@ -22,11 +22,11 @@ const MyTextField = styled(TextField)({
       borderColor: "#a42d2d",
     },
   },
-});
+})
 
 function PickDate() {
-  const [value, setValue] = useState(null);
-  const [value2, setValue2] = useState([null, null]);
+  const [value, setValue] = useState(null)
+  const [value2, setValue2] = useState([null, null])
   return (
     <Box sx={{ mt: 8, width: "100%" }}>
       <Box>
@@ -53,13 +53,13 @@ function PickDate() {
               <DatePicker
                 value={value}
                 onClose={() => {
-                  console.log("choosen!!");
+                  console.log("chosen!!")
                 }}
                 cancelText="Back"
                 label="Choose Date"
                 todayText="Today Statements"
                 onChange={(newValue) => {
-                  setValue(newValue);
+                  setValue(newValue)
                 }}
                 renderInput={(params) => (
                   <MyTextField sx={{ width: 200 }} size="small" {...params} />
@@ -80,7 +80,7 @@ function PickDate() {
                   endText="To"
                   value={value2}
                   onChange={(newValue) => {
-                    setValue2(newValue);
+                    setValue2(newValue)
                   }}
                   renderInput={(startProps, endProps) => (
                     <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -104,7 +104,7 @@ function PickDate() {
         </Box>
       </Box>
     </Box>
-  );
+  )
 }
 
-export default PickDate;
+export default PickDate

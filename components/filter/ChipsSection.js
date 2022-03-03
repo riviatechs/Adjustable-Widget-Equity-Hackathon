@@ -1,8 +1,8 @@
-import { Chip } from "@mui/material";
-import { Box } from "@mui/system";
-import React from "react";
+import { Chip } from "@mui/material"
+import { Box } from "@mui/system"
+import React from "react"
 
-import styles from "../../styles/components/ChipsSection.module.css";
+import styles from "../../styles/components/ChipsSection.module.css"
 
 function ChipsSection() {
   return (
@@ -19,7 +19,7 @@ function ChipsSection() {
       <Chip className={styles.chip} variant="outlined" label="Money In" />
       <Chip className={styles.chip} variant="outlined" label="Money Out" />
     </Box>
-  );
+  )
 }
 
-export default ChipsSection;
+export default ChipsSection

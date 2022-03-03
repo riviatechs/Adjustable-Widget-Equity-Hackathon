@@ -1,10 +1,10 @@
-import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import { Box } from "@mui/system";
-import { Button } from "@mui/material";
-import React from "react";
-import PickDate from "../PickDate";
-import AmountPicker from "./AmountPicker";
-import ChipsSection from "./ChipsSection";
+import FilterAltIcon from "@mui/icons-material/FilterAlt"
+import { Box } from "@mui/system"
+import { Button } from "@mui/material"
+import React from "react"
+import PickDate from "../PickDate"
+import AmountPicker from "./AmountPicker"
+import ChipsSection from "./ChipsSection"
 
 function Filter(props) {
   return (
@@ -53,7 +53,7 @@ function Filter(props) {
         </Button>
       </Box>
     </Box>
-  );
+  )
 }
 
-export default Filter;
+export default Filter
