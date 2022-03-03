@@ -24,7 +24,7 @@ function Filter(props) {
             py: 1,
             px: 2,
             mr: 1,
-            transition: "all 500ms ease-in-out",
+            transition: "all 300ms ease-in-out",
             "&:hover": {
               background: "#a42d2d13",
             },
@@ -42,7 +42,7 @@ function Filter(props) {
             width: "120px",
             py: 1,
             px: 2,
-            transition: "all 500ms ease-in-out",
+            transition: "all 300ms ease-in-out",
             "&:hover": {
               background: "#720d19",
             },

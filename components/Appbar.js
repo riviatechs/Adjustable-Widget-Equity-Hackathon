@@ -70,7 +70,7 @@ export default function Appbar(props) {
   return (
     <div>
       <Box>
-        <AppBar position="fixed" className={styles.appbar}>
+        <AppBar position="fixed" elevation={0} className={styles.appbar}>
           <Toolbar>
             <IconButton
               className={styles.iconButton}

@@ -21,7 +21,7 @@ function Transactions(props) {
   // console.log(fullMT940.getStmtLineGroupedByDate);
 
   return (
-    <Box sx={{ mt: 10 }}>
+    <Box sx={{ mt: 8 }}>
       <h2>Transactions</h2>
       {fullMT940.getStmtLineGroupedByDate.map((MT940) => {
         const transDate = getDate(MT940.ValueDate);

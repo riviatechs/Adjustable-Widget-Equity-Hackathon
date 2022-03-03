@@ -43,11 +43,11 @@ function PickDate() {
           sx={{
             display: "flex",
             alignItems: "center",
-            width: "30%",
+            width: "40%",
             justifyContent: "space-between",
           }}
         >
-          <label>Date</label>
+          <label>Specific Date</label>
           <Box sx={{ pl: 5 }}>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DatePicker
@@ -69,7 +69,7 @@ function PickDate() {
           </Box>
         </Box>
         <Box
-          sx={{ display: "flex", alignItems: "center", pl: 5, width: "60%" }}
+          sx={{ display: "flex", alignItems: "center", pl: 5, width: "55%" }}
         >
           <label>Period</label>
           <Box sx={{ pl: 5 }}>

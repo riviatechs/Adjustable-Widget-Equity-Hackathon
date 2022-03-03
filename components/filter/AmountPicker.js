@@ -56,47 +56,76 @@ AirbnbThumbComponent.propTypes = {
   children: PropTypes.node,
 };
 
-// const MyTextField = styled(TextField)({
-//   "& label.Mui-focused": {
-//     color: "#a42d2d",
-//   },
-//   "& .MuiInput-underline:after": {
-//     borderBottomColor: "#a42d2d",
-//   },
-//   "& .MuiOutlinedInput-root": {
-//     "& fieldset": {
-//       borderColor: "#00000033",
-//       borderRadius: 50,
-//     },
-//     "&:hover fieldset": {
-//       borderColor: "#000000",
-//     },
-//     "&.Mui-focused fieldset": {
-//       borderColor: "#a42d2d",
-//     },
-//   },
-// });
+const MyTextField = styled(TextField)({
+  "& label.Mui-focused": {
+    color: "#a42d2d",
+  },
+  "& .MuiInput-underline:after": {
+    borderBottomColor: "#a42d2d",
+  },
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      borderColor: "#00000033",
+      borderRadius: 50,
+    },
+    "&:hover fieldset": {
+      borderColor: "#000000",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "#a42d2d",
+    },
+  },
+});
+
+const minDistance = 100000;
 
 function AmountPicker(props) {
+  const [value, setValue] = React.useState([200000, 400000]);
+  const amountRangeHandler = (event, newValue, activeThumb) => {
+    // console.log(event.target.value);
+
+    if (!Array.isArray(newValue)) {
+      return;
+    }
+
+    if (newValue[1] - newValue[0] < minDistance) {
+      if (activeThumb === 0) {
+        const clamped = Math.min(newValue[0], 100000 - minDistance);
+        setValue([clamped, clamped + minDistance]);
+      } else {
+        const clamped = Math.max(newValue[1], minDistance);
+        setValue([clamped - minDistance, clamped]);
+      }
+    } else {
+      setValue(newValue);
+    }
+  };
+
+  console.log(value);
   return (
     <Box
       sx={{
         display: "flex",
-        width: "30%",
+        width: "100%",
         py: 5,
         alignItems: "center",
         justifyContent: "space-between",
       }}
     >
       <label>Amount</label>
+      <MyTextField size="small" value={value[0]} sx={{ width: 200 }} />
       <AirbnbSlider
         components={{ Thumb: AirbnbThumbComponent }}
-        sx={{ width: 200 }}
-        getAriaLabel={(index) =>
-          index === 0 ? "Minimum amount" : "Maximum amount"
-        }
-        defaultValue={[20, 40]}
+        sx={{ width: 400 }}
+        getAriaLabel={() => "Minimum distance shift"}
+        value={value}
+        onChange={amountRangeHandler}
+        marks
+        min={0}
+        valueLabelDisplay="auto"
+        max={1000000}
       />
+      <MyTextField size="small" value={value[1]} sx={{ width: 200 }} />
     </Box>
   );
 }
