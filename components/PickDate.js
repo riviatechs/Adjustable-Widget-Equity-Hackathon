@@ -1,13 +1,34 @@
 import { DatePicker, DateRangePicker, LocalizationProvider } from "@mui/lab";
-import { Box, TextField } from "@mui/material";
+import { Box, styled, TextField } from "@mui/material";
 import { useState } from "react";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
+
+const MyTextField = styled(TextField)({
+  "& label.Mui-focused": {
+    color: "#a42d2d",
+  },
+  "& .MuiInput-underline:after": {
+    borderBottomColor: "#a42d2d",
+  },
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      borderColor: "#00000033",
+      borderRadius: 50,
+    },
+    "&:hover fieldset": {
+      borderColor: "#000000",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "#a42d2d",
+    },
+  },
+});
 
 function PickDate() {
   const [value, setValue] = useState(null);
   const [value2, setValue2] = useState([null, null]);
   return (
-    <Box sx={{ my: 5, width: "100%" }}>
+    <Box sx={{ mt: 8, width: "100%" }}>
       <Box>
         <h2>Filter</h2>
       </Box>
@@ -35,12 +56,13 @@ function PickDate() {
                   console.log("choosen!!");
                 }}
                 cancelText="Back"
+                label="Choose Date"
                 todayText="Today Statements"
                 onChange={(newValue) => {
                   setValue(newValue);
                 }}
                 renderInput={(params) => (
-                  <TextField sx={{ width: 200 }} size="small" {...params} />
+                  <MyTextField sx={{ width: 200 }} size="small" {...params} />
                 )}
               />
             </LocalizationProvider>
@@ -62,13 +84,13 @@ function PickDate() {
                   }}
                   renderInput={(startProps, endProps) => (
                     <Box sx={{ display: "flex", alignItems: "center" }}>
-                      <TextField
+                      <MyTextField
                         sx={{ width: 200 }}
                         size="small"
                         {...startProps}
                       />
                       <Box sx={{ mx: 2 }}> to </Box>
-                      <TextField
+                      <MyTextField
                         sx={{ width: 200 }}
                         size="small"
                         {...endProps}

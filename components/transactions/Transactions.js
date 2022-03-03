@@ -18,10 +18,10 @@ function Transactions(props) {
       >{`${error}`}</Box>
     );
 
-  console.log(fullMT940.getStmtLineGroupedByDate);
+  // console.log(fullMT940.getStmtLineGroupedByDate);
 
   return (
-    <Box sx={{ mt: 5 }}>
+    <Box sx={{ mt: 10 }}>
       <h2>Transactions</h2>
       {fullMT940.getStmtLineGroupedByDate.map((MT940) => {
         const transDate = getDate(MT940.ValueDate);

@@ -18,7 +18,13 @@ function Transaction(props) {
           justifyContent: "space-between",
         }}
       >
-        <Avatar sx={{ color: "#a42d2d", p: 5, background: "#a42d2d12" }}>
+        <Avatar
+          sx={
+            transData.mark === "C"
+              ? { color: "green", p: 5, background: "#68ab6a32" }
+              : { color: "#a42d2d", p: 5, background: "#a42d2d32" }
+          }
+        >
           {transData.refAsi.slice(0, 2)}
         </Avatar>
         <Box width={"85%"}>
@@ -32,7 +38,11 @@ function Transaction(props) {
             <h3>{transData.refAsi}</h3>
             <Box
               color={transData.mark === "C" ? "green" : " darkred"}
-              sx={{ display: "flex", justifyContent: "space-between" }}
+              sx={{
+                display: "flex",
+                fontWeight: "bold",
+                justifyContent: "space-between",
+              }}
             >
               <p>
                 Ksh{" "}

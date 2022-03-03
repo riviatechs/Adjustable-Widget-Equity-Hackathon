@@ -77,6 +77,7 @@ export default function Appbar(props) {
               aria-label="open drawer"
               onClick={toggleDrawer("left", true)}
               edge="start"
+              sx={{ display: { md: "none" } }}
             >
               <MenuIcon />
             </IconButton>
@@ -84,7 +85,7 @@ export default function Appbar(props) {
               variant="h6"
               noWrap
               component="div"
-              sx={{ flexGrow: 1, display: { xs: "block" }, pl: 5 }}
+              sx={{ flexGrow: 1, display: { xs: "block" } }}
             >
               <Image src={"/logo.png"} alt="logo" height={40} width={61} />
             </Typography>
