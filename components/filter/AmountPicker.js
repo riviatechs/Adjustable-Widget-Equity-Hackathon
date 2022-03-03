@@ -80,9 +80,10 @@ const MyTextField = styled(TextField)({
 const minDistance = 100000
 
 function AmountPicker(props) {
-  const [value, setValue] = React.useState([0, 1000000])
-  const [min, setMin] = React.useState(0)
-  const [max, setMax] = React.useState(1000000)
+  const prevAmount = props.amount
+  const [value, setValue] = React.useState(prevAmount)
+  const [min, setMin] = React.useState(prevAmount[0])
+  const [max, setMax] = React.useState(prevAmount[1])
 
   const amountRangeHandler = (event, newValue, activeThumb) => {
     // console.log(event.target.value);
@@ -108,19 +109,19 @@ function AmountPicker(props) {
 
   const handleMinInputChange = (event) => {
     const intNum = parseInt(event.target.value)
-    setMin(event.target.value === "" ? "" : intNum)
+    setMin(event.target.value === "" ? 0 : intNum)
 
     setValue((prev) => [intNum, prev[1]])
   }
 
   const handleMaxInputChange = (event) => {
     const intNum = parseInt(event.target.value)
-    setMax(event.target.value === "" ? "" : intNum)
+    setMax(event.target.value === "" ? 0 : intNum)
 
     setValue((prev) => [prev[0], intNum])
   }
 
-  props.amountPicker(value)
+  props.onPickAmount(value)
 
   return (
     <Box

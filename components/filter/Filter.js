@@ -1,64 +1,53 @@
 import FilterAltIcon from "@mui/icons-material/FilterAlt"
 import { Box } from "@mui/system"
 import { Button } from "@mui/material"
-import React from "react"
+import React, { useState } from "react"
 import PickDate from "../PickDate"
 import AmountPicker from "./AmountPicker"
 import ChipsSection from "./ChipsSection"
+import { useQuery } from "@apollo/client"
+import { TRANSACTION_BY_AMOUNT_QUERY } from "../../queries/TRANSACTION_BY_AMOUNT.JS"
+import Image from "next/image"
 
 function Filter(props) {
-  const onAmountChange = (amounts) => {
-    console.log(amounts)
+  const amountChangeHandler = (amnt) => {
+    if (isNaN(amnt[0])) {
+      console.log("Enter number 0")
+    } else if (isNaN(amnt[1])) {
+      console.log("Enter number 1")
+    } else {
+      props.onFilter(amnt)
+    }
   }
+
   return (
     <Box sx={{ mt: 12, mb: 5 }}>
       <ChipsSection />
 
       <PickDate />
 
-      <AmountPicker amountPicker={onAmountChange} />
+      <AmountPicker amount={props.amount} onPickAmount={amountChangeHandler} />
 
-      {/* Buttons */}
-      <Box sx={{ my: 5, fontSize: "inherit", display: "flex" }}>
-        <Button
-          sx={{
-            color: "#a42d2d",
-            border: "1px solid #a42d2d",
-            background: "inherit",
-            borderRadius: "50px",
-            width: "120px",
-            fontSize: "initial",
-            py: 1,
-            px: 2,
-            mr: 1,
-            transition: "all 300ms ease-in-out",
-            "&:hover": {
-              background: "#a42d2d13",
-            },
-          }}
-        >
-          Reset
-        </Button>
-        <Button
-          sx={{
-            color: "#ffffff",
-            border: "1px solid #a42d2d",
-            background: "#a42d2d",
-            borderRadius: "50px",
-            fontSize: "initial",
-            width: "120px",
-            py: 1,
-            px: 2,
-            transition: "all 300ms ease-in-out",
-            "&:hover": {
-              background: "#720d19",
-            },
-          }}
-        >
-          Apply
-          <FilterAltIcon color="white" />
-        </Button>
-      </Box>
+      {/* <Box
+        sx={{
+          position: "absolute",
+          bottom: 0,
+          background: "transparent",
+        }}
+      >
+        {slsDataLoading ? (
+          <span>
+            <Image
+              alt="loader"
+              src={"/loading-gif.gif"}
+              height={200}
+              width={200}
+            />
+          </span>
+        ) : (
+          ""
+        )}
+      </Box> */}
     </Box>
   )
 }
