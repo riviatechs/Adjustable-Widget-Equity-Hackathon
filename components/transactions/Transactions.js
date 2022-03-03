@@ -2,8 +2,6 @@ import { Box } from "@mui/system"
 import React, { useState } from "react"
 import Transaction from "./Transaction"
 
-import { useQuery } from "@apollo/client"
-import { GET_TRANSACTION } from "../../queries/TRANSCTION_QUERY"
 import { getDate } from "../../util/util"
 
 function Transactions(props) {
@@ -11,7 +9,7 @@ function Transactions(props) {
 
   return (
     <Box sx={{ mt: 8 }}>
-      <h2>Transactions</h2>
+      <h2>Transactions History</h2>
       {filteredSls.map((MT940) => {
         const transDate = getDate(MT940.ValueDate)
         return (

@@ -1,6 +1,6 @@
 import FilterAltIcon from "@mui/icons-material/FilterAlt"
 import { Box } from "@mui/system"
-import { Button } from "@mui/material"
+import { Button, Divider } from "@mui/material"
 import React, { useState } from "react"
 import PickDate from "../PickDate"
 import AmountPicker from "./AmountPicker"
@@ -21,33 +21,10 @@ function Filter(props) {
   }
 
   return (
-    <Box sx={{ mt: 12, mb: 5 }}>
-      <ChipsSection />
-
+    <Box sx={{ my: 5 }}>
+      <Divider />
       <PickDate />
-
       <AmountPicker amount={props.amount} onPickAmount={amountChangeHandler} />
-
-      {/* <Box
-        sx={{
-          position: "absolute",
-          bottom: 0,
-          background: "transparent",
-        }}
-      >
-        {slsDataLoading ? (
-          <span>
-            <Image
-              alt="loader"
-              src={"/loading-gif.gif"}
-              height={200}
-              width={200}
-            />
-          </span>
-        ) : (
-          ""
-        )}
-      </Box> */}
     </Box>
   )
 }

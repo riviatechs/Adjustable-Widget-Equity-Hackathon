@@ -85,26 +85,29 @@ function AmountPicker(props) {
   const [min, setMin] = React.useState(prevAmount[0])
   const [max, setMax] = React.useState(prevAmount[1])
 
-  const amountRangeHandler = (event, newValue, activeThumb) => {
+  const amountRangeHandler = (event) => {
     // console.log(event.target.value);
 
-    if (!Array.isArray(newValue)) {
-      return
-    }
+    // if (!Array.isArray(newValue)) {
+    //   return
+    // }
 
-    if (newValue[1] - newValue[0] < minDistance) {
-      if (activeThumb === 0) {
-        const clamped = Math.min(newValue[0], 10000000 - minDistance)
-        setValue([clamped, clamped + minDistance])
-      } else {
-        const clamped = Math.max(newValue[1], minDistance)
-        setValue([clamped - minDistance, clamped])
-      }
-    } else {
-      setValue(newValue)
-      setMin(newValue[0])
-      setMax(newValue[1])
-    }
+    // if (newValue[1] - newValue[0] < minDistance) {
+    //   if (activeThumb === 0) {
+    //     const clamped = Math.min(newValue[0], 10000000 - minDistance)
+    //     setValue([clamped, clamped + minDistance])
+    //   } else {
+    //     const clamped = Math.max(newValue[1], minDistance)
+    //     setValue([clamped - minDistance, clamped])
+    //   }
+    // } else {
+
+    const newValue = event.target.value
+
+    setValue(newValue)
+    setMin(newValue[0])
+    setMax(newValue[1])
+    // }
   }
 
   const handleMinInputChange = (event) => {
@@ -134,6 +137,7 @@ function AmountPicker(props) {
       }}
     >
       <label>Amount</label>
+      From
       <MyTextField
         size="small"
         onChange={handleMinInputChange}
@@ -147,16 +151,7 @@ function AmountPicker(props) {
         value={min}
         sx={{ width: 150 }}
       />
-      <AirbnbSlider
-        components={{ Thumb: AirbnbThumbComponent }}
-        sx={{ width: 400 }}
-        getAriaLabel={() => "Minimum distance shift"}
-        value={value}
-        onChange={amountRangeHandler}
-        min={0}
-        valueLabelDisplay="auto"
-        max={10000000}
-      />
+      To
       <MyTextField
         onChange={handleMaxInputChange}
         inputProps={{
@@ -169,6 +164,16 @@ function AmountPicker(props) {
         size="small"
         value={max}
         sx={{ width: 150 }}
+      />
+      <AirbnbSlider
+        components={{ Thumb: AirbnbThumbComponent }}
+        sx={{ width: 400 }}
+        getAriaLabel={() => "Minimum distance shift"}
+        value={value}
+        onChange={amountRangeHandler}
+        min={0}
+        valueLabelDisplay="auto"
+        max={10000000}
       />
     </Box>
   )

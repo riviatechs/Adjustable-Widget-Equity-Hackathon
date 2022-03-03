@@ -1,14 +1,23 @@
 import Header from "../components/Header"
 import styles from "../styles/Home.module.css"
 import Appbar from "../components/Appbar"
-import { Box, Button, Divider, Paper } from "@mui/material"
+import {
+  Box,
+  Button,
+  Divider,
+  Paper,
+  Skeleton,
+  styled,
+  TextField,
+} from "@mui/material"
 import Transactions from "../components/transactions/Transactions"
 import Filter from "../components/filter/Filter"
 import FilterAltIcon from "@mui/icons-material/FilterAlt"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { TRANSACTION_BY_AMOUNT_QUERY } from "../queries/TRANSACTION_BY_AMOUNT.JS"
 import { useQuery } from "@apollo/client"
 import { GET_TRANSACTION } from "../queries/TRANSCTION_QUERY"
+import ChipsSection from "../components/filter/ChipsSection"
 
 const button1 = {
   color: "#a42d2d",
@@ -41,10 +50,50 @@ const button2 = {
   },
 }
 
+const buttonBox = { my: 5, fontSize: "inherit", display: "flex" }
+
+const MyTextField = styled(TextField)({
+  "& label.Mui-focused": {
+    color: "#a42d2d",
+  },
+  "& .MuiInput-underline:after": {
+    borderBottomColor: "#a42d2d",
+  },
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      borderColor: "#00000033",
+      borderRadius: 50,
+    },
+    "&:hover fieldset": {
+      borderColor: "#000000",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "#a42d2d",
+    },
+  },
+})
+
 export default function HomePage() {
   // const [filteredInfo, setFilteredInfo] = useState(null)
   const [amount1, setAmount] = useState([0, 1000000])
   const [data, setData] = useState(null)
+  const [moreFilters, setMoreFilters] = useState(false)
+  const [loading, setLoading] = useState(false)
+
+  // Get the position of scroll
+  const [scrollPosition, setScrollPosition] = useState(0)
+  const handleScroll = () => {
+    const position = window.pageYOffset
+    setScrollPosition(position)
+  }
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, { passive: true })
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+    }
+  }, [])
 
   // Filter Data by Amount query
 
@@ -61,28 +110,31 @@ export default function HomePage() {
     },
   })
 
-  // Unfiltered Data Ordered by date query
+  // When loading
 
-  const {
-    data: fullUnfilteredMT940,
-    loading: fullUnfilteredMT940Loading,
-    error: fullUnfilteredMT940Error,
-  } = useQuery(GET_TRANSACTION)
+  if (slsByAmountDataLoading) {
+    return (
+      <Box className={styles.home}>
+        <Appbar />
+        <Skeleton sx={{ borderRadius: 10 }} height={400} />
+        <Box my={10}>loading . . .</Box>
+      </Box>
+    )
+  }
 
   // If error when getting data
 
-  if (slsByAmountDataLoading || fullUnfilteredMT940Loading)
-    return <p>loading</p>
-
-  if (slsByAmountDataError || fullUnfilteredMT940Error) return `Error! ${error}`
+  if (slsByAmountDataError) return `Error! ${error}`
 
   // If data return is null
 
-  if (
-    !slsByAmountData.getStmtLinesFilterByAmount ||
-    !fullUnfilteredMT940.getStmtLineGroupedByDate
-  )
-    return <p>Sorry!, No Data in the database!</p>
+  if (!slsByAmountData.getStmtLinesFilterByAmount)
+    return (
+      <Box className={styles.home}>
+        <Appbar />
+        <Box sx={{ pt: 20 }}>Sorry! No Data in the database!</Box>
+      </Box>
+    )
 
   // Get Filter Data function
   const getFilteredData = (filteredData) => {
@@ -90,26 +142,53 @@ export default function HomePage() {
     setData(filteredData)
   }
 
-  const submitHandler = () => {
+  const applyAmountFilter = () => {
     console.log("Submit!")
     setAmount(data)
+  }
+
+  const showFilters = () => {
+    console.log("show filters!")
+    setMoreFilters((prev) => !prev)
   }
 
   return (
     <Box className={styles.home}>
       <Header />
-      <Appbar />
-      <Filter amount={amount1} onFilter={getFilteredData} />
+      <Appbar scroll={scrollPosition} />
+      <Box mt={10}>
+        <Box
+          width={"100%"}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <MyTextField
+            size="small"
+            sx={{ width: "500px" }}
+            placeholder="Search"
+          />
+        </Box>
+        <ChipsSection active="active-1" onClickFilters={showFilters} />
+        {moreFilters ? (
+          <Box>
+            <Filter amount={amount1} onFilter={getFilteredData} />
 
-      <Box sx={{ my: 5, fontSize: "inherit", display: "flex" }}>
-        <Button sx={button1}>Reset</Button>
-        <Button sx={button2} onClick={submitHandler}>
-          Apply
-          <FilterAltIcon color="white" />
-        </Button>
+            <Box sx={buttonBox}>
+              <Button sx={button1}>Reset</Button>
+              <Button sx={button2} onClick={applyAmountFilter}>
+                Apply
+              </Button>
+            </Box>
+          </Box>
+        ) : (
+          ""
+        )}
+        <Divider />
+        <Transactions slsData={slsByAmountData.getStmtLinesFilterByAmount} />
       </Box>
-      <Divider />
-      <Transactions slsData={slsByAmountData.getStmtLinesFilterByAmount} />
     </Box>
   )
 }

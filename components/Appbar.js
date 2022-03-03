@@ -71,7 +71,11 @@ export default function Appbar(props) {
   return (
     <div>
       <Box>
-        <AppBar position="fixed" elevation={0} className={styles.appbar}>
+        <AppBar
+          position="fixed"
+          elevation={props.scroll > 10 ? 1 : 0}
+          className={styles.appbar}
+        >
           <Toolbar>
             <IconButton
               className={styles.iconButton}
@@ -86,7 +90,7 @@ export default function Appbar(props) {
               variant="h6"
               noWrap
               component="div"
-              sx={{ flexGrow: 1, display: { xs: "block" } }}
+              sx={{ flexGrow: 1, display: { xs: "flex" } }}
             >
               <Image src={logo} alt="logo" height={40} width={61} />
             </Typography>
