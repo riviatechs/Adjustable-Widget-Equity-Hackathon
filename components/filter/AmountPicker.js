@@ -120,7 +120,8 @@ function AmountPicker(props) {
     setValue((prev) => [prev[0], intNum])
   }
 
-  console.log(value)
+  props.amountPicker(value)
+
   return (
     <Box
       sx={{

@@ -7,11 +7,18 @@ import AmountPicker from "./AmountPicker"
 import ChipsSection from "./ChipsSection"
 
 function Filter(props) {
+  const onAmountChange = (amounts) => {
+    console.log(amounts)
+  }
   return (
     <Box sx={{ mt: 12, mb: 5 }}>
       <ChipsSection />
+
       <PickDate />
-      <AmountPicker />
+
+      <AmountPicker amountPicker={onAmountChange} />
+
+      {/* Buttons */}
       <Box sx={{ my: 5, fontSize: "inherit", display: "flex" }}>
         <Button
           sx={{
