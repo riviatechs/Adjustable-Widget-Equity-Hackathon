@@ -1,11 +1,11 @@
-import { Avatar, Paper } from "@mui/material";
-import { Box } from "@mui/system";
-import React from "react";
-import { priceSeparator } from "../../util/util";
+import { Avatar, Paper } from "@mui/material"
+import { Box } from "@mui/system"
+import React from "react"
+import { priceSeparator } from "../../util/util"
 
 function Transaction(props) {
-  const transData = props.data;
-  const amount = priceSeparator(transData.amount);
+  const transData = props.data
+  const amount = priceSeparator(transData.amount)
   return (
     <Box sx={{ borderRadius: 5, my: 5 }}>
       <Paper
@@ -78,7 +78,7 @@ function Transaction(props) {
         </Box>
       </Paper>
     </Box>
-  );
+  )
 }
 
-export default Transaction;
+export default Transaction

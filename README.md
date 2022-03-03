@@ -31,5 +31,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 service-name: mt940-website
 Region: us-central1
+url: [https://mt940-website-s47opgtmgq-uc.a.run.app](https://mt940-website-s47opgtmgq-uc.a.run.app)
 
 ### Production

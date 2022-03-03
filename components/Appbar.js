@@ -1,20 +1,21 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import MenuIcon from "@mui/icons-material/Menu";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
-import IosShareIcon from "@mui/icons-material/IosShare";
-import LightModeIcon from "@mui/icons-material/LightMode";
-import Image from "next/image";
+import * as React from "react"
+import Box from "@mui/material/Box"
+import SwipeableDrawer from "@mui/material/SwipeableDrawer"
+import MenuIcon from "@mui/icons-material/Menu"
+import List from "@mui/material/List"
+import Divider from "@mui/material/Divider"
+import ListItem from "@mui/material/ListItem"
+import ListItemIcon from "@mui/material/ListItemIcon"
+import ListItemText from "@mui/material/ListItemText"
+import InboxIcon from "@mui/icons-material/MoveToInbox"
+import MailIcon from "@mui/icons-material/Mail"
+import { AppBar, IconButton, Toolbar, Typography } from "@mui/material"
+import IosShareIcon from "@mui/icons-material/IosShare"
+import LightModeIcon from "@mui/icons-material/LightMode"
+import Image from "next/image"
+import logo from "../public/logo.png"
 
-import styles from "../styles/components/Appbar.module.css";
+import styles from "../styles/components/Appbar.module.css"
 
 export default function Appbar(props) {
   const [state, setState] = React.useState({
@@ -22,7 +23,7 @@ export default function Appbar(props) {
     left: false,
     bottom: false,
     right: false,
-  });
+  })
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -30,11 +31,11 @@ export default function Appbar(props) {
       event.type === "keydown" &&
       (event.key === "Tab" || event.key === "Shift")
     ) {
-      return;
+      return
     }
 
-    setState({ ...state, [anchor]: open });
-  };
+    setState({ ...state, [anchor]: open })
+  }
 
   const list = (anchor) => (
     <Box
@@ -65,7 +66,7 @@ export default function Appbar(props) {
         ))}
       </List>
     </Box>
-  );
+  )
 
   return (
     <div>
@@ -87,7 +88,7 @@ export default function Appbar(props) {
               component="div"
               sx={{ flexGrow: 1, display: { xs: "block" } }}
             >
-              <Image src={"/logo.png"} alt="logo" height={40} width={61} />
+              <Image src={logo} alt="logo" height={40} width={61} />
             </Typography>
             <IconButton className={styles.iconButton}>
               <IosShareIcon />
@@ -108,5 +109,5 @@ export default function Appbar(props) {
         </SwipeableDrawer>
       </Box>
     </div>
-  );
+  )
 }

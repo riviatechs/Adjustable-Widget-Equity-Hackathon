@@ -8,8 +8,8 @@ const nextConfig = {
     buildActivity: false,
   },
   images: {
-    domains: ['storage.googleapis.com'],
+    domains: ["storage.googleapis.com"],
   },
-};
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig
