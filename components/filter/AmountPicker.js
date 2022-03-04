@@ -1,15 +1,7 @@
-import {
-  Autocomplete,
-  InputBase,
-  Slider,
-  SliderThumb,
-  styled,
-  TextField,
-} from "@mui/material"
+import { Slider, SliderThumb, styled, TextField } from "@mui/material"
 import { Box } from "@mui/system"
 import React from "react"
 import PropTypes from "prop-types"
-import { priceSeparator } from "../../util/util"
 
 const AirbnbSlider = styled(Slider)(() => ({
   color: "#a42d2d",
@@ -77,8 +69,6 @@ const MyTextField = styled(TextField)({
   },
 })
 
-const minDistance = 100000
-
 function AmountPicker(props) {
   const prevAmount = props.amount
   const [value, setValue] = React.useState(prevAmount)
@@ -86,28 +76,11 @@ function AmountPicker(props) {
   const [max, setMax] = React.useState(prevAmount[1])
 
   const amountRangeHandler = (event) => {
-    // console.log(event.target.value);
-
-    // if (!Array.isArray(newValue)) {
-    //   return
-    // }
-
-    // if (newValue[1] - newValue[0] < minDistance) {
-    //   if (activeThumb === 0) {
-    //     const clamped = Math.min(newValue[0], 10000000 - minDistance)
-    //     setValue([clamped, clamped + minDistance])
-    //   } else {
-    //     const clamped = Math.max(newValue[1], minDistance)
-    //     setValue([clamped - minDistance, clamped])
-    //   }
-    // } else {
-
     const newValue = event.target.value
 
     setValue(newValue)
     setMin(newValue[0])
     setMax(newValue[1])
-    // }
   }
 
   const handleMinInputChange = (event) => {
@@ -130,41 +103,64 @@ function AmountPicker(props) {
     <Box
       sx={{
         display: "flex",
-        width: "100%",
-        py: 5,
-        alignItems: "center",
-        justifyContent: "space-between",
+        width: "45%",
+        flexDirection: "column",
+        justifyContent: "start",
       }}
     >
-      <label>Amount</label>
-      From
-      <MyTextField
-        size="small"
-        onChange={handleMinInputChange}
-        inputProps={{
-          step: 100000,
-          min: 0,
-          max: 10000000,
-          type: "number",
-          "aria-labelledby": "input-slider",
+      <Box
+        sx={{
+          py: 1.3,
+          px: 2,
+          borderRadius: 5,
+          width: 150,
+          "&:hover": {
+            background: "#a42d2d23",
+            transition: "all ease-in-out 300ms",
+            cursor: "pointer",
+          },
         }}
-        value={min}
-        sx={{ width: 150 }}
-      />
-      To
-      <MyTextField
-        onChange={handleMaxInputChange}
-        inputProps={{
-          step: 100000,
-          min: 0,
-          max: 10000000,
-          type: "number",
-          "aria-labelledby": "input-slider",
+      >
+        By Amount
+      </Box>
+      <Box
+        sx={{
+          my: 5,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
         }}
-        size="small"
-        value={max}
-        sx={{ width: 150 }}
-      />
+      >
+        From
+        <MyTextField
+          size="small"
+          onChange={handleMinInputChange}
+          inputProps={{
+            step: 100000,
+            min: 0,
+            max: 10000000,
+            type: "number",
+            "aria-labelledby": "input-slider",
+          }}
+          value={min}
+          sx={{ width: 150, mx: 2 }}
+        />
+        To
+        <MyTextField
+          onChange={handleMaxInputChange}
+          inputProps={{
+            step: 100000,
+            min: 0,
+            max: 10000000,
+            type: "number",
+            "aria-labelledby": "input-slider",
+          }}
+          size="small"
+          value={max}
+          sx={{ width: 150, mx: 2 }}
+        />
+      </Box>
+
       <AirbnbSlider
         components={{ Thumb: AirbnbThumbComponent }}
         sx={{ width: 400 }}

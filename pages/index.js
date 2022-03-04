@@ -1,15 +1,18 @@
 import Header from "../components/Header"
 import styles from "../styles/Home.module.css"
 import Appbar from "../components/Appbar"
+import ClipLoader from "react-spinners/ClipLoader"
 import {
   Box,
   Button,
   Divider,
+  IconButton,
   Paper,
   Skeleton,
   styled,
   TextField,
 } from "@mui/material"
+import ArrowUpwardRoundedIcon from "@mui/icons-material/ArrowUpwardRounded"
 import Transactions from "../components/transactions/Transactions"
 import Filter from "../components/filter/Filter"
 import FilterAltIcon from "@mui/icons-material/FilterAlt"
@@ -73,6 +76,8 @@ const MyTextField = styled(TextField)({
   },
 })
 
+const centerItem = { display: "flex", justifyContent: "center" }
+
 export default function HomePage() {
   // const [filteredInfo, setFilteredInfo] = useState(null)
   const [amount1, setAmount] = useState([0, 1000000])
@@ -116,8 +121,35 @@ export default function HomePage() {
     return (
       <Box className={styles.home}>
         <Appbar />
-        <Skeleton sx={{ borderRadius: 10 }} height={400} />
-        <Box my={10}>loading . . .</Box>
+        <Skeleton
+          variant="rectangular"
+          sx={{ borderRadius: 5, mx: 20, mt: 10 }}
+          height={50}
+        />
+        <Box display={"flex"} my={5} sx={centerItem}>
+          <Skeleton
+            variant="circular"
+            sx={{ borderRadius: 5, mx: 5 }}
+            height={50}
+            width={50}
+          />
+          <Skeleton
+            variant="circular"
+            sx={{ borderRadius: 5, mx: 5 }}
+            height={50}
+            width={50}
+          />
+          <Skeleton
+            variant="circular"
+            sx={{ borderRadius: 5, mx: 5 }}
+            height={50}
+            width={50}
+          />
+        </Box>
+
+        <Box sx={centerItem}>
+          <ClipLoader />
+        </Box>
       </Box>
     )
   }
@@ -156,7 +188,7 @@ export default function HomePage() {
     <Box className={styles.home}>
       <Header />
       <Appbar scroll={scrollPosition} />
-      <Box mt={10}>
+      <Box mt={13}>
         <Box
           width={"100%"}
           sx={{
@@ -168,7 +200,7 @@ export default function HomePage() {
           <MyTextField
             size="small"
             sx={{ width: "500px" }}
-            placeholder="Search"
+            placeholder="Search by Name or Account No"
           />
         </Box>
         <ChipsSection active="active-1" onClickFilters={showFilters} />
@@ -176,7 +208,7 @@ export default function HomePage() {
           <Box>
             <Filter amount={amount1} onFilter={getFilteredData} />
 
-            <Box sx={buttonBox}>
+            <Box sx={{ ...buttonBox, ...centerItem }}>
               <Button sx={button1}>Reset</Button>
               <Button sx={button2} onClick={applyAmountFilter}>
                 Apply
@@ -187,6 +219,25 @@ export default function HomePage() {
           ""
         )}
         <Divider />
+        {moreFilters ? (
+          <IconButton
+            sx={{
+              ...centerItem,
+              border: "1px solid #00000033",
+              width: "fit-content",
+              mx: "48%",
+              borderRadius: "0 0 5px 5px",
+            }}
+            onClick={() => {
+              setMoreFilters(false)
+            }}
+          >
+            <ArrowUpwardRoundedIcon />
+          </IconButton>
+        ) : (
+          ""
+        )}
+
         <Transactions slsData={slsByAmountData.getStmtLinesFilterByAmount} />
       </Box>
     </Box>

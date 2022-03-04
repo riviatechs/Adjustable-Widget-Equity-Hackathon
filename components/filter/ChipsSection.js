@@ -1,10 +1,8 @@
 import { Chip } from "@mui/material"
 import { Box } from "@mui/system"
-import React, { useState } from "react"
+import React from "react"
 
 import styles from "../../styles/components/ChipsSection.module.css"
-
-import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu"
 
 function ChipsSection(props) {
   const showFilters = () => {

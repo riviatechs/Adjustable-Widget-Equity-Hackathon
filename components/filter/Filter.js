@@ -1,13 +1,8 @@
-import FilterAltIcon from "@mui/icons-material/FilterAlt"
 import { Box } from "@mui/system"
-import { Button, Divider } from "@mui/material"
-import React, { useState } from "react"
+import { Divider } from "@mui/material"
+import React from "react"
 import PickDate from "../PickDate"
 import AmountPicker from "./AmountPicker"
-import ChipsSection from "./ChipsSection"
-import { useQuery } from "@apollo/client"
-import { TRANSACTION_BY_AMOUNT_QUERY } from "../../queries/TRANSACTION_BY_AMOUNT.JS"
-import Image from "next/image"
 
 function Filter(props) {
   const amountChangeHandler = (amnt) => {
@@ -21,10 +16,19 @@ function Filter(props) {
   }
 
   return (
-    <Box sx={{ my: 5 }}>
+    <Box sx={{ my: 5, transition: "all ease-in-out 500ms" }}>
       <Divider />
-      <PickDate />
-      <AmountPicker amount={props.amount} onPickAmount={amountChangeHandler} />
+      <Box sx={{ m: 0, p: 0, textAlign: "center" }}>
+        <h2>Filter</h2>
+      </Box>
+      <Box display={"flex"} justifyContent="space-between">
+        <PickDate />
+        <Divider orientation="vertical" flexItem />
+        <AmountPicker
+          amount={props.amount}
+          onPickAmount={amountChangeHandler}
+        />
+      </Box>
     </Box>
   )
 }

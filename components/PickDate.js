@@ -1,5 +1,5 @@
 import { DatePicker, DateRangePicker, LocalizationProvider } from "@mui/lab"
-import { Box, Select, styled, TextField } from "@mui/material"
+import { Box, styled, TextField } from "@mui/material"
 import * as React from "react"
 import AdapterDateFns from "@mui/lab/AdapterDateFns"
 
@@ -15,21 +15,23 @@ const grey = {
 
 const StyledButton = styled("button")(
   () => `
-  font-family: IBM Plex Sans, sans-serif;
-  font-size: 0.875rem;
+  font-family: inherit;
+  font-size: inherit;
   box-sizing: border-box;
-  min-height: calc(1.5em + 22px);
-  min-width: 200px;
+  min-height: calc(1.5em + 15px);
+  width: 150px;
   background:  #ffffff00;
-  border: 1px solid ${grey[300]};
-  border-radius: 20px;
+  // border: 1px solid ${grey[300]};
+  border-radius: 25px;
   text-align: left;
   line-height: 1.5;
   color: inherit;
+  diplay: flex;
+  justify-content: space-between;
 
   &:hover {
-    background: transparent;
-    border: 1px solid #a42d2d;
+    background: #a42d2d23;
+    // border: 1px solid #a42d2d;
   }
 
   &.${selectUnstyledClasses.focusVisible} {
@@ -38,12 +40,12 @@ const StyledButton = styled("button")(
 
   &.${selectUnstyledClasses.expanded} {
     &::after {
-      content: " ▴";
+      content: "▲";
     }
   }
 
   &::after {
-    content: " ▾";
+    content: " ▼";
   }
   `
 )
@@ -103,7 +105,7 @@ const StyledOption = styled(OptionUnstyled)(
 )
 
 const StyledPopper = styled(PopperUnstyled)`
-  z-index: 1;
+  z-index: 2;
 `
 
 const CustomSelect = React.forwardRef(function CustomSelect(props, ref) {
@@ -141,18 +143,19 @@ const MyTextField = styled(TextField)({
 function PickDate() {
   const [value1, setValue1] = React.useState(null)
   const [value2, setValue2] = React.useState([null, null])
-  const [viewPeriod, setViewPeriod] = React.useState(false)
-
-  // console.log(new Date(value1).toISOString())
+  const [viewPeriod, setViewPeriod] = React.useState(true)
 
   return (
-    <Box sx={{ mt: 8, width: "100%" }}>
-      <Box>
-        <h2>Filter</h2>
-      </Box>
-      <Box sx={{ display: "flex", alignItems: "center" }}>
+    <Box sx={{ width: "45%", textAlign: "center" }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "start",
+        }}
+      >
         <CustomSelect
-          defaultValue={0}
+          defaultValue={1}
           onChange={(e) => {
             console.log(e)
             e === 0 ? setViewPeriod(false) : setViewPeriod(true)
@@ -165,18 +168,17 @@ function PickDate() {
           sx={{
             diplay: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
+            my: 5,
           }}
         >
           <Box
             display={viewPeriod ? "none" : "flex"}
             sx={{
               alignItems: "center",
-              width: "40%",
-              justifyContent: "space-between",
+              justifyContent: "center",
             }}
           >
-            <Box sx={{ pl: 5 }}>
+            <Box>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                   value={value1}
@@ -198,11 +200,11 @@ function PickDate() {
           </Box>
           <Box
             display={viewPeriod ? "flex" : "none"}
-            sx={{ alignItems: "center", pl: 5, width: "55%" }}
+            sx={{ alignItems: "center" }}
           >
-            <Box sx={{ pl: 5 }}>
+            <Box>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <Box sx={{ pl: 2 }}>
+                <Box>
                   <DateRangePicker
                     startText=""
                     endText=""
@@ -214,13 +216,13 @@ function PickDate() {
                       <Box sx={{ display: "flex", alignItems: "center" }}>
                         <Box sx={{ mx: 2 }}> From </Box>
                         <MyTextField
-                          sx={{ width: 200 }}
+                          sx={{ width: 150 }}
                           size="small"
                           {...startProps}
                         />
                         <Box sx={{ mx: 2 }}> To </Box>
                         <MyTextField
-                          sx={{ width: 200 }}
+                          sx={{ width: 150 }}
                           size="small"
                           {...endProps}
                         />
