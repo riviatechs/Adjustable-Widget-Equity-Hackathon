@@ -126,6 +126,7 @@ function AmountPicker(props) {
       <Box
         sx={{
           my: 5,
+          mx: 2,
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
@@ -163,7 +164,7 @@ function AmountPicker(props) {
 
       <AirbnbSlider
         components={{ Thumb: AirbnbThumbComponent }}
-        sx={{ width: 400 }}
+        sx={{ width: 400, mx: 2 }}
         getAriaLabel={() => "Minimum distance shift"}
         value={value}
         onChange={amountRangeHandler}

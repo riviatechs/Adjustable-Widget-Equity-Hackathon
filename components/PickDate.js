@@ -186,13 +186,11 @@ function PickDate() {
                     console.log("chosen!!")
                   }}
                   cancelText="Back"
-                  label="Choose Date"
-                  todayText="Today Statements"
                   onChange={(newValue) => {
                     setValue1(newValue)
                   }}
                   renderInput={(params) => (
-                    <MyTextField sx={{ width: 200 }} size="small" {...params} />
+                    <MyTextField sx={{ width: 300 }} size="small" {...params} />
                   )}
                 />
               </LocalizationProvider>
