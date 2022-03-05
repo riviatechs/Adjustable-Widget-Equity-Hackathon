@@ -3,11 +3,8 @@
 }
 
 .searchBox {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 450px;
+  width: 50%;
+  margin: 0 25%;
 }
 
 .dropUpButton {
@@ -24,6 +21,13 @@
 
 .growAnimation {
   transform-origin: 0 0 0;
+}
+
+@media only screen and (max-width: 1200px) {
+  .searchBox {
+    width: 100%;
+    margin: 0;
+  }
 }
 
 @media only screen and (max-width: 600px) {

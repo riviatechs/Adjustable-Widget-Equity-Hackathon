@@ -1,4 +1,56 @@
 .transactionBox {
   border-radius: 5px;
-  margin: 0 50px;
+  margin: 50px 0;
+}
+
+.transaction {
+  padding: 20px 40px;
+  border-radius: 20px;
+  border: 0.1px solid #00000033;
+  margin: 50px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+}
+
+.transactionStatement {
+  width: 80%;
+}
+
+@media only screen and (max-width: 1200px) {
+  .transaction {
+    margin: 25px 0;
+    padding: 20px 30px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .transactionBox {
+    margin: 10px 0;
+  }
+
+  .avatar {
+    width: 60px;
+    height: 60px;
+  }
+
+  .transaction {
+    padding: 5px 10px;
+    margin: 25px 0;
+  }
+
+  .transactionStatement {
+    width: 80%;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .transactionStatement {
+    width: 78%;
+  }
 }

@@ -5,20 +5,9 @@ import { priceSeparator } from "../../util/util"
 
 import styles from "../../styles/components/Transaction.module.css"
 
-const transactionBoxPaper = {
-  px: 5,
-  py: 3,
-  borderRadius: 5,
-  border: ".1px solid #00000033",
-  my: 5,
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-}
+const creditAmout = { color: "green", background: "#68ab6a32" }
 
-const creditAmout = { color: "green", p: 5, background: "#68ab6a32" }
-
-const debitAmount = { color: "#a42d2d", p: 5, background: "#a42d2d32" }
+const debitAmount = { color: "#a42d2d", background: "#a42d2d32" }
 
 const displayFlex = {
   display: "flex",
@@ -31,14 +20,15 @@ function Transaction(props) {
   // const amount = transData.amount
   const amount = priceSeparator(transData.amount)
   return (
-    <Box sx={transactionBox}>
-      <Paper elevation={1} sx={transactionBoxPaper}>
-        <Avatar sx={transData.mark === "C" ? creditAmout : debitAmount}>
-          {transData.partyBName !== null
-            ? transData.partyBName.slice(0, 2)
-            : ""}
+    <Box className={styles.transactionBox}>
+      <Paper elevation={1} className={styles.transaction}>
+        <Avatar
+          className={styles.avatar}
+          sx={transData.mark === "C" ? creditAmout : debitAmount}
+        >
+          {transData.partyBName.slice(0, 2)}
         </Avatar>
-        <Box width={"85%"}>
+        <Box className={styles.transactionStatement}>
           <Box sx={{ ...displayFlex, py: 2 }}>
             <Box sx={{ fontWeight: "bold" }}>{transData.partyBName}</Box>
             <Box

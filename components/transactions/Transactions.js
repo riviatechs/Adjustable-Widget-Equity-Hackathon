@@ -58,7 +58,7 @@ function Transactions(props) {
 
   // If error when getting data
 
-  if (slsByAmountDataError) return `Error! ${errors}`
+  if (slsByAmountDataError) return `Error! ${slsByAmountDataError}`
 
   // If data return is null
 
@@ -72,7 +72,7 @@ function Transactions(props) {
 
   return (
     <Box className={styles.transactionsContainer}>
-      <h2 className={styles.h3}>Transactions Statements</h2>
+      <h2 className={styles.h2}>Transactions Statements</h2>
       {slsByAmountData.statements.map((MT940) => {
         const transDate = getDate(MT940.DateTime)
         return (

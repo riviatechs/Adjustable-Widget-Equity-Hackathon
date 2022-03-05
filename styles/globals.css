@@ -39,11 +39,6 @@ button:hover {
   background: #720d19;
   transition: all ease-in-out 500ms;
 }
-/* 
-.MuiTextField-root {
-  color: #a42d2d;
-  border: none !important;
-} */
 
 .active-chip {
   background: #a42d2d !important;
@@ -55,4 +50,15 @@ button:hover {
 .null-data {
   color: grey;
   font-style: italic;
+}
+
+.loader-container {
+  margin: 50px 20px !important;
+}
+
+@media only screen and (max-width: 600px) {
+  html,
+  body {
+    font-size: 15px;
+  }
 }
