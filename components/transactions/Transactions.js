@@ -1,5 +1,5 @@
 import { Box } from "@mui/system"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import Transaction from "./Transaction"
 import ClipLoader from "react-spinners/ClipLoader"
 
@@ -13,24 +13,25 @@ import styles from "../../styles/components/Transactions.module.css"
 
 const centerItem = { display: "flex", justifyContent: "center" }
 
-function Transactions(props) {
+export default function Transactions(props) {
   // const [filteredSls, setFilteredSls] = useState(props.slsData)
-  const [amountRange, setAmount] = useState([0, 100000000])
+  const [amountRange, setAmount] = useState(props.amountToFilter)
+  const [transactionType, setTransactionType] = useState(props.tt)
+  const [dateRange, setDateRange] = useState(props.dateRange)
+
+  useEffect(() => {
+    setAmount(props.amountToFilter)
+    setTransactionType(props.tt)
+    setDateRange(props.dateRange)
+  }, [props.amountToFilter, props.tt, props.dateRange])
 
   const {
     data: slsByAmountData,
     loading: slsByAmountDataLoading,
     error: slsByAmountDataError,
-  } = useQuery(FILTER_QUERY, {
-    input: {
-      input: {
-        amountRange: {
-          lower: amountRange[0],
-          upper: amountRange[1],
-        },
-      },
-    },
-  })
+  } = useQuery(FILTER_QUERY, retType(transactionType, amountRange, dateRange))
+
+  console.log(dateRange)
 
   // When loading
 
@@ -67,17 +68,30 @@ function Transactions(props) {
 
   // If error when getting data
 
-  if (slsByAmountDataError) return `Error! ${slsByAmountDataError}`
+  if (slsByAmountDataError) {
+    return (
+      <Box className={styles.transactionsContainer}>
+        <h2 className={styles.h2}>Transaction History</h2>
+        <Box className={styles.noDataContainer}>
+          {`Error! ${slsByAmountDataError}`}
+        </Box>
+      </Box>
+    )
+  }
 
   // If data return is null
 
   if (!slsByAmountData.statementsFiltered)
     return (
-      <Box>
-        <Appbar />
-        <Box sx={{ pt: 20 }}>Sorry! No Transactions Available!</Box>
+      <Box className={styles.transactionsContainer}>
+        <h2 className={styles.h2}>Transaction History</h2>
+        <Box className={styles.noDataContainer}>
+          Sorry! No Transactions Available!
+        </Box>
       </Box>
     )
+
+  // setAmount()
 
   return (
     <Box className={styles.transactionsContainer}>
@@ -100,4 +114,33 @@ function Transactions(props) {
   )
 }
 
-export default Transactions
+const retType = (transType, amntRange, dtRange) => {
+  if (transType === "ALL") {
+    return {
+      variables: {
+        input: {
+          amountRange: {
+            lower: amntRange[0].toString(),
+            upper: amntRange[1].toString(),
+          },
+          period: {
+            start: dtRange[0],
+            end: dtRange[1],
+          },
+        },
+      },
+    }
+  } else {
+    return {
+      variables: {
+        input: {
+          amountRange: {
+            lower: amntRange[0].toString(),
+            upper: amntRange[1].toString(),
+          },
+          tt: transType,
+        },
+      },
+    }
+  }
+}
