@@ -33,3 +33,16 @@ export const priceSeparator = (numb) => {
   str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   return str.join(".")
 }
+
+// Get first letter of each word in a sentence
+
+export const getAvatarLetter = (name) => {
+  return name.match(/(?<!\p{L}\p{M}*|[\p{N}\p{Pc}])\p{L}/gu).join("")
+}
+
+export const extractTimeFromDate = (dateString) => {
+  return new Date(dateString).toLocaleTimeString(navigator.language, {
+    hour: "2-digit",
+    minute: "2-digit",
+  })
+}

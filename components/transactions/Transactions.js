@@ -15,13 +15,22 @@ const centerItem = { display: "flex", justifyContent: "center" }
 
 function Transactions(props) {
   // const [filteredSls, setFilteredSls] = useState(props.slsData)
-  const [amount1, setAmount] = useState([0, 1000000])
+  const [amountRange, setAmount] = useState([0, 100000000])
 
   const {
     data: slsByAmountData,
     loading: slsByAmountDataLoading,
     error: slsByAmountDataError,
-  } = useQuery(FILTER_QUERY)
+  } = useQuery(FILTER_QUERY, {
+    input: {
+      input: {
+        amountRange: {
+          lower: amountRange[0],
+          upper: amountRange[1],
+        },
+      },
+    },
+  })
 
   // When loading
 
@@ -62,7 +71,7 @@ function Transactions(props) {
 
   // If data return is null
 
-  if (!slsByAmountData.statements)
+  if (!slsByAmountData.statementsFiltered)
     return (
       <Box>
         <Appbar />
@@ -73,12 +82,12 @@ function Transactions(props) {
   return (
     <Box className={styles.transactionsContainer}>
       <h2 className={styles.h2}>Transactions Statements</h2>
-      {slsByAmountData.statements.map((MT940) => {
+      {slsByAmountData.statementsFiltered.map((MT940) => {
         const transDate = getDate(MT940.DateTime)
         return (
           <Box key={MT940.DateTime} className={styles.transactionsContainer}>
             <h3 className={styles.h3}>
-              {transDate.dayName} {transDate.day} {transDate.month}{" "}
+              {transDate.dayName}, {transDate.day} {transDate.month}{" "}
               {transDate.year}
             </h3>
             {MT940.confirmations.map((trans) => (

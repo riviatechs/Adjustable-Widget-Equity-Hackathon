@@ -19,13 +19,69 @@
 }
 
 .transactionStatement {
-  width: 80%;
+  width: 85%;
+}
+
+.creditAmout {
+  color: green;
+  background: rgba(46, 165, 46, 0.274);
+}
+
+.debitAmount {
+  color: #a42d2d;
+  background: #a42d2d32;
+}
+
+.statementUpper,
+.statementLower {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 0;
+}
+
+.partyBName {
+  font-weight: bold;
+}
+
+.amount {
+  display: flex;
+  font-weight: bold;
+  justify-content: space-between;
+}
+
+.amountSuccess {
+  color: green;
+}
+
+.amountCaution {
+  color: #a42d2d;
+}
+
+.statementLower {
+  color: #616161;
+}
+
+.partAAccount,
+.dateTime,
+.partyBName,
+.amount {
+  width: 46%;
+  flex-wrap: wrap;
+}
+
+.dateTime,
+.amount {
+  width: 50%;
+  display: flex;
+  justify-content: flex-end;
 }
 
 @media only screen and (max-width: 1200px) {
   .transaction {
     margin: 25px 0;
     padding: 20px 30px;
+    border-radius: 5px;
   }
 }
 
@@ -46,6 +102,11 @@
 
   .transactionStatement {
     width: 80%;
+  }
+
+  .statementUpper,
+  .statementLower {
+    padding: 15px 0;
   }
 }
 

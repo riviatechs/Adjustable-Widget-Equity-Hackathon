@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client"
 
 export const FILTER_QUERY = gql`
-  query GetStatements {
-    statements {
+  query StatementsFiltered($input: FilterInput) {
+    statementsFiltered(input: $input) {
       DateTime
       confirmations {
         id
