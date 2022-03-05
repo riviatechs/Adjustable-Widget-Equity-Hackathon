@@ -81,7 +81,7 @@ function Transactions(props) {
 
   return (
     <Box className={styles.transactionsContainer}>
-      <h2 className={styles.h2}>Transactions Statements</h2>
+      <h2 className={styles.h2}>Transaction History</h2>
       {slsByAmountData.statementsFiltered.map((MT940) => {
         const transDate = getDate(MT940.DateTime)
         return (
