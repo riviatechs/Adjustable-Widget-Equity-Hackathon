@@ -14,3 +14,28 @@
   flex-flow: 1;
   display: block;
 }
+
+@media only screen and (max-width: 600px) {
+  .appbar {
+    padding: 10px 1%;
+    border-bottom: 1px solid #cfcfdf;
+  }
+
+  .iconButton {
+    margin-left: 10px !important;
+  }
+
+  .logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .iconButton:hover {
+    color: #a42d2d !important;
+  }
+  .content {
+    flex-flow: 1;
+    display: block;
+  }
+}

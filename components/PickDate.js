@@ -58,9 +58,9 @@ const StyledListbox = styled("ul")(
   padding: 5px;
   margin: 10px 0;
   min-width: 200px;
-  background: #ffffff;
-  border: 1px solid #a42d2d;
-  border-radius: 0.75em;
+  background: #f7f7f7;
+  border: 1px solid #00000030;
+  border-radius: 20px;
   color: ${grey[900]};
   overflow: auto;
   outline: 0px;
@@ -71,8 +71,8 @@ const StyledOption = styled(OptionUnstyled)(
   () => `
   list-style: none;
   padding: 8px;
-  border-radius: 0.45em;
-  cursor: default;
+  border-radius: 20px;
+  cursor: pointer;
 
   &:last-of-type {
     border-bottom: none;
@@ -98,7 +98,7 @@ const StyledOption = styled(OptionUnstyled)(
   }
 
   &:hover:not(.${optionUnstyledClasses.disabled}) {
-    background-color: ${grey[100]};
+    background-color: #00000010;
     color: ${grey[900]};
   }
   `

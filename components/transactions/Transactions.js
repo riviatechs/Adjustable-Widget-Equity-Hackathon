@@ -1,25 +1,88 @@
 import { Box } from "@mui/system"
 import React, { useState } from "react"
 import Transaction from "./Transaction"
+import ClipLoader from "react-spinners/ClipLoader"
 
 import { getDate } from "../../util/util"
+import { useQuery } from "@apollo/client"
+import { FILTER_QUERY } from "../../queries/TRANSACTION_BY_AMOUNT.JS"
+import Appbar from "../Appbar"
+import { Skeleton } from "@mui/material"
+
+import styles from "../../styles/components/Transactions.module.css"
+
+const centerItem = { display: "flex", justifyContent: "center" }
 
 function Transactions(props) {
-  const [filteredSls, setFilteredSls] = useState(props.slsData)
+  // const [filteredSls, setFilteredSls] = useState(props.slsData)
+  const [amount1, setAmount] = useState([0, 1000000])
+
+  const {
+    data: slsByAmountData,
+    loading: slsByAmountDataLoading,
+    error: slsByAmountDataError,
+  } = useQuery(FILTER_QUERY)
+
+  // When loading
+
+  if (slsByAmountDataLoading) {
+    return (
+      <Box className={styles.loadingBox}>
+        <Skeleton
+          variant="rectangular"
+          className={styles.transacationBoxLoading}
+          height={20}
+        />
+        <Skeleton
+          variant="rectangular"
+          className={styles.transacationBox2Loading}
+          height={100}
+        />
+        <Box sx={centerItem}>
+          <ClipLoader />
+        </Box>
+
+        <Skeleton
+          variant="rectangular"
+          className={styles.transacationBoxLoading}
+          height={20}
+        />
+        <Skeleton
+          variant="rectangular"
+          className={styles.transacationBox2Loading}
+          height={100}
+        />
+      </Box>
+    )
+  }
+
+  // If error when getting data
+
+  if (slsByAmountDataError) return `Error! ${errors}`
+
+  // If data return is null
+
+  if (!slsByAmountData.statements)
+    return (
+      <Box>
+        <Appbar />
+        <Box sx={{ pt: 20 }}>Sorry! No Transactions Available!</Box>
+      </Box>
+    )
 
   return (
-    <Box sx={{ mt: 8 }}>
-      <h2>Transactions History</h2>
-      {filteredSls.map((MT940) => {
-        const transDate = getDate(MT940.ValueDate)
+    <Box className={styles.transactionsContainer}>
+      <h2 className={styles.h3}>Transactions Statements</h2>
+      {slsByAmountData.statements.map((MT940) => {
+        const transDate = getDate(MT940.DateTime)
         return (
-          <Box key={MT940.ValueDate}>
-            <h3>
+          <Box key={MT940.DateTime} className={styles.transactionsContainer}>
+            <h3 className={styles.h3}>
               {transDate.dayName} {transDate.day} {transDate.month}{" "}
               {transDate.year}
             </h3>
-            {MT940.Sls.map((trans) => (
-              <Transaction key={trans.refAsi} data={trans} />
+            {MT940.confirmations.map((trans) => (
+              <Transaction key={trans.id} data={trans} />
             ))}
           </Box>
         )

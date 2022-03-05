@@ -91,6 +91,7 @@ export default function Appbar(props) {
               noWrap
               component="div"
               sx={{ flexGrow: 1, display: { xs: "flex" } }}
+              className={styles.logo}
             >
               <Image src={logo} alt="logo" height={40} width={61} />
             </Typography>

@@ -1,27 +1,22 @@
 import { Chip } from "@mui/material"
 import { Box } from "@mui/system"
-import React from "react"
+import React, { useState } from "react"
 
 import styles from "../../styles/components/ChipsSection.module.css"
 
 function ChipsSection(props) {
-  const showFilters = () => {
+  const [active, setActive] = useState(props.active)
+
+  // Execute when one clicks on more filters button
+  const showMoreFilters = () => {
     props.onClickFilters()
+    setActive("active-6")
   }
   return (
-    <Box
-      sx={{
-        my: 5,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
+    <Box className={styles.chips}>
       <Chip
         className={
-          styles.chip +
-          " " +
-          (props.active === "active-1" ? styles.active : " ")
+          styles.chip + " " + (active === "active-1" ? styles.active : " ")
         }
         clickable
         variant="outlined"
@@ -30,9 +25,7 @@ function ChipsSection(props) {
       <Chip
         clickable
         className={
-          styles.chip +
-          " " +
-          (props.active === "active-2" ? styles.active : " ")
+          styles.chip + " " + (active === "active-2" ? styles.active : " ")
         }
         variant="outlined"
         label="Top Credit"
@@ -40,9 +33,7 @@ function ChipsSection(props) {
       <Chip
         clickable
         className={
-          styles.chip +
-          " " +
-          (props.active === "active-3" ? styles.active : " ")
+          styles.chip + " " + (active === "active-3" ? styles.active : " ")
         }
         variant="outlined"
         label="Money In"
@@ -50,9 +41,7 @@ function ChipsSection(props) {
       <Chip
         clickable
         className={
-          styles.chip +
-          " " +
-          (props.active === "active-4" ? styles.active : " ")
+          styles.chip + " " + (active === "active-4" ? styles.active : " ")
         }
         variant="outlined"
         label="Last Year"
@@ -60,21 +49,17 @@ function ChipsSection(props) {
       <Chip
         clickable
         className={
-          styles.chip +
-          " " +
-          (props.active === "active-5" ? styles.active : " ")
+          styles.chip + " " + (active === "active-5" ? styles.active : " ")
         }
         variant="outlined"
         label="Money Out"
       />
       <Chip
         className={
-          styles.chip +
-          " " +
-          (props.active === "active-6" ? styles.active : " ")
+          styles.chip + " " + (active === "active-6" ? styles.active : " ")
         }
         clickable
-        onClick={showFilters}
+        onClick={showMoreFilters}
         variant="outlined"
         label="More Filters"
       />

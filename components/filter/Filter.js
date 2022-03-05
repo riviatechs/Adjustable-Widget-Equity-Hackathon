@@ -16,8 +16,8 @@ function Filter(props) {
   }
 
   return (
-    <Box sx={{ my: 5, transition: "all ease-in-out 500ms" }}>
-      <Divider />
+    <Box sx={{ my: 5 }}>
+      {/* <Divider /> */}
       <Box sx={{ m: 0, p: 0, textAlign: "center" }}>
         <h2>Filter</h2>
       </Box>

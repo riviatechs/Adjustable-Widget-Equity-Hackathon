@@ -1,25 +1,20 @@
 import Header from "../components/Header"
 import styles from "../styles/Home.module.css"
 import Appbar from "../components/Appbar"
-import ClipLoader from "react-spinners/ClipLoader"
+import { TransitionGroup } from "react-transition-group"
 import {
   Box,
   Button,
   Divider,
+  Grow,
   IconButton,
-  Paper,
-  Skeleton,
   styled,
   TextField,
 } from "@mui/material"
 import ArrowUpwardRoundedIcon from "@mui/icons-material/ArrowUpwardRounded"
 import Transactions from "../components/transactions/Transactions"
 import Filter from "../components/filter/Filter"
-import FilterAltIcon from "@mui/icons-material/FilterAlt"
-import { useEffect, useState } from "react"
-import { TRANSACTION_BY_AMOUNT_QUERY } from "../queries/TRANSACTION_BY_AMOUNT.JS"
-import { useQuery } from "@apollo/client"
-import { GET_TRANSACTION } from "../queries/TRANSCTION_QUERY"
+import { useEffect, useRef, useState } from "react"
 import ChipsSection from "../components/filter/ChipsSection"
 
 const button1 = {
@@ -31,7 +26,7 @@ const button1 = {
   fontSize: "initial",
   py: 1,
   px: 2,
-  mr: 1,
+  mr: 2,
   transition: "all 300ms ease-in-out",
   "&:hover": {
     background: "#a42d2d13",
@@ -83,7 +78,9 @@ export default function HomePage() {
   const [amount1, setAmount] = useState([0, 1000000])
   const [data, setData] = useState(null)
   const [moreFilters, setMoreFilters] = useState(false)
+  const [activeFilter, setActiveFilter] = useState("active-1")
   const [loading, setLoading] = useState(false)
+  const containerRef = useRef(null)
 
   // Get the position of scroll
   const [scrollPosition, setScrollPosition] = useState(0)
@@ -102,72 +99,6 @@ export default function HomePage() {
 
   // Filter Data by Amount query
 
-  const {
-    data: slsByAmountData,
-    loading: slsByAmountDataLoading,
-    error: slsByAmountDataError,
-  } = useQuery(TRANSACTION_BY_AMOUNT_QUERY, {
-    variables: {
-      amount: {
-        lower: amount1[0],
-        upper: amount1[1],
-      },
-    },
-  })
-
-  // When loading
-
-  if (slsByAmountDataLoading) {
-    return (
-      <Box className={styles.home}>
-        <Appbar />
-        <Skeleton
-          variant="rectangular"
-          sx={{ borderRadius: 5, mx: 20, mt: 10 }}
-          height={50}
-        />
-        <Box display={"flex"} my={5} sx={centerItem}>
-          <Skeleton
-            variant="circular"
-            sx={{ borderRadius: 5, mx: 5 }}
-            height={50}
-            width={50}
-          />
-          <Skeleton
-            variant="circular"
-            sx={{ borderRadius: 5, mx: 5 }}
-            height={50}
-            width={50}
-          />
-          <Skeleton
-            variant="circular"
-            sx={{ borderRadius: 5, mx: 5 }}
-            height={50}
-            width={50}
-          />
-        </Box>
-
-        <Box sx={centerItem}>
-          <ClipLoader />
-        </Box>
-      </Box>
-    )
-  }
-
-  // If error when getting data
-
-  if (slsByAmountDataError) return `Error! ${error}`
-
-  // If data return is null
-
-  if (!slsByAmountData.getStmtLinesFilterByAmount)
-    return (
-      <Box className={styles.home}>
-        <Appbar />
-        <Box sx={{ pt: 20 }}>Sorry! No Data in the database!</Box>
-      </Box>
-    )
-
   // Get Filter Data function
   const getFilteredData = (filteredData) => {
     // console.log(filteredData)
@@ -175,59 +106,58 @@ export default function HomePage() {
   }
 
   const applyAmountFilter = () => {
-    console.log("Submit!")
     setAmount(data)
   }
 
   const showFilters = () => {
-    console.log("show filters!")
-    setMoreFilters((prev) => !prev)
+    setMoreFilters(true)
   }
+
+  // const onClickHandler = () => {
+  //   console.log()
+  // }
 
   return (
     <Box className={styles.home}>
       <Header />
       <Appbar scroll={scrollPosition} />
-      <Box mt={13}>
-        <Box
-          width={"100%"}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+      <Box className={styles.body} mt={13}>
+        <Box className={styles.searchBox}>
           <MyTextField
             size="small"
-            sx={{ width: "500px" }}
+            fullWidth
+            className={styles.search}
             placeholder="Search by Name or Account No"
           />
         </Box>
-        <ChipsSection active="active-1" onClickFilters={showFilters} />
+        <ChipsSection
+          className={styles.chips}
+          active={activeFilter}
+          onClickFilters={showFilters}
+        />
         {moreFilters ? (
-          <Box>
-            <Filter amount={amount1} onFilter={getFilteredData} />
-
-            <Box sx={{ ...buttonBox, ...centerItem }}>
-              <Button sx={button1}>Reset</Button>
-              <Button sx={button2} onClick={applyAmountFilter}>
-                Apply
-              </Button>
-            </Box>
-          </Box>
+          <TransitionGroup>
+            <Divider />
+            <Grow className={styles.growAnimation} {...{ timeout: 200 }}>
+              <Box>
+                <Filter amount={amount1} onFilter={getFilteredData} />
+                <Box sx={{ ...buttonBox, ...centerItem }}>
+                  <Button sx={button1}>Reset</Button>
+                  <Button sx={button2} onClick={applyAmountFilter}>
+                    Apply
+                  </Button>
+                </Box>
+              </Box>
+            </Grow>
+          </TransitionGroup>
         ) : (
           ""
         )}
-        <Divider />
+        <Divider className={styles.line} />
         {moreFilters ? (
           <IconButton
-            sx={{
-              ...centerItem,
-              border: "1px solid #00000033",
-              width: "fit-content",
-              mx: "48%",
-              borderRadius: "0 0 5px 5px",
-            }}
+            aria-label="collapse"
+            className={styles.dropUpButton}
             onClick={() => {
               setMoreFilters(false)
             }}
@@ -238,7 +168,7 @@ export default function HomePage() {
           ""
         )}
 
-        <Transactions slsData={slsByAmountData.getStmtLinesFilterByAmount} />
+        <Transactions />
       </Box>
     </Box>
   )

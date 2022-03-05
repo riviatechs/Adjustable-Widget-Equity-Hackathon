@@ -1,6 +1,3 @@
-const capitalizeFirstLetter = ([first, ...rest], locale = navigator.language) =>
-  first.toLocaleUpperCase(locale) + rest.join("")
-
 const getOrdinalNum = (number) => {
   let selector
 
@@ -18,10 +15,10 @@ const getOrdinalNum = (number) => {
 // Convert the String Date to a readable format
 export const getDate = (dateOrg) => {
   const d = new Date(dateOrg)
+  const dayName = new Intl.DateTimeFormat("en", { weekday: "long" }).format(d)
   const day = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(d)
   const month = new Intl.DateTimeFormat("en", { month: "long" }).format(d)
   const year = d.getFullYear()
-  const dayName = new Intl.DateTimeFormat("en", { weekday: "long" }).format(d)
 
   return {
     dayName: dayName.replace(/\w/, (c) => c.toUpperCase()),

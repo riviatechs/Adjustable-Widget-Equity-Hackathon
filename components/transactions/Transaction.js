@@ -3,11 +3,13 @@ import { Box } from "@mui/system"
 import React from "react"
 import { priceSeparator } from "../../util/util"
 
-const transactionBox = { borderRadius: 5, my: 5 }
+import styles from "../../styles/components/Transaction.module.css"
 
 const transactionBoxPaper = {
-  p: 5,
+  px: 5,
+  py: 3,
   borderRadius: 5,
+  border: ".1px solid #00000033",
   my: 5,
   display: "flex",
   alignItems: "center",
@@ -26,16 +28,19 @@ const displayFlex = {
 
 function Transaction(props) {
   const transData = props.data
+  // const amount = transData.amount
   const amount = priceSeparator(transData.amount)
   return (
     <Box sx={transactionBox}>
       <Paper elevation={1} sx={transactionBoxPaper}>
         <Avatar sx={transData.mark === "C" ? creditAmout : debitAmount}>
-          {transData.refAsi !== null ? transData.refAsi.slice(0, 2) : "null"}
+          {transData.partyBName !== null
+            ? transData.partyBName.slice(0, 2)
+            : ""}
         </Avatar>
         <Box width={"85%"}>
-          <Box sx={displayFlex}>
-            <h3>{transData.refAsi}</h3>
+          <Box sx={{ ...displayFlex, py: 2 }}>
+            <Box sx={{ fontWeight: "bold" }}>{transData.partyBName}</Box>
             <Box
               color={transData.mark === "C" ? "green" : " darkred"}
               sx={{
@@ -44,37 +49,25 @@ function Transaction(props) {
                 justifyContent: "space-between",
               }}
             >
-              <p>
-                Ksh{" "}
+              <Box>
                 <span>
                   {transData.mark === "C" ? "+" : "-"}
                   {amount}
-                </span>
-              </p>
+                </span>{" "}
+                {transData.currency}
+              </Box>
             </Box>
           </Box>
 
-          <Box sx={displayFlex}>
-            <p>ttic {transData.ttic}</p>
-            <p>
-              Reference Owner{" "}
-              {transData.refOwner === null ? (
+          <Box sx={{ ...displayFlex, py: 2, color: "#616161" }}>
+            <Box>
+              {transData.partAAccount === null ? (
                 <label className="null-data">Not Entered</label>
               ) : (
-                transData.refOwner
+                transData.partAAccount
               )}
-            </p>
-          </Box>
-
-          <Box>
-            <p>
-              info{" "}
-              {transData.iao === null ? (
-                <label className="null-data">Not Entered</label>
-              ) : (
-                transData.iao
-              )}
-            </p>
+            </Box>
+            <Box>{new Date(transData.dateTime).toLocaleTimeString()}</Box>
           </Box>
         </Box>
       </Paper>
