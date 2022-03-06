@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { Box } from "@mui/system"
-import { Button, Divider } from "@mui/material"
+import { Button } from "@mui/material"
 import PickDate from "./PickDate"
 import AmountPicker from "./AmountPicker"
 
@@ -42,30 +42,33 @@ const centerItem = { display: "flex", justifyContent: "center" }
 
 function Filter(props) {
   const [newAmount, setNewAmount] = useState(props.filterAmount)
+  const [newDateRange, setDateRange] = useState(props.filterDateRange)
 
   useEffect(() => {
     setNewAmount(props.filterAmount)
-  }, [props.filterAmount])
+    setDateRange(props.filterDateRange)
+  }, [props.filterAmount, props.filterDateRange])
 
   const amountChangeHandler = (amnt) => {
     setNewAmount(amnt)
-    // console.log(amnt)
+  }
+
+  const dateChangeHandler = (dtRange) => {
+    setDateRange(dtRange)
   }
 
   const applyFilters = () => {
     props.onFilterAmountRange(newAmount)
-    // console.log(newAmount)
-  }
-
-  const dateChangeHandler = (dtRange) => {
-    // props.onFilterDateRange(dtRange)
-    console.log(dtRange)
+    props.onFilterDateRange(newDateRange)
   }
 
   return (
     <Box className={styles.filterContainer}>
       <h2 className={styles.h1}>Filter</h2>
-      <PickDate onFilterDateRange={dateChangeHandler} />
+      <PickDate
+        filterDateRange={newDateRange}
+        onFilterDateRange={dateChangeHandler}
+      />
       <AmountPicker
         filterAmount={props.filterAmount}
         onPickAmount={amountChangeHandler}

@@ -29,10 +29,15 @@ const MyTextField = styled(TextField)({
 })
 
 export default function HomePage() {
+  const todayDate = new Date().toISOString()
+
   const [amount, setAmount] = useState([0, 100000000])
+  const [date, setDate] = useState(todayDate)
+  const [dateRange, setDateRange] = useState([
+    "2018-01-01T00:00:00.000Z",
+    todayDate,
+  ])
   const [transType, setTransType] = useState("ALL")
-  const [date, setTransDate] = useState([null, null])
-  const [data, setData] = useState(null)
   const [activeFilter, setActiveFilter] = useState("active-1")
 
   // Get the position of scroll
@@ -75,7 +80,8 @@ export default function HomePage() {
   }
 
   const getDateRange = (dR) => {
-    setTransDate(dR)
+    setDateRange(dR)
+    // console.log(dR)
   }
 
   return (
@@ -87,6 +93,7 @@ export default function HomePage() {
             <Filter
               onFilterDateRange={getDateRange}
               filterAmount={amount}
+              filterDateRange={dateRange}
               onFilterAmountRange={getFilteredAmount}
             />
           </Box>
@@ -111,7 +118,7 @@ export default function HomePage() {
           />
 
           <Transactions
-            dateRange={date}
+            dateRange={dateRange}
             tt={transType}
             amountToFilter={amount}
           />

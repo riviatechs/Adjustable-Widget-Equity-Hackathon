@@ -70,8 +70,7 @@ export default function Transactions(props) {
     return (
       <Box className={styles.transactionsContainer}>
         <Box className={styles.noDataContainer}>
-          We are having trouble connecting, make sure you are connected to the
-          internet, then refresh the page
+          We are having trouble connecting, refresh the page or try again later!
         </Box>
       </Box>
     )
@@ -133,6 +132,10 @@ const retType = (transType, amntRange, dtRange) => {
           amountRange: {
             lower: amntRange[0].toString(),
             upper: amntRange[1].toString(),
+          },
+          period: {
+            start: dtRange[0],
+            end: dtRange[1],
           },
           tt: transType,
         },

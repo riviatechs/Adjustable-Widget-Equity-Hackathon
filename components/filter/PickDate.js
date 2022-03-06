@@ -145,13 +145,13 @@ const MyTextField = styled(TextField)({
 })
 
 function PickDate(props) {
-  const todayDate = new Date().toISOString()
   const [value1, setValue1] = React.useState(null)
-  const [value2, setValue2] = React.useState([
-    "2012-01-01T00:00:00.000Z",
-    todayDate,
-  ])
+  const [value2, setValue2] = React.useState(props.filterDateRange)
   const [viewPeriod, setViewPeriod] = React.useState(true)
+
+  // React.useEffect(() => {
+  //   setValue2(props.filterDateRange)
+  // }, [props.filterDateRange])
 
   const setNewPeriodHandler = (newValue) => {
     const startDate = new Date(newValue[0]).toISOString()
@@ -181,6 +181,7 @@ function PickDate(props) {
               value={value1}
               label="Date"
               cancelText="Back"
+              disableFuture
               okText="Choose"
               onChange={(newValue) => {
                 setValue1(newValue)
@@ -201,6 +202,7 @@ function PickDate(props) {
               startText="From"
               endText="To"
               value={value2}
+              disableFuture
               onChange={setNewPeriodHandler}
               renderInput={(startProps, endProps) => (
                 <Box sx={{ display: "flex", alignItems: "center" }}>

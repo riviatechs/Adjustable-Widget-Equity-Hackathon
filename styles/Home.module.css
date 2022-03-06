@@ -12,7 +12,6 @@
 
 .h1 {
   margin-top: 0;
-  /* text-align: center; */
 }
 
 .filterSection {
@@ -25,8 +24,6 @@
 }
 
 .searchBox {
-  /* width: 50%;
-  margin: 0 25%; */
   width: 100%;
 }
 
@@ -96,6 +93,7 @@
     width: 100%;
     position: relative;
   }
+
   .h1 {
     text-align: center;
   }
