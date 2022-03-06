@@ -1,11 +1,11 @@
 .transactionBox {
-  border-radius: 5px;
+  border-radius: 5px !important;
   margin: 50px 0;
 }
 
 .transaction {
   padding: 20px 40px;
-  border-radius: 20px;
+  border-radius: 20px !important;
   border: 0.1px solid #00000033;
   margin: 50px 0;
   display: flex;
@@ -14,8 +14,8 @@
 }
 
 .avatar {
-  width: 80px;
-  height: 80px;
+  width: 80px !important;
+  height: 80px !important;
 }
 
 .transactionStatement {
@@ -23,13 +23,13 @@
 }
 
 .creditAmout {
-  color: green;
-  background: rgba(46, 165, 46, 0.274);
+  color: green !important;
+  background: rgba(46, 165, 46, 0.274) !important;
 }
 
 .debitAmount {
-  color: #a42d2d;
-  background: #a42d2d32;
+  color: #a42d2d !important;
+  background: #a42d2d32 !important;
 }
 
 .statementUpper,
@@ -90,13 +90,13 @@
   }
 
   .avatar {
-    width: 60px;
-    height: 60px;
+    width: 60px !important;
+    height: 60px !important;
   }
 
   .transaction {
-    padding: 5px 10px;
-    margin: 25px 0;
+    padding: 5px 10px !important;
+    margin: 25px 0 !important;
   }
 
   .transactionStatement {

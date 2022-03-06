@@ -145,9 +145,22 @@ const MyTextField = styled(TextField)({
 })
 
 function PickDate(props) {
+  const todayDate = new Date().toISOString()
   const [value1, setValue1] = React.useState(null)
-  const [value2, setValue2] = React.useState([null, null])
+  const [value2, setValue2] = React.useState([
+    "2012-01-01T00:00:00.000Z",
+    todayDate,
+  ])
   const [viewPeriod, setViewPeriod] = React.useState(true)
+
+  const setNewPeriodHandler = (newValue) => {
+    const startDate = new Date(newValue[0]).toISOString()
+    const endDate = new Date(newValue[1]).toISOString()
+    setValue2([startDate, endDate])
+  }
+
+  // console.log(value2)
+  props.onFilterDateRange(value2)
 
   return (
     <Box className={styles.pickDateContainer}>
@@ -188,10 +201,7 @@ function PickDate(props) {
               startText="From"
               endText="To"
               value={value2}
-              onChange={(newValue) => {
-                setValue2(newValue)
-                props.onFilterDateRange(newValue)
-              }}
+              onChange={setNewPeriodHandler}
               renderInput={(startProps, endProps) => (
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <MyTextField

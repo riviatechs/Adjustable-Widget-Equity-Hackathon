@@ -57,8 +57,9 @@ function Filter(props) {
     // console.log(newAmount)
   }
 
-  const dateChangeHandler = (date) => {
-    // props.onFilterDateRange(date)
+  const dateChangeHandler = (dtRange) => {
+    // props.onFilterDateRange(dtRange)
+    console.log(dtRange)
   }
 
   return (

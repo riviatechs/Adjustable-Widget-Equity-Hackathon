@@ -69,7 +69,6 @@ export default function Transactions(props) {
   if (slsByAmountDataError) {
     return (
       <Box className={styles.transactionsContainer}>
-        <h2 className={styles.h2}>Transaction History</h2>
         <Box className={styles.noDataContainer}>
           We are having trouble connecting, make sure you are connected to the
           internet, then refresh the page
@@ -83,7 +82,6 @@ export default function Transactions(props) {
   if (!slsByAmountData.statementsFiltered)
     return (
       <Box className={styles.transactionsContainer}>
-        <h2 className={styles.h2}>Transaction History</h2>
         <Box className={styles.noDataContainer}>
           Sorry! No Transactions Available!
         </Box>
