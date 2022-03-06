@@ -124,6 +124,8 @@ function AmountPicker(props) {
           The minimum amount should be the same than the maximum!
         </Box>
       )
+    } else if (!intNum) {
+      setMinError(<Box className={styles.error}>Should be a number!</Box>)
     } else {
       setMinError("")
       setMin(event.target.value)
@@ -137,7 +139,7 @@ function AmountPicker(props) {
     if (intNum > 100000000 || intNum <= 0) {
       setMaxError(
         <Box className={styles.error}>
-          The range is between 1 and 100000000!
+          The range should be between 1 and 100000000
         </Box>
       )
     } else if (intNum < min) {

@@ -31,7 +31,7 @@ export default function Transactions(props) {
     error: slsByAmountDataError,
   } = useQuery(FILTER_QUERY, retType(transactionType, amountRange, dateRange))
 
-  console.log(dateRange)
+  console.log(amountRange)
 
   // When loading
 
@@ -96,7 +96,6 @@ export default function Transactions(props) {
 
   return (
     <Box className={styles.transactionsContainer}>
-      <h2 className={styles.h2}>Transaction History</h2>
       {slsByAmountData.statementsFiltered.map((MT940) => {
         const transDate = getDate(MT940.DateTime)
         return (

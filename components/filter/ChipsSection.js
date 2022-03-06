@@ -39,7 +39,7 @@ function ChipsSection(props) {
         label="All"
         onClick={allFilter}
       />
-      <Chip
+      {/* <Chip
         clickable
         className={
           styles.chip + " " + (newActive === "active-2" ? styles.active : " ")
@@ -47,7 +47,7 @@ function ChipsSection(props) {
         variant="outlined"
         onClick={recentFilter}
         label="Recent"
-      />
+      /> */}
       <Chip
         clickable
         className={

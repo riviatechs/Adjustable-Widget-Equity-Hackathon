@@ -1,16 +1,7 @@
 import Header from "../components/Header"
 import styles from "../styles/Home.module.css"
 import Appbar from "../components/Appbar"
-import { TransitionGroup } from "react-transition-group"
-import {
-  Box,
-  Button,
-  Divider,
-  IconButton,
-  styled,
-  TextField,
-} from "@mui/material"
-import ArrowUpwardRoundedIcon from "@mui/icons-material/ArrowUpwardRounded"
+import { Box, styled, TextField } from "@mui/material"
 import Transactions from "../components/transactions/Transactions"
 import Filter from "../components/filter/Filter"
 import { useEffect, useRef, useState } from "react"
@@ -38,16 +29,11 @@ const MyTextField = styled(TextField)({
 })
 
 export default function HomePage() {
-  // const [filteredInfo, setFilteredInfo] = useState(null)
-  const maxRangeAmount = [0, 100000000]
-  const [amount, setAmount] = useState(maxRangeAmount)
+  const [amount, setAmount] = useState([0, 100000000])
   const [transType, setTransType] = useState("ALL")
   const [date, setTransDate] = useState([null, null])
   const [data, setData] = useState(null)
-  const [dateDataTemp, setDateDataTemp] = useState(null)
-  const [moreFilters, setMoreFilters] = useState(false)
   const [activeFilter, setActiveFilter] = useState("active-1")
-  const [loading, setLoading] = useState(false)
 
   // Get the position of scroll
   const [scrollPosition, setScrollPosition] = useState(0)
@@ -67,25 +53,20 @@ export default function HomePage() {
   // Filter Data by Amount query
 
   // Get Filter Data function
-  const getFilteredData = (filteredData) => {
-    setData(filteredData)
+  const getFilteredAmount = (filteredAmount) => {
+    setAmount(filteredAmount)
   }
 
   // Execute after a Click on any chip
   const showFilters = (filterActive) => {
     setActiveFilter(filterActive)
-    if (filterActive === "active-6") {
-      setMoreFilters(true)
-    } else {
-      setMoreFilters(false)
+
+    if (filterActive === "active-1") {
+      setTransType("ALL")
     }
 
     if (filterActive === "active-3") {
       setTransType("C")
-    }
-
-    if (filterActive === "active-1") {
-      setTransType("ALL")
     }
 
     if (filterActive === "active-5") {
@@ -106,13 +87,14 @@ export default function HomePage() {
             <Filter
               onFilterDateRange={getDateRange}
               filterAmount={amount}
-              onFilter={getFilteredData}
+              onFilterAmountRange={getFilteredAmount}
             />
           </Box>
         </Box>
 
         <Box className={styles.contentSection}>
           <Appbar scroll={scrollPosition} />
+          <h1 className={styles.h1}>Transaction History</h1>
           <Box className={styles.searchBox}>
             <MyTextField
               size="small"
@@ -127,20 +109,6 @@ export default function HomePage() {
             active={activeFilter}
             onClickFilters={showFilters}
           />
-
-          {/* {moreFilters ? (
-            <IconButton
-              aria-label="collapse"
-              className={styles.dropUpButton}
-              onClick={() => {
-                setMoreFilters(false)
-              }}
-            >
-              <ArrowUpwardRoundedIcon />
-            </IconButton>
-          ) : (
-            ""
-          )} */}
 
           <Transactions
             dateRange={date}
