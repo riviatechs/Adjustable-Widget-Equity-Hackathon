@@ -1,0 +1,42 @@
+.pickerContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.amountButton {
+  padding: 13px 0;
+  width: 120px;
+}
+
+.amountButton:hover {
+  color: #a42d2df0;
+  transition: all ease-in-out 300ms;
+  cursor: pointer;
+}
+
+.allTextFieldsBox {
+  margin: 20px 0;
+  display: flex;
+}
+
+.amountTextFieldStyle {
+  width: 160px;
+  margin-right: 20px;
+}
+
+.airBNBInput {
+  width: 360px;
+  margin: 20px 0;
+}
+
+.error {
+  color: darkred;
+  padding: 10px;
+  background: #a42d2d20;
+  border-radius: 20px;
+  display: flex;
+  width: 300px;
+  text-align: center;
+  flex-wrap: wrap;
+}

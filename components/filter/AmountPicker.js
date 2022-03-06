@@ -3,6 +3,8 @@ import { Box } from "@mui/system"
 import React from "react"
 import PropTypes from "prop-types"
 
+import styles from "../../styles/components/AmountPicker.module.css"
+
 const AirbnbSlider = styled(Slider)(() => ({
   color: "#a42d2d",
   height: 3,
@@ -69,27 +71,6 @@ const MyTextField = styled(TextField)({
   },
 })
 
-const pickerContainer = {
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "start",
-}
-
-const amountButton = {
-  py: 1.3,
-  width: 120,
-  "&:hover": {
-    color: "#a42d2dF0",
-    transition: "all ease-in-out 300ms",
-    cursor: "pointer",
-  },
-}
-
-const allTextFieldsBox = {
-  my: 2,
-  display: "flex",
-}
-
 const minAmountTextFieldProps = {
   step: 100000,
   min: 0,
@@ -105,10 +86,6 @@ const maxAmountTextFieldProps = {
   type: "number",
   "aria-labelledby": "input-slider",
 }
-
-const amountTextFieldStyle = { width: 150, mx: 2 }
-
-const airBNBInput = { width: 360, my: 2 }
 
 function AmountPicker(props) {
   const prevAmount = props.filterAmount
@@ -131,19 +108,19 @@ function AmountPicker(props) {
 
     if (intNum > 100000000 || intNum < 0) {
       setMinError(
-        <Box sx={{ color: "darkred", py: 1 }}>
+        <Box className={styles.error}>
           The range should be between 1 and 100000000
         </Box>
       )
     } else if (intNum > max) {
       setMinError(
-        <Box sx={{ color: "darkred", py: 1 }}>
+        <Box className={styles.error}>
           The minum amount should be larger than the maximum!
         </Box>
       )
     } else if (intNum === max) {
       setMinError(
-        <Box sx={{ color: "darkred", py: 1 }}>
+        <Box className={styles.error}>
           The minimum amount should be the same than the maximum!
         </Box>
       )
@@ -159,19 +136,19 @@ function AmountPicker(props) {
 
     if (intNum > 100000000 || intNum <= 0) {
       setMaxError(
-        <Box sx={{ color: "darkred", py: 1 }}>
-          The range should be between 1 and 100000000!
+        <Box className={styles.error}>
+          The range is between 1 and 100000000!
         </Box>
       )
     } else if (intNum < min) {
       setMaxError(
-        <Box sx={{ color: "darkred", py: 1 }}>
+        <Box className={styles.error}>
           The maximum amount should be smaller than the minimum!
         </Box>
       )
     } else if (intNum === min) {
       setMaxError(
-        <Box sx={{ color: "darkred", py: 1 }}>
+        <Box className={styles.error}>
           The maximum amount should be the same than the minimum!
         </Box>
       )
@@ -185,16 +162,16 @@ function AmountPicker(props) {
   props.onPickAmount(value)
 
   return (
-    <Box sx={pickerContainer}>
-      <Box sx={amountButton}>By Amount</Box>
+    <Box className={styles.pickerContainer}>
+      <Box className={styles.amountButton}>By Amount</Box>
 
-      <Box sx={allTextFieldsBox}>
+      <Box className={styles.allTextFieldsBox}>
         <MyTextField
           size="small"
           onChange={handleMinInputChange}
           inputProps={minAmountTextFieldProps}
           value={min}
-          sx={amountTextFieldStyle}
+          className={styles.amountTextFieldStyle}
         />
         <MyTextField
           onChange={handleMaxInputChange}
@@ -203,13 +180,13 @@ function AmountPicker(props) {
           value={max}
           min={1000}
           max={100000000}
-          sx={amountTextFieldStyle}
+          className={styles.amountTextFieldStyle}
         />
       </Box>
 
       <AirbnbSlider
         components={{ Thumb: AirbnbThumbComponent }}
-        sx={airBNBInput}
+        className={styles.airBNBInput}
         value={value}
         onChange={amountRangeHandler}
         valueLabelDisplay="auto"
@@ -217,7 +194,7 @@ function AmountPicker(props) {
         max={100000000}
       />
 
-      <Box sx={{ py: 2 }}>
+      <Box className={styles.errorBox}>
         {minErr}
         {maxErr}
       </Box>

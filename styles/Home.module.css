@@ -45,6 +45,16 @@
     width: 100%;
     margin: 0;
   }
+
+  .filterSection {
+    width: 28%;
+    display: none;
+  }
+
+  .contentSection {
+    width: 100%;
+    position: relative;
+  }
 }
 
 @media only screen and (max-width: 600px) {

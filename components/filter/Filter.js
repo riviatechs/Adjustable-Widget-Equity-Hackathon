@@ -57,9 +57,7 @@ function Filter(props) {
 
   // Execute after a Click on apply filter button
   const applyFilters = (activeFilter) => {
-    if (activeFilter === "active-6") {
-      setAmount(data)
-    }
+    console.log(activeFilter)
   }
 
   return (

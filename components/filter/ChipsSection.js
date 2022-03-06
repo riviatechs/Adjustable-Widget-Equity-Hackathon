@@ -1,4 +1,4 @@
-import { Avatar, Chip } from "@mui/material"
+import { Chip } from "@mui/material"
 import { Box } from "@mui/system"
 import React, { useState } from "react"
 
@@ -13,7 +13,7 @@ function ChipsSection(props) {
     props.onClickFilters("active-1")
   }
 
-  const topCreditFilter = () => {
+  const recentFilter = () => {
     setNewActive("active-2")
     props.onClickFilters("active-2")
   }
@@ -23,19 +23,9 @@ function ChipsSection(props) {
     props.onClickFilters("active-3")
   }
 
-  const lastYearFilter = () => {
-    setNewActive("active-4")
-    props.onClickFilters("active-4")
-  }
-
   const moneyOutFilter = () => {
     setNewActive("active-5")
     props.onClickFilters("active-5")
-  }
-
-  const showMoreFilters = () => {
-    setNewActive("active-6")
-    props.onClickFilters("active-6")
   }
 
   return (
@@ -55,7 +45,7 @@ function ChipsSection(props) {
           styles.chip + " " + (newActive === "active-2" ? styles.active : " ")
         }
         variant="outlined"
-        onClick={topCreditFilter}
+        onClick={recentFilter}
         label="Recent"
       />
       <Chip
@@ -67,15 +57,6 @@ function ChipsSection(props) {
         onClick={moneyInFilter}
         label="Money In"
       />
-      {/* <Chip
-        clickable
-        className={
-          styles.chip + " " + (newActive === "active-4" ? styles.active : " ")
-        }
-        variant="outlined"
-        label="Last Year"
-        onClick={lastYearFilter}
-      /> */}
       <Chip
         clickable
         className={
@@ -85,18 +66,6 @@ function ChipsSection(props) {
         label="Money Out"
         onClick={moneyOutFilter}
       />
-      {/* <Chip
-        className={
-          styles.chip + " " + (newActive === "active-6" ? styles.active : " ")
-        }
-        avatar={
-          <Avatar sx={{ background: "white", color: "darkred" }}>1</Avatar>
-        }
-        clickable
-        onClick={showMoreFilters}
-        variant="outlined"
-        label="More Filters"
-      /> */}
     </Box>
   )
 }
