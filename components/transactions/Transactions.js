@@ -73,7 +73,8 @@ export default function Transactions(props) {
       <Box className={styles.transactionsContainer}>
         <h2 className={styles.h2}>Transaction History</h2>
         <Box className={styles.noDataContainer}>
-          {`Error! ${slsByAmountDataError}`}
+          We are having trouble connecting, make sure you are connected to the
+          internet, then refresh the page
         </Box>
       </Box>
     )

@@ -6,7 +6,6 @@ import {
   Box,
   Button,
   Divider,
-  Grow,
   IconButton,
   styled,
   TextField,
@@ -75,12 +74,15 @@ const centerItem = { display: "flex", justifyContent: "center" }
 
 export default function HomePage() {
   // const [filteredInfo, setFilteredInfo] = useState(null)
-  const [amount1, setAmount] = useState([0, 1000000])
+  const maxRangeAmount = [0, 100000000]
+  const [amount, setAmount] = useState(maxRangeAmount)
+  const [transType, setTransType] = useState("ALL")
+  const [date, setTransDate] = useState([null, null])
   const [data, setData] = useState(null)
+  const [dateDataTemp, setDateDataTemp] = useState(null)
   const [moreFilters, setMoreFilters] = useState(false)
   const [activeFilter, setActiveFilter] = useState("active-1")
   const [loading, setLoading] = useState(false)
-  const containerRef = useRef(null)
 
   // Get the position of scroll
   const [scrollPosition, setScrollPosition] = useState(0)
@@ -101,21 +103,41 @@ export default function HomePage() {
 
   // Get Filter Data function
   const getFilteredData = (filteredData) => {
-    // console.log(filteredData)
     setData(filteredData)
   }
 
-  const applyAmountFilter = () => {
-    setAmount(data)
+  // Execute after a Click on any chip
+  const showFilters = (filterActive) => {
+    setActiveFilter(filterActive)
+    if (filterActive === "active-6") {
+      setMoreFilters(true)
+    } else {
+      setMoreFilters(false)
+    }
+
+    if (filterActive === "active-3") {
+      setTransType("C")
+    }
+
+    if (filterActive === "active-1") {
+      setTransType("ALL")
+    }
+
+    if (filterActive === "active-5") {
+      setTransType("D")
+    }
   }
 
-  const showFilters = () => {
-    setMoreFilters(true)
+  // Execute after a Click on apply filter button
+  const applyFilters = (activeFilter) => {
+    if (activeFilter === "active-6") {
+      setAmount(data)
+    }
   }
 
-  // const onClickHandler = () => {
-  //   console.log()
-  // }
+  const getDateRange = (dR) => {
+    setTransDate(dR)
+  }
 
   return (
     <Box className={styles.home}>
@@ -130,30 +152,39 @@ export default function HomePage() {
             placeholder="Search by Name or Account No"
           />
         </Box>
+
         <ChipsSection
           className={styles.chips}
           active={activeFilter}
           onClickFilters={showFilters}
         />
+
         {moreFilters ? (
-          <TransitionGroup>
+          <Box>
             <Divider />
-            <Grow className={styles.growAnimation} {...{ timeout: 200 }}>
-              <Box>
-                <Filter amount={amount1} onFilter={getFilteredData} />
-                <Box sx={{ ...buttonBox, ...centerItem }}>
-                  <Button sx={button1}>Reset</Button>
-                  <Button sx={button2} onClick={applyAmountFilter}>
-                    Apply
-                  </Button>
-                </Box>
+
+            <Box className={styles.growAnimation}>
+              <Filter
+                onFilterDateRange={getDateRange}
+                filterAmount={amount}
+                onFilter={getFilteredData}
+              />
+
+              <Box sx={{ ...buttonBox, ...centerItem }}>
+                <Button sx={button1}>Reset</Button>
+
+                <Button sx={button2} onClick={applyFilters}>
+                  Apply
+                </Button>
               </Box>
-            </Grow>
-          </TransitionGroup>
+            </Box>
+          </Box>
         ) : (
           ""
         )}
+
         <Divider className={styles.line} />
+
         {moreFilters ? (
           <IconButton
             aria-label="collapse"
@@ -168,7 +199,7 @@ export default function HomePage() {
           ""
         )}
 
-        <Transactions />
+        <Transactions dateRange={date} tt={transType} amountToFilter={amount} />
       </Box>
     </Box>
   )

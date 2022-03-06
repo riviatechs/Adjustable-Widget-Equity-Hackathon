@@ -32,7 +32,7 @@ const AirbnbSlider = styled(Slider)(() => ({
   },
 }))
 
-function AirbnbThumbComponent(props) {
+const AirbnbThumbComponent = (props) => {
   const { children, ...other } = props
   return (
     <SliderThumb {...other}>
@@ -69,11 +69,60 @@ const MyTextField = styled(TextField)({
   },
 })
 
+const pickerContainer = {
+  display: "flex",
+  width: "45%",
+  flexDirection: "column",
+  justifyContent: "start",
+}
+
+const amountButton = {
+  py: 1.3,
+  px: 2,
+  borderRadius: 5,
+  width: 150,
+  "&:hover": {
+    background: "#a42d2d23",
+    transition: "all ease-in-out 300ms",
+    cursor: "pointer",
+  },
+}
+
+const allTextFieldsBox = {
+  my: 5,
+  mx: 2,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+}
+
+const minAmountTextFieldProps = {
+  step: 100000,
+  min: 0,
+  max: 100000000,
+  type: "number",
+  "aria-labelledby": "input-slider",
+}
+
+const maxAmountTextFieldProps = {
+  step: 100000,
+  min: 100000,
+  max: 100000000,
+  type: "number",
+  "aria-labelledby": "input-slider",
+}
+
+const amountTextFieldStyle = { width: 150, mx: 2 }
+
+const airBNBInput = { width: 400, mx: 2 }
+
 function AmountPicker(props) {
-  const prevAmount = props.amount
+  const prevAmount = props.filterAmount
   const [value, setValue] = React.useState(prevAmount)
   const [min, setMin] = React.useState(prevAmount[0])
   const [max, setMax] = React.useState(prevAmount[1])
+  const [minErr, setMinError] = React.useState(null)
+  const [maxErr, setMaxError] = React.useState(null)
 
   const amountRangeHandler = (event) => {
     const newValue = event.target.value
@@ -85,93 +134,101 @@ function AmountPicker(props) {
 
   const handleMinInputChange = (event) => {
     const intNum = parseInt(event.target.value)
-    setMin(event.target.value === "" ? 0 : intNum)
 
-    setValue((prev) => [intNum, prev[1]])
+    if (intNum > 100000000 || intNum < 0) {
+      setMinError(
+        <Box sx={{ color: "darkred", py: 1 }}>
+          The range should be between 1 and 100000000
+        </Box>
+      )
+    } else if (intNum > max) {
+      setMinError(
+        <Box sx={{ color: "darkred", py: 1 }}>
+          The minum amount should be larger than the maximum!
+        </Box>
+      )
+    } else if (intNum === max) {
+      setMinError(
+        <Box sx={{ color: "darkred", py: 1 }}>
+          The minimum amount should be the same than the maximum!
+        </Box>
+      )
+    } else {
+      setMinError("")
+      setMin(event.target.value)
+      setValue((prev) => [intNum, prev[1]])
+    }
   }
 
   const handleMaxInputChange = (event) => {
     const intNum = parseInt(event.target.value)
-    setMax(event.target.value === "" ? 0 : intNum)
 
-    setValue((prev) => [prev[0], intNum])
+    if (intNum > 100000000 || intNum <= 0) {
+      setMaxError(
+        <Box sx={{ color: "darkred", py: 1 }}>
+          The range should be between 1 and 100000000!
+        </Box>
+      )
+    } else if (intNum < min) {
+      setMaxError(
+        <Box sx={{ color: "darkred", py: 1 }}>
+          The maximum amount should be smaller than the minimum!
+        </Box>
+      )
+    } else if (intNum === min) {
+      setMaxError(
+        <Box sx={{ color: "darkred", py: 1 }}>
+          The maximum amount should be the same than the minimum!
+        </Box>
+      )
+    } else {
+      setMaxError("")
+      setMax(event.target.value)
+      setValue((prev) => [prev[0], intNum])
+    }
   }
 
   props.onPickAmount(value)
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        width: "45%",
-        flexDirection: "column",
-        justifyContent: "start",
-      }}
-    >
-      <Box
-        sx={{
-          py: 1.3,
-          px: 2,
-          borderRadius: 5,
-          width: 150,
-          "&:hover": {
-            background: "#a42d2d23",
-            transition: "all ease-in-out 300ms",
-            cursor: "pointer",
-          },
-        }}
-      >
-        By Amount
-      </Box>
-      <Box
-        sx={{
-          my: 5,
-          mx: 2,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
+    <Box sx={pickerContainer}>
+      <Box sx={amountButton}>By Amount</Box>
+
+      <Box sx={allTextFieldsBox}>
         From
         <MyTextField
           size="small"
           onChange={handleMinInputChange}
-          inputProps={{
-            step: 100000,
-            min: 0,
-            max: 10000000,
-            type: "number",
-            "aria-labelledby": "input-slider",
-          }}
+          inputProps={minAmountTextFieldProps}
           value={min}
-          sx={{ width: 150, mx: 2 }}
+          sx={amountTextFieldStyle}
         />
         To
         <MyTextField
           onChange={handleMaxInputChange}
-          inputProps={{
-            step: 100000,
-            min: 0,
-            max: 10000000,
-            type: "number",
-            "aria-labelledby": "input-slider",
-          }}
+          inputProps={maxAmountTextFieldProps}
           size="small"
           value={max}
-          sx={{ width: 150, mx: 2 }}
+          min={1000}
+          max={100000000}
+          sx={amountTextFieldStyle}
         />
       </Box>
 
       <AirbnbSlider
         components={{ Thumb: AirbnbThumbComponent }}
-        sx={{ width: 400, mx: 2 }}
-        getAriaLabel={() => "Minimum distance shift"}
+        sx={airBNBInput}
         value={value}
         onChange={amountRangeHandler}
-        min={0}
         valueLabelDisplay="auto"
-        max={10000000}
+        min={0}
+        max={100000000}
       />
+
+      <Box sx={{ py: 2 }}>
+        {minErr}
+        {maxErr}
+      </Box>
     </Box>
   )
 }

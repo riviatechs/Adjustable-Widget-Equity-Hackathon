@@ -1,7 +1,7 @@
 import { Box } from "@mui/system"
 import { Divider } from "@mui/material"
 import React from "react"
-import PickDate from "../PickDate"
+import PickDate from "./PickDate"
 import AmountPicker from "./AmountPicker"
 
 function Filter(props) {
@@ -15,17 +15,20 @@ function Filter(props) {
     }
   }
 
+  const dateChangeHandler = (date) => {
+    props.onFilterDateRange(date)
+  }
+
   return (
     <Box sx={{ my: 5 }}>
-      {/* <Divider /> */}
       <Box sx={{ m: 0, p: 0, textAlign: "center" }}>
         <h2>Filter</h2>
       </Box>
       <Box display={"flex"} justifyContent="space-between">
-        <PickDate />
+        <PickDate onFilterDateRange={dateChangeHandler} />
         <Divider orientation="vertical" flexItem />
         <AmountPicker
-          amount={props.amount}
+          filterAmount={props.filterAmount}
           onPickAmount={amountChangeHandler}
         />
       </Box>

@@ -140,7 +140,7 @@ const MyTextField = styled(TextField)({
   },
 })
 
-function PickDate() {
+function PickDate(props) {
   const [value1, setValue1] = React.useState(null)
   const [value2, setValue2] = React.useState([null, null])
   const [viewPeriod, setViewPeriod] = React.useState(true)
@@ -207,6 +207,9 @@ function PickDate() {
                     startText=""
                     endText=""
                     value={value2}
+                    onClose={(e) => {
+                      props.onFilterDateRange(e)
+                    }}
                     onChange={(newValue) => {
                       setValue2(newValue)
                     }}
