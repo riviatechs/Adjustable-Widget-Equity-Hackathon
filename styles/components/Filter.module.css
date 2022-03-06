@@ -1,0 +1,12 @@
+.filterContainer {
+  border: 1px solid #00000050;
+  position: fixed;
+  margin: 0;
+  padding: 20px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.h1 {
+  margin: 0;
+}
