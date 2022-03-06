@@ -1,5 +1,22 @@
 .home {
-  margin: 50px 3%;
+  margin: 50px 4%;
+}
+
+.body {
+  margin: 100px 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.filterSection {
+  width: 28%;
+}
+
+.contentSection {
+  width: 68%;
+  position: relative;
 }
 
 .searchBox {
@@ -40,5 +57,15 @@
 
   .line {
     display: none;
+  }
+
+  .filterSection {
+    width: 28%;
+    display: none;
+  }
+
+  .contentSection {
+    width: 100%;
+    position: relative;
   }
 }

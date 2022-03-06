@@ -1,0 +1,16 @@
+.pickDateContainer {
+  margin: 30px 0;
+}
+
+.datePeriodContainer {
+  margin: 20px 0;
+}
+
+.dateTextField {
+  width: 340px;
+}
+
+.periodTextField {
+  width: 160px;
+  margin-right: 20px;
+}

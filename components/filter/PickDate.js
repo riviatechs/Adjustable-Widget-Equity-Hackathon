@@ -7,6 +7,8 @@ import SelectUnstyled, { selectUnstyledClasses } from "@mui/base/SelectUnstyled"
 import OptionUnstyled, { optionUnstyledClasses } from "@mui/base/OptionUnstyled"
 import PopperUnstyled from "@mui/base/PopperUnstyled"
 
+import styles from "../../styles/components/PickDate.module.css"
+
 const grey = {
   100: "#E7EBF0",
   300: "#CDD2D7",
@@ -19,10 +21,11 @@ const StyledButton = styled("button")(
   font-size: inherit;
   box-sizing: border-box;
   min-height: calc(1.5em + 15px);
-  width: 150px;
+  width: 110px;
   background:  #ffffff00;
   // border: 1px solid ${grey[300]};
-  border-radius: 25px;
+  // border-radius: 25px;
+  padding: 10px 0;
   text-align: left;
   line-height: 1.5;
   color: inherit;
@@ -30,7 +33,8 @@ const StyledButton = styled("button")(
   justify-content: space-between;
 
   &:hover {
-    background: #a42d2d23;
+    color: #a42d2df0;
+    background: none;
     // border: 1px solid #a42d2d;
   }
 
@@ -146,94 +150,64 @@ function PickDate(props) {
   const [viewPeriod, setViewPeriod] = React.useState(true)
 
   return (
-    <Box sx={{ width: "45%", textAlign: "center" }}>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "start",
+    <Box className={styles.pickDateContainer}>
+      <CustomSelect
+        defaultValue={1}
+        onChange={(e) => {
+          console.log(e)
+          e === 0 ? setViewPeriod(false) : setViewPeriod(true)
         }}
       >
-        <CustomSelect
-          defaultValue={1}
-          onChange={(e) => {
-            console.log(e)
-            e === 0 ? setViewPeriod(false) : setViewPeriod(true)
-          }}
-        >
-          <StyledOption value={0}>By Date</StyledOption>
-          <StyledOption value={1}>By Period</StyledOption>
-        </CustomSelect>
-        <Box
-          sx={{
-            diplay: "flex",
-            alignItems: "center",
-            my: 5,
-          }}
-        >
-          <Box
-            display={viewPeriod ? "none" : "flex"}
-            sx={{
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Box>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
-                  value={value1}
-                  onClose={() => {
-                    console.log("chosen!!")
-                  }}
-                  cancelText="Back"
-                  onChange={(newValue) => {
-                    setValue1(newValue)
-                  }}
-                  renderInput={(params) => (
-                    <MyTextField sx={{ width: 300 }} size="small" {...params} />
-                  )}
+        <StyledOption value={0}>By Date</StyledOption>
+        <StyledOption value={1}>By Period</StyledOption>
+      </CustomSelect>
+      <Box className={styles.datePeriodContainer}>
+        <Box display={viewPeriod ? "none" : "flex"}>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DatePicker
+              value={value1}
+              label="Date"
+              cancelText="Back"
+              okText="Choose"
+              onChange={(newValue) => {
+                setValue1(newValue)
+              }}
+              renderInput={(params) => (
+                <MyTextField
+                  className={styles.dateTextField}
+                  size="small"
+                  {...params}
                 />
-              </LocalizationProvider>
-            </Box>
-          </Box>
-          <Box
-            display={viewPeriod ? "flex" : "none"}
-            sx={{ alignItems: "center" }}
-          >
-            <Box>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <Box>
-                  <DateRangePicker
-                    startText=""
-                    endText=""
-                    value={value2}
-                    onClose={(e) => {
-                      props.onFilterDateRange(e)
-                    }}
-                    onChange={(newValue) => {
-                      setValue2(newValue)
-                    }}
-                    renderInput={(startProps, endProps) => (
-                      <Box sx={{ display: "flex", alignItems: "center" }}>
-                        <Box sx={{ mx: 2 }}> From </Box>
-                        <MyTextField
-                          sx={{ width: 150 }}
-                          size="small"
-                          {...startProps}
-                        />
-                        <Box sx={{ mx: 2 }}> To </Box>
-                        <MyTextField
-                          sx={{ width: 150 }}
-                          size="small"
-                          {...endProps}
-                        />
-                      </Box>
-                    )}
+              )}
+            />
+          </LocalizationProvider>
+        </Box>
+        <Box display={viewPeriod ? "flex" : "none"}>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DateRangePicker
+              startText="From"
+              endText="To"
+              value={value2}
+              onChange={(newValue) => {
+                setValue2(newValue)
+                props.onFilterDateRange(newValue)
+              }}
+              renderInput={(startProps, endProps) => (
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <MyTextField
+                    className={styles.periodTextField}
+                    size="small"
+                    {...startProps}
+                  />
+                  <MyTextField
+                    className={styles.periodTextField}
+                    size="small"
+                    {...endProps}
                   />
                 </Box>
-              </LocalizationProvider>
-            </Box>
-          </Box>
+              )}
+            />
+          </LocalizationProvider>
         </Box>
       </Box>
     </Box>

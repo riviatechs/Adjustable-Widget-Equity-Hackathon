@@ -49,15 +49,15 @@ function ChipsSection(props) {
         label="All"
         onClick={allFilter}
       />
-      {/* <Chip
+      <Chip
         clickable
         className={
           styles.chip + " " + (newActive === "active-2" ? styles.active : " ")
         }
         variant="outlined"
         onClick={topCreditFilter}
-        label="Top Credit"
-      /> */}
+        label="Recent"
+      />
       <Chip
         clickable
         className={
@@ -85,7 +85,7 @@ function ChipsSection(props) {
         label="Money Out"
         onClick={moneyOutFilter}
       />
-      <Chip
+      {/* <Chip
         className={
           styles.chip + " " + (newActive === "active-6" ? styles.active : " ")
         }
@@ -96,7 +96,7 @@ function ChipsSection(props) {
         onClick={showMoreFilters}
         variant="outlined"
         label="More Filters"
-      />
+      /> */}
     </Box>
   )
 }

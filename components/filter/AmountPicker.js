@@ -8,8 +8,8 @@ const AirbnbSlider = styled(Slider)(() => ({
   height: 3,
   padding: "13px 0",
   "& .MuiSlider-thumb": {
-    height: 27,
-    width: 27,
+    height: 20,
+    width: 20,
     backgroundColor: "#fff",
     border: "1px solid currentColor",
     "&:hover": {
@@ -71,29 +71,23 @@ const MyTextField = styled(TextField)({
 
 const pickerContainer = {
   display: "flex",
-  width: "45%",
   flexDirection: "column",
   justifyContent: "start",
 }
 
 const amountButton = {
   py: 1.3,
-  px: 2,
-  borderRadius: 5,
-  width: 150,
+  width: 120,
   "&:hover": {
-    background: "#a42d2d23",
+    color: "#a42d2dF0",
     transition: "all ease-in-out 300ms",
     cursor: "pointer",
   },
 }
 
 const allTextFieldsBox = {
-  my: 5,
-  mx: 2,
+  my: 2,
   display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
 }
 
 const minAmountTextFieldProps = {
@@ -114,7 +108,7 @@ const maxAmountTextFieldProps = {
 
 const amountTextFieldStyle = { width: 150, mx: 2 }
 
-const airBNBInput = { width: 400, mx: 2 }
+const airBNBInput = { width: 360, my: 2 }
 
 function AmountPicker(props) {
   const prevAmount = props.filterAmount
@@ -195,7 +189,6 @@ function AmountPicker(props) {
       <Box sx={amountButton}>By Amount</Box>
 
       <Box sx={allTextFieldsBox}>
-        From
         <MyTextField
           size="small"
           onChange={handleMinInputChange}
@@ -203,7 +196,6 @@ function AmountPicker(props) {
           value={min}
           sx={amountTextFieldStyle}
         />
-        To
         <MyTextField
           onChange={handleMaxInputChange}
           inputProps={maxAmountTextFieldProps}
