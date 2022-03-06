@@ -170,6 +170,7 @@ function AmountPicker(props) {
       <Box className={styles.allTextFieldsBox}>
         <MyTextField
           size="small"
+          label="Minimum"
           onChange={handleMinInputChange}
           inputProps={minAmountTextFieldProps}
           value={min}
@@ -179,6 +180,7 @@ function AmountPicker(props) {
           onChange={handleMaxInputChange}
           inputProps={maxAmountTextFieldProps}
           size="small"
+          label="Maximum"
           value={max}
           min={1000}
           max={100000000}

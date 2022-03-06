@@ -31,8 +31,6 @@ export default function Transactions(props) {
     error: slsByAmountDataError,
   } = useQuery(FILTER_QUERY, retType(transactionType, amountRange, dateRange))
 
-  console.log(amountRange)
-
   // When loading
 
   if (slsByAmountDataLoading) {
