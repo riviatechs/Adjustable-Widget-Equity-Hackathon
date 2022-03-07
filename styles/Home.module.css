@@ -19,7 +19,7 @@
 }
 
 .contentSection {
-  width: 870px;
+  width: 65%;
   position: relative;
 }
 
@@ -67,13 +67,13 @@
 
 @media only screen and (max-width: 1400px) {
   .contentSection {
-    width: 800px;
+    width: 60%;
   }
 }
 
 @media only screen and (max-width: 1336px) {
   .contentSection {
-    width: 750px;
+    width: 55%;
   }
 }
 
