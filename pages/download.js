@@ -52,13 +52,13 @@ export default function DownloadPage() {
     setPageNumber((prevPageNumber) => prevPageNumber + offset)
   }
 
-  function previousPage() {
-    changePage(-1)
-  }
+  // function previousPage() {
+  //   changePage(-1)
+  // }
 
-  function nextPage() {
-    changePage(1)
-  }
+  // function nextPage() {
+  //   changePage(1)
+  // }
 
   function onDocumentLoadError(err) {
     console.log(err)

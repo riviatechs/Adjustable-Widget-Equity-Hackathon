@@ -7,13 +7,14 @@ import { styled, Box } from "@mui/system"
 import Fade from "@mui/material/Fade"
 import ModalUnstyled from "@mui/base/ModalUnstyled"
 import Divider from "@mui/material/Divider"
+import { Document, Page, pdfjs } from "react-pdf"
 
 import SelectUnstyled, { selectUnstyledClasses } from "@mui/base/SelectUnstyled"
 import OptionUnstyled, { optionUnstyledClasses } from "@mui/base/OptionUnstyled"
 import PopperUnstyled from "@mui/base/PopperUnstyled"
 
-import { useLazyQuery, useMutation, useQuery } from "@apollo/client"
-import { Alert, Button } from "@mui/material"
+import { useLazyQuery } from "@apollo/client"
+import { Button } from "@mui/material"
 
 import styles from "../styles/components/Modal.module.css"
 
@@ -85,6 +86,19 @@ const MyTextField = styled(TextField)({
   },
 })
 
+function downloadLink(name, uri) {
+  fetch(uri).then((response) => {
+    response.blob().then((blob) => {
+      let url = window.URL.createObjectURL(blob)
+      let a = document.createElement("a")
+      a.href = url
+      a.download = `${name}`
+      a.click()
+    })
+    //window.location.href = response.url;
+  })
+}
+
 function ExportModal(props) {
   const fieldOptions = [
     "Date",
@@ -94,14 +108,33 @@ function ExportModal(props) {
     "Description",
   ]
 
-  const exportOptions = ["csv", "pdf", "text", "xls"]
+  const exportOptions = ["csv", "pdf", "txt"]
 
   const [fields, setFields] = React.useState([])
   const [type, setType] = React.useState(null)
+  const [downloadUsed, setDownload] = React.useState(false)
+  const [loadDowload, setLoadDowload] = React.useState(false)
+  const [links, setLinks] = React.useState("")
 
   const [sendData, { loading, error, data }] = useLazyQuery(FILTER_EXPORT_QUERY)
 
-  if (loading) return <p>Loading ...</p>
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      console.log("This will run after 1 second!", data, "and", type)
+      // setLink(data)
+      if (typeof data !== "undefined" && downloadUsed && type === "csv") {
+        console.log("Inner running!!")
+        downloadLink(`bank_statements.${type}`, data.download)
+        setLoadDowload(false)
+      }
+
+      if (type === "pdf" && typeof data !== "undefined" && downloadUsed) {
+        setLinks(data.download)
+      }
+    }, 2000)
+    return () => clearTimeout(timer)
+  }, [data, type, downloadUsed, loadDowload])
+
   if (error) return `Error! ${error}`
 
   const onSelectFieldsHandler = (e) => {
@@ -116,7 +149,6 @@ function ExportModal(props) {
 
   const onSubmitHandler = (e) => {
     e.preventDefault()
-    console.log([...new Set(fields)], type)
     const sends = [...new Set(fields)]
 
     const fieldsToSend = sends.map((field) => {
@@ -139,21 +171,68 @@ function ExportModal(props) {
       return { [fd]: "Available" }
     })
 
-    console.log(fieldsToSend)
+    let obj = {}
+
+    fieldsToSend.forEach((element) => {
+      Object.assign(obj, element)
+    })
 
     sendData({
       variables: {
         input: {
-          fields: fieldsToSend,
+          fields: obj,
           downLoadType: type,
         },
       },
     })
 
-    // setFields([])
-  }
+    if (type === "csv") {
+      setLoadDowload(true)
+      setDownload(true)
 
-  console.log(data?.download)
+      console.log(" csv only!!")
+    } else if (type === "pdf") {
+      console.log("pdf only")
+      setDownload(true)
+      pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
+
+      async function handleSubmit() {
+        const resp = await fetch("/api/doc/", {
+          method: "GET",
+        })
+
+        const file = await resp.json()
+        console.log(file)
+
+        const bearer = file.access_token
+        const clientID = file.client_id
+
+        const id = links
+        const pollURL = `https://cpf-ue1.adobe.io/ops/id/${id}`
+        const authorization = `Bearer ${bearer}`
+
+        const resp2 = await fetch(pollURL, {
+          method: "GET",
+          headers: {
+            "x-api-key": clientID,
+            Authorization: authorization,
+          },
+        })
+
+        const blob = await resp2.blob()
+
+        const newBlob = new Blob([blob], { type: "application/pdf" })
+        const newFileURL = URL.createObjectURL(newBlob)
+
+        console.log(newBlob, newFileURL)
+
+        // window.open(newFileURL)
+        downloadLink("statements.pdf", newFileURL)
+      }
+
+      handleSubmit()
+    }
+  }
 
   return (
     <div>
@@ -248,6 +327,7 @@ function ExportModal(props) {
                   <Button type="submit" className="button1">
                     Export
                   </Button>
+                  {loading || loadDowload ? <p>Exporting...</p> : ""}
                 </form>
               </div>
             </div>
