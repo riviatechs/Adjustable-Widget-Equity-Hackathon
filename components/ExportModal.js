@@ -12,7 +12,7 @@ import SelectUnstyled, { selectUnstyledClasses } from "@mui/base/SelectUnstyled"
 import OptionUnstyled, { optionUnstyledClasses } from "@mui/base/OptionUnstyled"
 import PopperUnstyled from "@mui/base/PopperUnstyled"
 
-import { useMutation } from "@apollo/client"
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client"
 import { Alert, Button } from "@mui/material"
 
 import styles from "../styles/components/Modal.module.css"
@@ -22,6 +22,7 @@ import TextField from "@mui/material/TextField"
 import Autocomplete from "@mui/material/Autocomplete"
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank"
 import CheckBoxIcon from "@mui/icons-material/CheckBox"
+import { FILTER_EXPORT_QUERY } from "../queries/FILTER_EXPORT_QUERY"
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />
 const checkedIcon = <CheckBoxIcon sx={{ color: "#a42d2d" }} fontSize="small" />
@@ -57,6 +58,9 @@ const style = {
   position: "relative",
   boxShadow: 24,
   borderRadius: 5,
+  "@media only screen and (max-width: 600px)": {
+    width: "100%",
+  },
 }
 
 const MyTextField = styled(TextField)({
@@ -92,6 +96,65 @@ function ExportModal(props) {
 
   const exportOptions = ["csv", "pdf", "text", "xls"]
 
+  const [fields, setFields] = React.useState([])
+  const [type, setType] = React.useState(null)
+
+  const [sendData, { loading, error, data }] = useLazyQuery(FILTER_EXPORT_QUERY)
+
+  if (loading) return <p>Loading ...</p>
+  if (error) return `Error! ${error}`
+
+  const onSelectFieldsHandler = (e) => {
+    if (e.target.textContent !== "") {
+      setFields((prev) => [...prev, e.target.textContent])
+    }
+  }
+
+  const onSelectTypesHandler = (e) => {
+    setType(e.target.textContent)
+  }
+
+  const onSubmitHandler = (e) => {
+    e.preventDefault()
+    console.log([...new Set(fields)], type)
+    const sends = [...new Set(fields)]
+
+    const fieldsToSend = sends.map((field) => {
+      let fd = ""
+      if (field === "Date") {
+        fd = "date"
+      }
+      if (field === "Amount") {
+        fd = "amount"
+      }
+      if (field === "Account Number") {
+        fd = "accountNumber"
+      }
+      if (field === "Name") {
+        fd = "accountName"
+      }
+      if (field === "Description") {
+        fd = "narrative"
+      }
+      return { [fd]: "Available" }
+    })
+
+    console.log(fieldsToSend)
+
+    sendData({
+      variables: {
+        input: {
+          fields: fieldsToSend,
+          downLoadType: type,
+        },
+      },
+    })
+
+    // setFields([])
+  }
+
+  console.log(data?.download)
+
   return (
     <div>
       <StyledModal
@@ -120,16 +183,18 @@ function ExportModal(props) {
                 <h2 className={styles.h2}>Export Statements</h2>
               </div>
 
-              <Divider orientation="vertical" flexItem />
+              <Divider className={styles.hr} orientation="vertical" flexItem />
 
               <div className={styles.rightSide}>
-                <form>
+                <h2>Export</h2>
+                <form onSubmit={onSubmitHandler}>
                   <div className={styles.inputSelect}>
                     <label className={styles.label}>Choose Fields</label>
                     <Autocomplete
                       multiple
                       options={fieldOptions}
                       disableCloseOnSelect
+                      onChange={onSelectFieldsHandler}
                       getOptionLabel={(option) => option}
                       renderOption={(props, option, { selected }) => (
                         <li {...props}>
@@ -157,6 +222,7 @@ function ExportModal(props) {
                     <Autocomplete
                       options={exportOptions}
                       getOptionLabel={(option) => option}
+                      onChange={onSelectTypesHandler}
                       renderOption={(props, option, { selected }) => (
                         <li {...props}>
                           <Checkbox
@@ -179,7 +245,9 @@ function ExportModal(props) {
                     />
                   </div>
 
-                  <Button className="button1">Export</Button>
+                  <Button type="submit" className="button1">
+                    Export
+                  </Button>
                 </form>
               </div>
             </div>

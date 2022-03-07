@@ -112,11 +112,17 @@
   }
 
   .contentSection {
+    margin-top: 70px;
     width: 100%;
     position: relative;
   }
 
   .h1 {
     text-align: center;
+  }
+
+  .exportButton {
+    right: 25px;
+    bottom: 20px;
   }
 }

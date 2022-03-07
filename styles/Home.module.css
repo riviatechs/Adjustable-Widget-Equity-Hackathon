@@ -119,4 +119,9 @@
   .h1 {
     text-align: center;
   }
+
+  .exportButton {
+    right: 25px;
+    bottom: 20px;
+  }
 }

@@ -21,7 +21,6 @@
   align-items: center;
   padding: 30px;
   width: 100%;
-  /* height: inherit; */
 }
 
 .h2 {
@@ -58,4 +57,65 @@
 .label {
   display: flex;
   margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 600px) {
+  .leftSide {
+    display: none;
+  }
+
+  .rightSide {
+    width: 98%;
+    margin: 0 1%;
+    height: 100%;
+  }
+
+  .contents {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5px;
+    width: 100%;
+  }
+
+  .h2 {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+  }
+
+  .closeButtonBox {
+    background: #a42d2d;
+    width: fit-content;
+    height: fit-content;
+    pad: 10px;
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+    margin: 10px;
+    border-radius: 20px;
+  }
+
+  .closeButtonBox:hover .closeButton {
+    display: block;
+  }
+
+  .hr {
+    display: none;
+  }
+
+  .closeButton {
+    background: none;
+    display: block;
+    color: #ffffff;
+  }
+
+  .inputSelect {
+    margin-bottom: 50px;
+  }
+
+  .label {
+    display: flex;
+    margin-bottom: 20px;
+  }
 }
