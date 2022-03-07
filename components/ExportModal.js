@@ -108,7 +108,7 @@ function ExportModal(props) {
     "Description",
   ]
 
-  const exportOptions = ["csv", "pdf", "txt"]
+  const exportOptions = ["csv", "pdf"]
 
   const [fields, setFields] = React.useState([])
   const [type, setType] = React.useState(null)
@@ -121,7 +121,6 @@ function ExportModal(props) {
   React.useEffect(() => {
     const timer = setTimeout(() => {
       console.log("This will run after 1 second!", data, "and", type)
-      // setLink(data)
       if (typeof data !== "undefined" && downloadUsed && type === "csv") {
         console.log("Inner running!!")
         downloadLink(`bank_statements.${type}`, data.download)
@@ -130,6 +129,7 @@ function ExportModal(props) {
 
       if (type === "pdf" && typeof data !== "undefined" && downloadUsed) {
         setLinks(data.download)
+        setLoadDowload(false)
       }
     }, 2000)
     return () => clearTimeout(timer)
@@ -144,7 +144,7 @@ function ExportModal(props) {
   }
 
   const onSelectTypesHandler = (e) => {
-    setType(e.target.textContent)
+    if (e.target.textContent !== "") setType(e.target.textContent)
   }
 
   const onSubmitHandler = (e) => {
@@ -186,14 +186,12 @@ function ExportModal(props) {
       },
     })
 
-    if (type === "csv") {
+    if (type === "csv" || type === "txt") {
       setLoadDowload(true)
       setDownload(true)
 
       console.log(" csv only!!")
     } else if (type === "pdf") {
-      console.log("pdf only")
-      setDownload(true)
       pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 
       async function handleSubmit() {
@@ -224,13 +222,13 @@ function ExportModal(props) {
         const newBlob = new Blob([blob], { type: "application/pdf" })
         const newFileURL = URL.createObjectURL(newBlob)
 
-        console.log(newBlob, newFileURL)
-
-        // window.open(newFileURL)
-        downloadLink("statements.pdf", newFileURL)
+        downloadLink("bank_statements.pdf", newFileURL)
       }
 
       handleSubmit()
+
+      setDownload(true)
+      setLoadDowload(true)
     }
   }
 
@@ -265,7 +263,7 @@ function ExportModal(props) {
               <Divider className={styles.hr} orientation="vertical" flexItem />
 
               <div className={styles.rightSide}>
-                <h2>Export</h2>
+                <h2>Export Statements</h2>
                 <form onSubmit={onSubmitHandler}>
                   <div className={styles.inputSelect}>
                     <label className={styles.label}>Choose Fields</label>

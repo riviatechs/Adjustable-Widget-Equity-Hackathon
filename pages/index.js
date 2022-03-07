@@ -3,6 +3,7 @@ import styles from "../styles/Home.module.css"
 import Appbar from "../components/Appbar"
 import { Box, Button, styled, TextField } from "@mui/material"
 import FileDownloadIcon from "@mui/icons-material/FileDownload"
+import FilterAltIcon from "@mui/icons-material/FilterAlt"
 import Transactions from "../components/transactions/Transactions"
 import Filter from "../components/filter/Filter"
 import { useEffect, useRef, useState } from "react"
@@ -40,7 +41,8 @@ export default function HomePage() {
     "2018-01-01T00:00:00.000Z",
     todayDate,
   ])
-  // const [viewPeriod, setViewPeriod] = useState(true)
+
+  const [openFilter, setOPenFilter] = useState(false)
   const [transType, setTransType] = useState("ALL")
   const [activeFilter, setActiveFilter] = useState("active-1")
 
@@ -102,13 +104,23 @@ export default function HomePage() {
     console.log("NO PERIOD")
   }
 
+  const handleOpenFilter = () => {
+    setOPenFilter(true)
+  }
+
   return (
     <Box className={styles.home}>
       <Header />
+      <Appbar scroll={scrollPosition} />
+
       <ExportModal open={open} onClose={handleClose} />
 
       <Box className={styles.body}>
-        <Box className={styles.filterSection}>
+        <Box
+          className={
+            openFilter ? styles.filterSectionMobile : styles.filterSection
+          }
+        >
           <Box className={styles.growAnimation}>
             <Filter
               filterAmount={amount}
@@ -121,8 +133,11 @@ export default function HomePage() {
           </Box>
         </Box>
 
-        <Box className={styles.contentSection}>
-          <Appbar scroll={scrollPosition} />
+        <Box
+          className={
+            openFilter ? styles.contentSectionMobile : styles.contentSection
+          }
+        >
           <h1 className={styles.h1}>Transaction History</h1>
           <Box className={styles.searchBox}>
             <MyTextField
@@ -148,8 +163,16 @@ export default function HomePage() {
         </Box>
       </Box>
 
+      <Button
+        onClick={handleOpenFilter}
+        className={`button2 ${styles.mobileFilterButton}`}
+      >
+        <FilterAltIcon fontSize="medium" />
+        <span className={styles.mobileFilterSpan}>Filters</span>
+      </Button>
+
       <Button onClick={handleOpen} className={`button2 ${styles.exportButton}`}>
-        <FileDownloadIcon />
+        <FileDownloadIcon fontSize="medium" />
         <span className={styles.exportSpan}>Export Statements</span>
       </Button>
     </Box>

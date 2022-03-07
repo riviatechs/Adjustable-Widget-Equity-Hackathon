@@ -48,18 +48,6 @@ export default function DownloadPage() {
     setPageNumber(1)
   }
 
-  function changePage(offset) {
-    setPageNumber((prevPageNumber) => prevPageNumber + offset)
-  }
-
-  // function previousPage() {
-  //   changePage(-1)
-  // }
-
-  // function nextPage() {
-  //   changePage(1)
-  // }
-
   function onDocumentLoadError(err) {
     console.log(err)
   }

@@ -46,10 +46,10 @@
 }
 
 .exportButton {
-  width: fit-content !important;
+  right: 25px !important;
+  bottom: 30px !important;
   position: fixed !important;
-  right: 55px !important;
-  bottom: 50px !important;
+  width: fit-content !important;
 }
 
 .exportButton:hover {
@@ -65,15 +65,31 @@
   display: none !important;
 }
 
+.mobileFilterButton {
+  display: none !important;
+}
+
+.mobileFilterSpan {
+  display: none !important;
+}
+
 @media only screen and (max-width: 1400px) {
   .contentSection {
     width: 60%;
+  }
+
+  .mobileFilterButton {
+    display: none !important;
   }
 }
 
 @media only screen and (max-width: 1336px) {
   .contentSection {
     width: 55%;
+  }
+
+  .mobileFilterButton {
+    display: none !important;
   }
 }
 
@@ -107,8 +123,15 @@
   }
 
   .filterSection {
-    width: 28%;
     display: none;
+  }
+
+  .filterSectionMobile {
+    width: 250px !important;
+  }
+
+  .contentSectionMobile {
+    display: none !important;
   }
 
   .contentSection {
@@ -121,7 +144,31 @@
   }
 
   .exportButton {
-    right: 25px !important;
-    bottom: 20px !important;
+    right: 15px !important;
+    bottom: 80px !important;
   }
+
+  .mobileFilterButton {
+    display: flex !important;
+    right: 15px !important;
+    bottom: 20px !important;
+    width: fit-content !important;
+    position: fixed !important;
+  }
+
+  .exportButton:hover .exportSpan {
+    display: none !important;
+  }
+
+  /* .mobileFilterButton {
+    display: block;
+    right: 25px !important;
+    bottom: 50px !important;
+    width: fit-content !important;
+    position: fixed !important;
+  }
+
+  .mobileFilterSpan {
+    display: block;
+  } */
 }
