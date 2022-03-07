@@ -46,23 +46,23 @@
 }
 
 .exportButton {
-  width: fit-content;
-  position: fixed;
-  right: 55px;
-  bottom: 50px;
+  width: fit-content !important;
+  position: fixed !important;
+  right: 55px !important;
+  bottom: 50px !important;
 }
 
 .exportButton:hover {
-  background: darkred;
+  background: darkred !important;
 }
 
 .exportButton:hover .exportSpan {
-  display: block;
+  display: block !important;
 }
 
 .exportSpan {
   margin-left: 4px;
-  display: none;
+  display: none !important;
 }
 
 @media only screen and (max-width: 1400px) {
@@ -122,7 +122,7 @@
   }
 
   .exportButton {
-    right: 25px;
-    bottom: 20px;
+    right: 25px !important;
+    bottom: 20px !important;
   }
 }

@@ -64,32 +64,32 @@ button:hover {
 }
 
 .button1 {
-  color: #a42d2d;
-  border: 1px solid #a42d2d;
-  background: inherit;
-  border-radius: 50px;
-  width: 120px;
-  font-size: initial;
-  padding: 10px 20px;
-  margin-right: 20px;
-  transition: all 300ms ease-in-out;
+  color: #a42d2d !important;
+  border: 1px solid #a42d2d !important;
+  background: inherit !important;
+  border-radius: 50px !important;
+  width: 120px !important;
+  font-size: initial !important;
+  padding: 10px 20px !important;
+  margin-right: 20px !important;
+  transition: all 300ms ease-in-out !important;
 }
 
 .button1:hover {
-  background: #a42d2d13;
+  background: #a42d2d13 !important;
 }
 
 .button2 {
-  color: #ffffff;
-  border: 1px solid #a42d2d;
-  background: #a42d2d;
-  border-radius: 50px;
-  font-size: initial;
-  width: 120px;
-  padding: 10px 20px;
-  transition: all 300ms ease-in-out;
+  color: #ffffff !important;
+  border: 1px solid #a42d2d !important;
+  background: #a42d2d !important;
+  border-radius: 50px !important;
+  font-size: initial !important;
+  width: 120px !important;
+  padding: 10px 20px !important;
+  transition: all 300ms ease-in-out !important;
 }
 
 .button {
-  background: #720d19;
+  background: #720d19 !important;
 }
