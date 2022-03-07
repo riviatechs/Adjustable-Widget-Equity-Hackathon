@@ -15,11 +15,12 @@ export default function DownloadPage() {
     })
 
     const file = await resp.json()
+    console.log(file)
 
     const bearer = file.access_token
     const clientID = file.client_id
 
-    const id = "DVrSm43PUBdB0voadIab6yHeEBG63zZA"
+    const id = "fN2uUejzvxgY3n6XhSajaYHUSI4FcFWp"
     const pollURL = `https://cpf-ue1.adobe.io/ops/id/${id}`
     const authorization = `Bearer ${bearer}`
 
