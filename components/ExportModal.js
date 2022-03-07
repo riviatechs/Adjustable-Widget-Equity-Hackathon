@@ -23,6 +23,9 @@ import Autocomplete from "@mui/material/Autocomplete"
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank"
 import CheckBoxIcon from "@mui/icons-material/CheckBox"
 import { FILTER_EXPORT_QUERY } from "../queries/FILTER_EXPORT_QUERY"
+import Link from "next/link"
+
+import { csv } from "d3-request"
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />
 const checkedIcon = <CheckBoxIcon sx={{ color: "#a42d2d" }} fontSize="small" />
@@ -98,10 +101,11 @@ function ExportModal(props) {
 
   const [fields, setFields] = React.useState([])
   const [type, setType] = React.useState(null)
+  const [link, setLink] = React.useState("")
 
   const [sendData, { loading, error, data }] = useLazyQuery(FILTER_EXPORT_QUERY)
 
-  if (loading) return <p>Loading ...</p>
+  // if (loading) return null
   if (error) return `Error! ${error}`
 
   const onSelectFieldsHandler = (e) => {
@@ -116,7 +120,6 @@ function ExportModal(props) {
 
   const onSubmitHandler = (e) => {
     e.preventDefault()
-    console.log([...new Set(fields)], type)
     const sends = [...new Set(fields)]
 
     const fieldsToSend = sends.map((field) => {
@@ -139,21 +142,26 @@ function ExportModal(props) {
       return { [fd]: "Available" }
     })
 
-    console.log(fieldsToSend)
+    let obj = {}
+
+    fieldsToSend.forEach((element) => {
+      Object.assign(obj, element)
+    })
 
     sendData({
       variables: {
         input: {
-          fields: fieldsToSend,
+          fields: obj,
           downLoadType: type,
         },
       },
     })
 
-    // setFields([])
-  }
+    console.log(data)
+    if (data?.download !== null) download("Statements", data?.download)
 
-  console.log(data?.download)
+    setFields([])
+  }
 
   return (
     <div>
@@ -248,6 +256,7 @@ function ExportModal(props) {
                   <Button type="submit" className="button1">
                     Export
                   </Button>
+                  {loading ? <p>Exporting...</p> : ""}
                 </form>
               </div>
             </div>
@@ -259,3 +268,16 @@ function ExportModal(props) {
 }
 
 export default ExportModal
+
+function download(name, uri) {
+  fetch(uri).then((response) => {
+    response.blob().then((blob) => {
+      let url = window.URL.createObjectURL(blob)
+      let a = document.createElement("a")
+      a.href = url
+      a.download = `${name}.csv`
+      a.click()
+    })
+    //window.location.href = response.url;
+  })
+}
