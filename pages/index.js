@@ -32,11 +32,12 @@ export default function HomePage() {
   const todayDate = new Date().toISOString()
 
   const [amount, setAmount] = useState([0, 100000000])
-  const [date, setDate] = useState(todayDate)
+  const [date, setDate] = useState("NONE")
   const [dateRange, setDateRange] = useState([
     "2018-01-01T00:00:00.000Z",
     todayDate,
   ])
+  // const [viewPeriod, setViewPeriod] = React.useState(true)
   const [transType, setTransType] = useState("ALL")
   const [activeFilter, setActiveFilter] = useState("active-1")
 
@@ -54,6 +55,11 @@ export default function HomePage() {
       window.removeEventListener("scroll", handleScroll)
     }
   }, [])
+
+  useEffect(() => {
+    setDate(date)
+    setDateRange(dateRange)
+  }, [date, dateRange])
 
   // Filter Data by Amount query
 
@@ -79,9 +85,14 @@ export default function HomePage() {
     }
   }
 
-  const getDateRange = (dR) => {
-    setDateRange(dR)
-    // console.log(dR)
+  const getDateRange = (dtR) => {
+    setDateRange(dtR)
+    // console.log("none")
+  }
+
+  const getDate = (dt) => {
+    setDate(dt)
+    // console.log(todayDate)
   }
 
   return (
@@ -91,10 +102,12 @@ export default function HomePage() {
         <Box className={styles.filterSection}>
           <Box className={styles.growAnimation}>
             <Filter
-              onFilterDateRange={getDateRange}
               filterAmount={amount}
               filterDateRange={dateRange}
+              filterDate={date}
+              onFilterDateRange={getDateRange}
               onFilterAmountRange={getFilteredAmount}
+              onFilterDate={getDate}
             />
           </Box>
         </Box>
@@ -119,6 +132,7 @@ export default function HomePage() {
 
           <Transactions
             dateRange={dateRange}
+            date={date}
             tt={transType}
             amountToFilter={amount}
           />

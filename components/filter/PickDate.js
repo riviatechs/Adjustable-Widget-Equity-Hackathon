@@ -145,13 +145,24 @@ const MyTextField = styled(TextField)({
 })
 
 function PickDate(props) {
-  const [value1, setValue1] = React.useState(null)
+  const [value1, setValue1] = React.useState(props.filterDate)
   const [value2, setValue2] = React.useState(props.filterDateRange)
-  const [viewPeriod, setViewPeriod] = React.useState(true)
+  const [viewPeriod, setViewPeriod] = React.useState(props.isPeriod)
 
-  // React.useEffect(() => {
-  //   setValue2(props.filterDateRange)
-  // }, [props.filterDateRange])
+  React.useEffect(() => {
+    setValue1(props.filterDate)
+    setValue2(props.filterDateRange)
+    setViewPeriod(props.isPeriod)
+  }, [props.filterDate, props.filterDateRange, props.isPeriod])
+
+  const setViewPeriodHandler = (event) => {
+    // event === 0 ? setViewPeriod(false) : setViewPeriod(true)
+    if (event === 0) {
+      setViewPeriod(false)
+    } else {
+      setViewPeriod(true)
+    }
+  }
 
   const setNewPeriodHandler = (newValue) => {
     const startDate = new Date(newValue[0]).toISOString()
@@ -159,18 +170,18 @@ function PickDate(props) {
     setValue2([startDate, endDate])
   }
 
-  // console.log(value2)
+  const setNewDateHandler = (newDate) => {
+    const date = new Date(newDate).toISOString()
+    setValue1(date)
+  }
+
   props.onFilterDateRange(value2)
+  props.onFilterDate(value1)
+  props.onPeriodChange(viewPeriod)
 
   return (
     <Box className={styles.pickDateContainer}>
-      <CustomSelect
-        defaultValue={1}
-        onChange={(e) => {
-          console.log(e)
-          e === 0 ? setViewPeriod(false) : setViewPeriod(true)
-        }}
-      >
+      <CustomSelect defaultValue={1} onChange={setViewPeriodHandler}>
         <StyledOption value={0}>By Date</StyledOption>
         <StyledOption value={1}>By Period</StyledOption>
       </CustomSelect>
@@ -183,9 +194,7 @@ function PickDate(props) {
               cancelText="Back"
               disableFuture
               okText="Choose"
-              onChange={(newValue) => {
-                setValue1(newValue)
-              }}
+              onChange={setNewDateHandler}
               renderInput={(params) => (
                 <MyTextField
                   className={styles.dateTextField}

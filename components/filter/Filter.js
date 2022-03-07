@@ -43,23 +43,45 @@ const centerItem = { display: "flex", justifyContent: "center" }
 function Filter(props) {
   const [newAmount, setNewAmount] = useState(props.filterAmount)
   const [newDateRange, setDateRange] = useState(props.filterDateRange)
+  const [newDate, setDate] = useState(props.filterDate)
+  const [viewPeriod, setViewPeriod] = React.useState(true)
 
   useEffect(() => {
     setNewAmount(props.filterAmount)
     setDateRange(props.filterDateRange)
-  }, [props.filterAmount, props.filterDateRange])
+    setDate(props.filterDate)
+  }, [props.filterAmount, props.filterDateRange, props.filterDate])
 
   const amountChangeHandler = (amnt) => {
     setNewAmount(amnt)
   }
 
-  const dateChangeHandler = (dtRange) => {
+  const dateRangeChangeHandler = (dtRange) => {
     setDateRange(dtRange)
+    // setDate("NONE")
+  }
+
+  const dateChangeHandler = (dt) => {
+    setDate(dt)
+    // setDateRange(["2018-01-01T00:00:00.000Z", props.todayDate])
+  }
+
+  const getPeriodStatusHandler = (prd) => {
+    setViewPeriod(prd)
   }
 
   const applyFilters = () => {
     props.onFilterAmountRange(newAmount)
-    props.onFilterDateRange(newDateRange)
+    // props.onFilterDateRange(newDateRange)
+    // props.onFilterDate(newDate)
+
+    console.log(viewPeriod)
+
+    if (viewPeriod) {
+      props.onFilterDateRange(newDateRange)
+    } else if (!viewPeriod) {
+      props.onFilterDate(newDate)
+    }
   }
 
   return (
@@ -67,7 +89,11 @@ function Filter(props) {
       <h2 className={styles.h1}>Filter</h2>
       <PickDate
         filterDateRange={newDateRange}
-        onFilterDateRange={dateChangeHandler}
+        onFilterDateRange={dateRangeChangeHandler}
+        filterDate={newDateRange}
+        onFilterDate={dateChangeHandler}
+        isPeriod={viewPeriod}
+        onPeriodChange={getPeriodStatusHandler}
       />
       <AmountPicker
         filterAmount={props.filterAmount}
