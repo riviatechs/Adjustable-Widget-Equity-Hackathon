@@ -1,11 +1,14 @@
 import Header from "../components/Header"
 import styles from "../styles/Home.module.css"
 import Appbar from "../components/Appbar"
-import { Box, styled, TextField } from "@mui/material"
+import { Box, Button, styled, TextField } from "@mui/material"
+import FileDownloadIcon from "@mui/icons-material/FileDownload"
 import Transactions from "../components/transactions/Transactions"
 import Filter from "../components/filter/Filter"
 import { useEffect, useRef, useState } from "react"
+import Link from "next/link"
 import ChipsSection from "../components/filter/ChipsSection"
+import ExportModal from "../components/ExportModal"
 
 const MyTextField = styled(TextField)({
   "& label.Mui-focused": {
@@ -37,9 +40,14 @@ export default function HomePage() {
     "2018-01-01T00:00:00.000Z",
     todayDate,
   ])
-  // const [viewPeriod, setViewPeriod] = React.useState(true)
+  // const [viewPeriod, setViewPeriod] = useState(true)
   const [transType, setTransType] = useState("ALL")
   const [activeFilter, setActiveFilter] = useState("active-1")
+
+  const [open, setOpen] = useState(false)
+
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
 
   // Get the position of scroll
   const [scrollPosition, setScrollPosition] = useState(0)
@@ -87,17 +95,20 @@ export default function HomePage() {
 
   const getDateRange = (dtR) => {
     setDateRange(dtR)
-    // console.log("none")
+    // setDate("NONE")
   }
 
   const getDate = (dt) => {
     setDate(dt)
-    // console.log(todayDate)
+    // setDateRange(["2018-01-01T00:00:00.000Z", todayDate])
+    console.log("NO PERIOD")
   }
 
   return (
     <Box className={styles.home}>
       <Header />
+      <ExportModal open={open} onClose={handleClose} />
+
       <Box className={styles.body}>
         <Box className={styles.filterSection}>
           <Box className={styles.growAnimation}>
@@ -138,6 +149,11 @@ export default function HomePage() {
           />
         </Box>
       </Box>
+
+      <Button onClick={handleOpen} className={`button2 ${styles.exportButton}`}>
+        <FileDownloadIcon />
+        <span className={styles.exportSpan}>Export Statements</span>
+      </Button>
     </Box>
   )
 }

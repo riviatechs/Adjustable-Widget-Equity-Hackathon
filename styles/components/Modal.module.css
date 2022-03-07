@@ -1,0 +1,61 @@
+.leftSide {
+  width: 40%;
+  height: 500px;
+  margin: 0;
+  background: #a42d2d20;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.rightSide {
+  width: 50%;
+  height: 100%;
+}
+
+.contents {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px;
+  width: 100%;
+  /* height: inherit; */
+}
+
+.h2 {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.closeButtonBox {
+  background: #a42d2d;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  right: 0;
+  cursor: pointer;
+  margin: 10px;
+  border-radius: 20px;
+}
+
+.closeButtonBox:hover .closeButton {
+  display: block;
+}
+
+.closeButton {
+  background: none;
+  display: none;
+  color: #ffffff;
+}
+
+.inputSelect {
+  margin-bottom: 50px;
+}
+
+.label {
+  display: flex;
+  margin-bottom: 20px;
+}

@@ -1,6 +1,6 @@
 import { Slider, SliderThumb, styled, TextField } from "@mui/material"
 import { Box } from "@mui/system"
-import React from "react"
+import React, { useEffect } from "react"
 import PropTypes from "prop-types"
 
 import styles from "../../styles/components/AmountPicker.module.css"
@@ -89,11 +89,19 @@ const maxAmountTextFieldProps = {
 
 function AmountPicker(props) {
   const prevAmount = props.filterAmount
+  const checkMin = prevAmount[0]
+  const checkMax = prevAmount[1]
+
   const [value, setValue] = React.useState(prevAmount)
-  const [min, setMin] = React.useState(prevAmount[0])
-  const [max, setMax] = React.useState(prevAmount[1])
+  const [min, setMin] = React.useState(checkMin)
+  const [max, setMax] = React.useState(checkMax)
   const [minErr, setMinError] = React.useState(null)
   const [maxErr, setMaxError] = React.useState(null)
+
+  useEffect(() => {
+    setMin(checkMin)
+    setMax(checkMax)
+  }, [checkMin, checkMax])
 
   const amountRangeHandler = (event) => {
     const newValue = event.target.value

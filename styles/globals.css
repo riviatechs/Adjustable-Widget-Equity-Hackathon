@@ -62,3 +62,34 @@ button:hover {
     font-size: 15px;
   }
 }
+
+.button1 {
+  color: #a42d2d;
+  border: 1px solid #a42d2d;
+  background: inherit;
+  border-radius: 50px;
+  width: 120px;
+  font-size: initial;
+  padding: 10px 20px;
+  margin-right: 20px;
+  transition: all 300ms ease-in-out;
+}
+
+.button1:hover {
+  background: #a42d2d13;
+}
+
+.button2 {
+  color: #ffffff;
+  border: 1px solid #a42d2d;
+  background: #a42d2d;
+  border-radius: 50px;
+  font-size: initial;
+  width: 120px;
+  padding: 10px 20px;
+  transition: all 300ms ease-in-out;
+}
+
+.button {
+  background: #720d19;
+}

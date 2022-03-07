@@ -175,16 +175,17 @@ function PickDate(props) {
     setValue1(date)
   }
 
-  props.onFilterDateRange(value2)
   props.onFilterDate(value1)
+  props.onFilterDateRange(value2)
   props.onPeriodChange(viewPeriod)
 
   return (
     <Box className={styles.pickDateContainer}>
-      <CustomSelect defaultValue={1} onChange={setViewPeriodHandler}>
+      <CustomSelect defaultValue={0} onChange={setViewPeriodHandler}>
         <StyledOption value={0}>By Date</StyledOption>
         <StyledOption value={1}>By Period</StyledOption>
       </CustomSelect>
+
       <Box className={styles.datePeriodContainer}>
         <Box display={viewPeriod ? "none" : "flex"}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -211,6 +212,7 @@ function PickDate(props) {
               startText="From"
               endText="To"
               value={value2}
+              disableCloseOnSelect={false}
               disableFuture
               onChange={setNewPeriodHandler}
               renderInput={(startProps, endProps) => (

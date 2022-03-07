@@ -9,6 +9,7 @@ import { FILTER_QUERY } from "../../queries/TRANSACTION_BY_AMOUNT.JS"
 import { Skeleton } from "@mui/material"
 
 import styles from "../../styles/components/Transactions.module.css"
+import Link from "next/link"
 
 const centerItem = { display: "flex", justifyContent: "center" }
 
@@ -108,7 +109,15 @@ export default function Transactions(props) {
               {transDate.year}
             </h3>
             {MT940.confirmations.map((trans) => (
-              <Transaction key={trans.id} data={trans} />
+              <Link
+                href={`/${encodeURIComponent(trans.id)}`}
+                key={trans.id}
+                passHref
+              >
+                <a>
+                  <Transaction data={trans} />
+                </a>
+              </Link>
             ))}
           </Box>
         )
@@ -119,8 +128,7 @@ export default function Transactions(props) {
 
 const retType = (transType, amntRange, dtRange, dt) => {
   if (transType === "ALL") {
-    console.log(dt)
-    if (dt === "NONE" || typeof dt === "undefined") {
+    if (dt === "NONE" || Array.isArray(dt)) {
       return {
         variables: {
           input: {
@@ -151,7 +159,7 @@ const retType = (transType, amntRange, dtRange, dt) => {
       }
     }
   } else {
-    if (dt === "NONE" || !dt) {
+    if (dt === "NONE" || Array.isArray(dt)) {
       return {
         variables: {
           input: {
