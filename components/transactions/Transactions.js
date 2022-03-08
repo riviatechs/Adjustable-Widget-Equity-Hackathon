@@ -27,8 +27,6 @@ export default function Transactions(props) {
     setDate(props.date)
   }, [props.amountToFilter, props.tt, props.dateRange, props.date])
 
-  // console.log(transactionType, amountRange, dateRange, date)
-
   const {
     data: slsByAmountData,
     loading: slsByAmountDataLoading,

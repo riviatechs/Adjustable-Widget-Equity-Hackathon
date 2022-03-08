@@ -109,6 +109,10 @@
     position: relative;
   }
 
+  .filterSection {
+    display: none;
+  }
+
   .exportButton {
     right: 15px !important;
     bottom: 80px !important;

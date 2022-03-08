@@ -120,9 +120,23 @@ function ExportModal(props) {
 
   const [downloadData, setDownloadData] = React.useState(null)
 
+  const [amountRange, setAmount] = React.useState(props.amountToFilter)
+  const [transactionType, setTransactionType] = React.useState(props.tt)
+  const [dateRange, setDateRange] = React.useState(props.dateRange)
+  const [date, setDate] = React.useState(props.date)
+
+  React.useEffect(() => {
+    setAmount(props.amountToFilter)
+    setTransactionType(props.tt)
+    setDateRange(props.dateRange)
+    setDate(props.date)
+  }, [props.amountToFilter, props.tt, props.dateRange, props.date])
+
   React.useEffect(() => {
     setDownloadData(data)
   }, [data])
+
+  console.log(amountRange, transactionType, dateRange, date)
 
   if (error) console.log(error)
 
@@ -169,14 +183,46 @@ function ExportModal(props) {
       Object.assign(obj, element)
     })
 
-    sendData({
-      variables: {
-        input: {
-          fields: obj,
-          downLoadType: newTypes,
+    if (transactionType === "ALL") {
+      sendData({
+        variables: {
+          input: {
+            fields: obj,
+            downLoadType: newTypes,
+            filters: {
+              amountRange: {
+                lower: amountRange[0].toString(),
+                upper: amountRange[1].toString(),
+              },
+              period: {
+                start: dateRange[0],
+                end: dateRange[1],
+              },
+            },
+          },
         },
-      },
-    })
+      })
+    } else {
+      sendData({
+        variables: {
+          input: {
+            fields: obj,
+            downLoadType: newTypes,
+            filters: {
+              amountRange: {
+                lower: amountRange[0].toString(),
+                upper: amountRange[1].toString(),
+              },
+              period: {
+                start: dateRange[0],
+                end: dateRange[1],
+              },
+              tt: transactionType,
+            },
+          },
+        },
+      })
+    }
 
     if (newTypes === "csv") {
       setLoadCSVDownload(true)

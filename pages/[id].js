@@ -9,15 +9,15 @@ import ExportModal from "../components/ExportModal"
 import styles from "../styles/components/TransactionDetails.module.css"
 
 export default function DetailsPage() {
-  const [open, setOpen] = useState(false)
+  // const [open, setOpen] = useState(false)
 
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+  // const handleOpen = () => setOpen(true)
+  // const handleClose = () => setOpen(false)
 
   return (
     <Box className={styles.home}>
       <Header />
-      <ExportModal open={open} onClose={handleClose} />
+      {/* <ExportModal open={open} onClose={handleClose} /> */}
 
       <Box className={styles.contentSection}>
         <Appbar />
@@ -25,10 +25,10 @@ export default function DetailsPage() {
         The details
       </Box>
 
-      <Button onClick={handleOpen} className={`button2 ${styles.exportButton}`}>
+      {/* <Button onClick={handleOpen} className={`button2 ${styles.exportButton}`}>
         <FileDownloadIcon />
         <span className={styles.exportSpan}>Export Statements</span>
-      </Button>
+      </Button> */}
     </Box>
   )
 }

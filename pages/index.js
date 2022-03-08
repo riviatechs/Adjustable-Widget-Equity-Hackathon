@@ -113,7 +113,14 @@ export default function HomePage() {
       <Header />
       <Appbar scroll={scrollPosition} />
 
-      <ExportModal open={open} onClose={handleClose} />
+      <ExportModal
+        dateRange={dateRange}
+        date={date}
+        tt={transType}
+        amountToFilter={amount}
+        open={open}
+        onClose={handleClose}
+      />
 
       <Box className={styles.body}>
         <Box
