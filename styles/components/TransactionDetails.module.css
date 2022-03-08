@@ -14,17 +14,46 @@
   margin-top: 0;
 }
 
-.filterSection {
-  width: 300px;
+.name {
+  color: #000000;
 }
 
 .contentSection {
-  width: 870px;
+  width: 60%;
+  margin: 0 20%;
+  padding: 20px 50px;
   position: relative;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 0 4px 0 #00000050;
 }
 
-.searchBox {
-  width: 100%;
+.avatarGreen {
+  color: green !important;
+  background: rgba(0, 128, 0, 0.253) !important;
+}
+
+.darkRed {
+  color: darkred !important;
+  background-color: rgba(173, 54, 54, 0.205) !important;
+}
+
+.avatarGreenWord {
+  color: green !important;
+}
+
+.darkRedWord {
+  color: darkred !important;
+}
+
+.flexItem {
+  display: flex;
+  align-items: center;
+}
+
+.subHeader {
+  font-weight: bold;
+  width: 50%;
 }
 
 .dropUpButton {
@@ -39,80 +68,33 @@
   border-radius: 0 0 5px 5px;
 }
 
-.growAnimation {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-
-.exportButton {
-  width: fit-content !important;
-  position: fixed !important;
-  right: 55px !important;
-  bottom: 50px !important;
-}
-
-.exportButton:hover {
-  background: darkred !important;
-}
-
-.exportButton:hover .exportSpan {
-  display: block !important;
-}
-
-.exportSpan {
-  margin-left: 4px;
-  display: none !important;
-}
-
-@media only screen and (max-width: 1400px) {
+/* @media only screen and (max-width: 1400px) {
   .contentSection {
     width: 800px;
   }
-}
-
+} */
 @media only screen and (max-width: 1336px) {
   .contentSection {
-    width: 750px;
+    width: 80%;
+    margin: 10%;
   }
 }
 
 @media only screen and (max-width: 1270px) {
-  .searchBox {
-    width: 100%;
-    margin: 0;
-  }
-
-  .filterSection {
-    width: 28%;
-    display: none;
-  }
-
   .contentSection {
-    width: 100%;
-    position: relative;
+    width: 90%;
+    margin: 5%;
   }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 768px) {
   .home {
-    margin: 50px 1%;
-  }
-  .searchBox {
-    width: 100%;
-  }
-
-  .line {
-    display: none;
-  }
-
-  .filterSection {
-    width: 28%;
-    display: none;
+    margin: 100px 0;
   }
 
   .contentSection {
-    margin-top: 70px;
+    margin-top: 70px 0 !important;
+    padding: 10px;
     width: 100%;
     position: relative;
   }
@@ -121,8 +103,17 @@
     text-align: center;
   }
 
-  .exportButton {
-    right: 25px !important;
-    bottom: 20px !important;
+  .flexItem {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    margin: 20px 0;
+  }
+
+  .subHeader {
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
   }
 }

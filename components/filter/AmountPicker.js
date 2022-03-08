@@ -109,6 +109,8 @@ function AmountPicker(props) {
     setValue(newValue)
     setMin(newValue[0])
     setMax(newValue[1])
+    setMaxError("")
+    setMinError("")
   }
 
   const handleMinInputChange = (event) => {
@@ -136,6 +138,7 @@ function AmountPicker(props) {
       setMinError(<Box className={styles.error}>Should be a number!</Box>)
     } else {
       setMinError("")
+      setMaxError("")
       setMin(event.target.value)
       setValue((prev) => [intNum, prev[1]])
     }
@@ -164,6 +167,7 @@ function AmountPicker(props) {
       )
     } else {
       setMaxError("")
+      setMinError("")
       setMax(event.target.value)
       setValue((prev) => [prev[0], intNum])
     }

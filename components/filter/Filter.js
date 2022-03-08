@@ -5,6 +5,7 @@ import PickDate from "./PickDate"
 import AmountPicker from "./AmountPicker"
 
 import styles from "../../styles/components/Filter.module.css"
+import Link from "next/link"
 
 const buttonBox = { my: 2, fontSize: "inherit", display: "flex" }
 const centerItem = { display: "flex", justifyContent: "center" }
@@ -14,6 +15,7 @@ function Filter(props) {
   const [newDateRange, setDateRange] = useState(props.filterDateRange)
   const [newDate, setDate] = useState(props.filterDate)
   const [viewPeriod, setViewPeriod] = React.useState(true)
+  const [reset, setReset] = React.useState(false)
 
   useEffect(() => {
     setNewAmount(props.filterAmount)
@@ -37,6 +39,13 @@ function Filter(props) {
     setViewPeriod(prd)
   }
 
+  // const resetFilters = () => {
+  // setNewAmount([0, 100000000])
+  // setDateRange(["2018-01-01T00:00:00.000Z", new Date().toISOString()])
+  // setDate("NONE")
+  // setReset(true)
+  // }
+
   const applyFilters = () => {
     props.onFilterAmountRange(newAmount)
     props.onFilterDateRange(newDateRange)
@@ -59,8 +68,16 @@ function Filter(props) {
         onPickAmount={amountChangeHandler}
       />
       <Box sx={{ ...buttonBox, ...centerItem }}>
-        <Button className="button1">Reset</Button>
-
+        <Link href={"/"}>
+          <a>
+            <Button
+              onClick={() => window.location.reload(false)}
+              className="button1"
+            >
+              Reset
+            </Button>
+          </a>
+        </Link>
         <Button className="button2" onClick={applyFilters}>
           Apply
         </Button>

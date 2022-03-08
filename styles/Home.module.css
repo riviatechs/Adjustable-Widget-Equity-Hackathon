@@ -24,7 +24,9 @@
 }
 
 .searchBox {
-  width: 100%;
+  width: 500px !important;
+  display: flex !important;
+  align-items: center !important;
 }
 
 .dropUpButton {
@@ -83,16 +85,6 @@
   }
 }
 
-/* @media only screen and (max-width: 1336px) {
-  .contentSection {
-    width: 60%;
-  }
-
-  .mobileFilterButton {
-    display: none !important;
-  }
-} */
-
 @media only screen and (max-width: 1270px) {
   .searchBox {
     width: 100%;
@@ -118,13 +110,13 @@
     bottom: 80px !important;
   }
 
-  .mobileFilterButton {
+  /* .mobileFilterButton {
     display: flex !important;
     right: 15px !important;
     bottom: 15px !important;
     width: fit-content !important;
     position: fixed !important;
-  }
+  } */
 }
 
 @media only screen and (max-width: 600px) {

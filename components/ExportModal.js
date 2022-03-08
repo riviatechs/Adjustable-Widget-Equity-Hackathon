@@ -124,6 +124,7 @@ function ExportModal(props) {
   const [transactionType, setTransactionType] = React.useState(props.tt)
   const [dateRange, setDateRange] = React.useState(props.dateRange)
   const [date, setDate] = React.useState(props.date)
+  const [errorValue, setErrorValue] = React.useState(null)
 
   React.useEffect(() => {
     setAmount(props.amountToFilter)
@@ -136,7 +137,7 @@ function ExportModal(props) {
     setDownloadData(data)
   }, [data])
 
-  console.log(amountRange, transactionType, dateRange, date)
+  // console.log(amountRange, transactionType, dateRange, date)
 
   if (error) console.log(error)
 
@@ -150,84 +151,95 @@ function ExportModal(props) {
 
   const onSubmitHandler = (e) => {
     e.preventDefault()
-    const sends = [...new Set(newFields)]
 
-    console.log(sends, newTypes)
-
-    const fieldsToSend = sends.map((field) => {
-      let fd = ""
-      if (field === "Date") {
-        fd = "date"
-      }
-      if (field === "Amount") {
-        fd = "amount"
-      }
-      if (field === "Debit/Credit") {
-        fd = "tt"
-      }
-      if (field === "Account Number") {
-        fd = "accountNumber"
-      }
-      if (field === "Name") {
-        fd = "accountName"
-      }
-      if (field === "Description") {
-        fd = "narrative"
-      }
-      return { [fd]: "Available" }
-    })
-
-    let obj = {}
-
-    fieldsToSend.forEach((element) => {
-      Object.assign(obj, element)
-    })
-
-    if (transactionType === "ALL") {
-      sendData({
-        variables: {
-          input: {
-            fields: obj,
-            downLoadType: newTypes,
-            filters: {
-              amountRange: {
-                lower: amountRange[0].toString(),
-                upper: amountRange[1].toString(),
-              },
-              period: {
-                start: dateRange[0],
-                end: dateRange[1],
-              },
-            },
-          },
-        },
-      })
+    if (newFields.length === 0 || newTypes.length === 0) {
+      setErrorValue(
+        <Box sx={{ color: "darkred", my: 2, textAlign: "center" }}>
+          Error!! Fill all fields!
+        </Box>
+      )
     } else {
-      sendData({
-        variables: {
-          input: {
-            fields: obj,
-            downLoadType: newTypes,
-            filters: {
-              amountRange: {
-                lower: amountRange[0].toString(),
-                upper: amountRange[1].toString(),
+      const sends = [...new Set(newFields)]
+
+      console.log(sends, newTypes)
+
+      const fieldsToSend = sends.map((field) => {
+        let fd = ""
+        if (field === "Date") {
+          fd = "date"
+        }
+        if (field === "Amount") {
+          fd = "amount"
+        }
+        if (field === "Debit/Credit") {
+          fd = "tt"
+        }
+        if (field === "Account Number") {
+          fd = "accountNumber"
+        }
+        if (field === "Name") {
+          fd = "accountName"
+        }
+        if (field === "Description") {
+          fd = "narrative"
+        }
+        return { [fd]: "Available" }
+      })
+
+      let obj = {}
+
+      fieldsToSend.forEach((element) => {
+        Object.assign(obj, element)
+      })
+
+      if (transactionType === "ALL") {
+        sendData({
+          variables: {
+            input: {
+              fields: obj,
+              downLoadType: newTypes,
+              filters: {
+                amountRange: {
+                  lower: amountRange[0].toString(),
+                  upper: amountRange[1].toString(),
+                },
+                period: {
+                  start: dateRange[0],
+                  end: dateRange[1],
+                },
               },
-              period: {
-                start: dateRange[0],
-                end: dateRange[1],
-              },
-              tt: transactionType,
             },
           },
-        },
-      })
-    }
+        })
+      } else {
+        sendData({
+          variables: {
+            input: {
+              fields: obj,
+              downLoadType: newTypes,
+              filters: {
+                amountRange: {
+                  lower: amountRange[0].toString(),
+                  upper: amountRange[1].toString(),
+                },
+                period: {
+                  start: dateRange[0],
+                  end: dateRange[1],
+                },
+                tt: transactionType,
+              },
+            },
+          },
+        })
+      }
 
-    if (newTypes === "csv") {
-      setLoadCSVDownload(true)
-    } else if (newTypes === "pdf") {
-      setLoadPDFDownload(true)
+      if (newTypes === "csv") {
+        setLoadCSVDownload(true)
+      } else if (newTypes === "pdf") {
+        setLoadPDFDownload(true)
+      }
+
+      setErrorValue(null)
     }
   }
 
@@ -373,6 +385,8 @@ function ExportModal(props) {
                       )}
                     />
                   </div>
+
+                  {errorValue}
 
                   <div className={styles.button}>
                     <Button type="submit" className="button1 export">
