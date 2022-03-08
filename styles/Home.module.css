@@ -75,23 +75,23 @@
 
 @media only screen and (max-width: 1400px) {
   .contentSection {
+    width: 61%;
+  }
+
+  .mobileFilterButton {
+    display: none !important;
+  }
+}
+
+/* @media only screen and (max-width: 1336px) {
+  .contentSection {
     width: 60%;
   }
 
   .mobileFilterButton {
     display: none !important;
   }
-}
-
-@media only screen and (max-width: 1336px) {
-  .contentSection {
-    width: 55%;
-  }
-
-  .mobileFilterButton {
-    display: none !important;
-  }
-}
+} */
 
 @media only screen and (max-width: 1270px) {
   .searchBox {
@@ -107,6 +107,19 @@
   .contentSection {
     width: 100%;
     position: relative;
+  }
+
+  .exportButton {
+    right: 15px !important;
+    bottom: 80px !important;
+  }
+
+  .mobileFilterButton {
+    display: flex !important;
+    right: 15px !important;
+    bottom: 15px !important;
+    width: fit-content !important;
+    position: fixed !important;
   }
 }
 
@@ -151,7 +164,7 @@
   .mobileFilterButton {
     display: flex !important;
     right: 15px !important;
-    bottom: 20px !important;
+    bottom: 15px !important;
     width: fit-content !important;
     position: fixed !important;
   }
@@ -159,16 +172,4 @@
   .exportButton:hover .exportSpan {
     display: none !important;
   }
-
-  /* .mobileFilterButton {
-    display: block;
-    right: 25px !important;
-    bottom: 50px !important;
-    width: fit-content !important;
-    position: fixed !important;
-  }
-
-  .mobileFilterSpan {
-    display: block;
-  } */
 }

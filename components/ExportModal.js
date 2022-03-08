@@ -9,10 +9,6 @@ import ModalUnstyled from "@mui/base/ModalUnstyled"
 import Divider from "@mui/material/Divider"
 import { Document, Page, pdfjs } from "react-pdf"
 
-import SelectUnstyled, { selectUnstyledClasses } from "@mui/base/SelectUnstyled"
-import OptionUnstyled, { optionUnstyledClasses } from "@mui/base/OptionUnstyled"
-import PopperUnstyled from "@mui/base/PopperUnstyled"
-
 import { useLazyQuery } from "@apollo/client"
 import { Button } from "@mui/material"
 
@@ -95,7 +91,6 @@ function downloadLink(name, uri) {
       a.download = `${name}`
       a.click()
     })
-    //window.location.href = response.url;
   })
 }
 
@@ -104,6 +99,7 @@ function ExportModal(props) {
     "Date",
     "Name",
     "Account Number",
+    "Debit/Credit",
     "Amount",
     "Description",
   ]
@@ -113,29 +109,29 @@ function ExportModal(props) {
   const [fields, setFields] = React.useState([])
   const [type, setType] = React.useState(null)
   const [downloadUsed, setDownload] = React.useState(false)
-  const [loadDowload, setLoadDowload] = React.useState(false)
+  const [loadDownload, setLoadDownload] = React.useState(false)
   const [links, setLinks] = React.useState("")
+  const [downloadPDFURL, setDownloadPDFURL] = React.useState("")
 
   const [sendData, { loading, error, data }] = useLazyQuery(FILTER_EXPORT_QUERY)
 
   React.useEffect(() => {
     const timer = setTimeout(() => {
-      console.log("This will run after 1 second!", data, "and", type)
       if (typeof data !== "undefined" && downloadUsed && type === "csv") {
-        console.log("Inner running!!")
-        downloadLink(`bank_statements.${type}`, data.download)
-        setLoadDowload(false)
+        downloadLink("bank_statements.csv", data.download)
+        setLoadDownload(false)
       }
 
       if (type === "pdf" && typeof data !== "undefined" && downloadUsed) {
         setLinks(data.download)
-        setLoadDowload(false)
+        downloadLink("bank_statements.pdf", downloadPDFURL)
+        setLoadDownload(false)
       }
     }, 2000)
     return () => clearTimeout(timer)
-  }, [data, type, downloadUsed, loadDowload])
+  }, [data, type, downloadUsed, loadDownload, downloadPDFURL])
 
-  if (error) return `Error! ${error}`
+  if (error) console.log(error)
 
   const onSelectFieldsHandler = (e) => {
     if (e.target.textContent !== "") {
@@ -158,6 +154,9 @@ function ExportModal(props) {
       }
       if (field === "Amount") {
         fd = "amount"
+      }
+      if (field === "Debit/Credit") {
+        fd = "tt"
       }
       if (field === "Account Number") {
         fd = "accountNumber"
@@ -186,11 +185,9 @@ function ExportModal(props) {
       },
     })
 
-    if (type === "csv" || type === "txt") {
-      setLoadDowload(true)
+    if (type === "csv") {
+      setLoadDownload(true)
       setDownload(true)
-
-      console.log(" csv only!!")
     } else if (type === "pdf") {
       pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 
@@ -222,13 +219,13 @@ function ExportModal(props) {
         const newBlob = new Blob([blob], { type: "application/pdf" })
         const newFileURL = URL.createObjectURL(newBlob)
 
-        downloadLink("bank_statements.pdf", newFileURL)
+        setDownloadPDFURL(newFileURL)
       }
 
       handleSubmit()
 
       setDownload(true)
-      setLoadDowload(true)
+      setLoadDownload(true)
     }
   }
 
@@ -325,7 +322,7 @@ function ExportModal(props) {
                   <Button type="submit" className="button1">
                     Export
                   </Button>
-                  {loading || loadDowload ? <p>Exporting...</p> : ""}
+                  {loading || loadDownload ? <span>Exporting...</span> : ""}
                 </form>
               </div>
             </div>
