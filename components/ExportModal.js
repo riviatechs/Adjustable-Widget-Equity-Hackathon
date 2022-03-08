@@ -21,6 +21,8 @@ import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank"
 import CheckBoxIcon from "@mui/icons-material/CheckBox"
 import { FILTER_EXPORT_QUERY } from "../queries/FILTER_EXPORT_QUERY"
 
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
+
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />
 const checkedIcon = <CheckBoxIcon sx={{ color: "#a42d2d" }} fontSize="small" />
 
@@ -83,22 +85,63 @@ const MyTextField = styled(TextField)({
 })
 
 async function downloadLink(name, uri) {
-  // await fetch(uri).then((response) => {
-  //   response.blob().then((blob) => {
-  //     let url = window.URL.createObjectURL(blob)
-  //     let a = document.createElement("a")
-  //     a.href = url
-  //     a.download = `${name}`
-  //     a.click()
-  //   })
-  // })
-
   const resp = await fetch(uri)
   const blob = await resp.blob()
   let url = window.URL.createObjectURL(blob)
+  console.log(url)
   let a = document.createElement("a")
   a.href = url
   a.download = `${name}`
+  a.click()
+
+  // return a
+}
+
+async function handleSubmit(docID) {
+  const resp = await fetch("api/doc/", {
+    method: "GET",
+  })
+
+  console.log(docID)
+
+  // console.log(docID)
+
+  const file = await resp.json()
+
+  const bearer = file.access_token
+  const clientID = file.client_id
+
+  const pollURL = `https://cpf-ue1.adobe.io/ops/id/${docID}`
+  const authorization = `Bearer ${bearer}`
+
+  let status
+  let resp2
+  while (status !== 200) {
+    resp2 = await fetch(pollURL, {
+      method: "GET",
+      headers: {
+        "x-api-key": clientID,
+        Authorization: authorization,
+      },
+    })
+
+    status = resp2.status
+  }
+
+  const blob = await resp2.blob()
+
+  console.log("BLOB 1")
+  console.log(blob)
+
+  const newBlob = new Blob([blob], { type: "application/pdf" })
+  const newFileURL = URL.createObjectURL(newBlob)
+
+  console.log("newBlob")
+  console.log(newBlob)
+
+  let a = document.createElement("a")
+  a.href = newFileURL
+  a.download = "statements.pdf"
   a.click()
 }
 
@@ -123,17 +166,20 @@ function ExportModal(props) {
   const [CSVDownload, setCSVDownload] = React.useState(false)
 
   const [loadPDFDownload, setLoadPDFDownload] = React.useState(false)
-  const [links, setLinks] = React.useState("")
-  const [downloadPDFURL, setDownloadPDFURL] = React.useState("")
+  const [links, setLinks] = React.useState(null)
+
+  const [downloadPDFURL, setDownloadPDFURL] = React.useState(null)
 
   const [sendData, { loading, error, data }] = useLazyQuery(FILTER_EXPORT_QUERY)
 
-  const [downloadData, setDownloadData] = React.useState(data)
+  const [downloadData, setDownloadData] = React.useState(null)
 
   React.useEffect(() => {
     setDownloadData(data)
-    console.log("Refreshed!!")
-  }, [data, loadCSVDownload])
+  }, [data])
+
+  // React.useEffect(() => {
+  // }, [downloadData?.download])
 
   if (error) console.log(error)
 
@@ -188,58 +234,31 @@ function ExportModal(props) {
       variables: {
         input: {
           fields: obj,
-          downLoadType: types[0],
+          downLoadType: newTypes,
         },
       },
     })
 
     if (newTypes === "csv") {
       setLoadCSVDownload(true)
+    } else if (newTypes === "pdf") {
+      // handleSubmit()
+      setLoadPDFDownload(true)
     }
-    // else if (newTypes === "pdf") {
-    //   pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
-
-    //   async function handleSubmit() {
-    //     const resp = await fetch("/api/doc/", {
-    //       method: "GET",
-    //     })
-
-    //     const file = await resp.json()
-    //     const bearer = file.access_token
-    //     const clientID = file.client_id
-
-    //     const id = data?.download
-    //     const pollURL = `https://cpf-ue1.adobe.io/ops/id/${id}`
-    //     const authorization = `Bearer ${bearer}`
-
-    //     const resp2 = await fetch(pollURL, {
-    //       method: "GET",
-    //       headers: {
-    //         "x-api-key": clientID,
-    //         Authorization: authorization,
-    //       },
-    //     })
-
-    //     const blob = await resp2.blob()
-
-    //     const newBlob = new Blob([blob], { type: "application/pdf" })
-    //     const newFileURL = URL.createObjectURL(newBlob)
-
-    //     setDownloadPDFURL(newFileURL)
-
-    //     setLoadPDFDownload(true)
-    //     if (typeof data !== "undefined") {
-    //       console.log("Failed to load data try again!")
-    //     }
-    //   }
-
-    //   handleSubmit()
-    // }
   }
 
-  const resetDownload = async () => {
+  const resetCSVDownload = async () => {
     setLoadCSVDownload(false)
     await downloadLink("bank_statements.csv", downloadData?.download)
+    setDownloadData(null)
+  }
+
+  const resetPDFDownload = async () => {
+    setLoadPDFDownload(false)
+    console.log(downloadData?.download)
+
+    await handleSubmit(downloadData?.download)
+
     setDownloadData(null)
   }
 
@@ -311,7 +330,6 @@ function ExportModal(props) {
                       options={types}
                       getOptionLabel={(option) => option}
                       onChange={onSelectTypesHandler}
-                      // value={newTypes}
                       renderOption={(props, option, { selected }) => (
                         <li {...props}>
                           <Checkbox
@@ -340,8 +358,15 @@ function ExportModal(props) {
                   {loading ? (
                     <span>Exporting...</span>
                   ) : (
-                    downloadData?.download && loadCSVDownload && resetDownload()
+                    downloadData?.download &&
+                    loadCSVDownload &&
+                    resetCSVDownload()
                   )}
+
+                  {downloadData?.download &&
+                    loadPDFDownload &&
+                    resetPDFDownload() &&
+                    !loading}
                 </form>
               </div>
             </div>

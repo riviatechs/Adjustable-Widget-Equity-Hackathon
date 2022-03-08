@@ -22,6 +22,7 @@ async function GetExchangeToken() {
   const clientID = process.env.ADOBE_CLIENT_ID
   const clientSecret = process.env.ADOBE_CLIENT_SECRET
   const jwtToken = GetJWT()
+  console.log(jwtToken)
 
   console.log("jwtToken")
   console.log(jwtToken)
