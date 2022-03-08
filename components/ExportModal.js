@@ -128,46 +128,12 @@ function ExportModal(props) {
 
   const [sendData, { loading, error, data }] = useLazyQuery(FILTER_EXPORT_QUERY)
 
-  // if (loading) {
-  //   return <p>loading!!</p>
-  // }
-
   const [downloadData, setDownloadData] = React.useState(data)
 
   React.useEffect(() => {
     setDownloadData(data)
     console.log("Refreshed!!")
-  }, [data])
-
-  // React.useEffect(() => {
-  //   setDownloadData(data)
-  //   if (typeof downloadData !== "undefined" && loadCSVDownload) {
-  //     setTimeout(() => {
-  //       console.log("CSV Download accessed!", downloadData.download)
-  //       downloadLink("bank_statements.csv", downloadData.download)
-  //       setLoadCSVDownload(false)
-  //       // setDownloadData("")
-  //     }, 3000)
-  //   }
-
-  // return () => {
-
-  // }
-  // }, [downloadData, data, loadCSVDownload])
-
-  // React.useEffect(() => {
-  //   if (typeof data !== "undefined" && downloadPDFURL) {
-  //     setTimeout(() => {
-  //       console.log("PDF Download accessed!", data.download)
-  //       setLinks(data.download)
-  //       downloadLink("bank_statements.pdf", downloadPDFURL)
-  //     }, 3000)
-  //   }
-
-  //   return () => {
-  //     setLoadPDFDownload(false)
-  //   }
-  // }, [data, downloadPDFURL])
+  }, [data, loadCSVDownload])
 
   if (error) console.log(error)
 
@@ -229,54 +195,46 @@ function ExportModal(props) {
 
     if (newTypes === "csv") {
       setLoadCSVDownload(true)
-      if (typeof downloadData === "undefined") {
-        console.log("Failed to load data try again!")
-      }
-    } else if (newTypes === "pdf") {
-      pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
-
-      async function handleSubmit() {
-        const resp = await fetch("/api/doc/", {
-          method: "GET",
-        })
-
-        const file = await resp.json()
-        const bearer = file.access_token
-        const clientID = file.client_id
-
-        const id = data?.download
-        const pollURL = `https://cpf-ue1.adobe.io/ops/id/${id}`
-        const authorization = `Bearer ${bearer}`
-
-        const resp2 = await fetch(pollURL, {
-          method: "GET",
-          headers: {
-            "x-api-key": clientID,
-            Authorization: authorization,
-          },
-        })
-
-        const blob = await resp2.blob()
-
-        const newBlob = new Blob([blob], { type: "application/pdf" })
-        const newFileURL = URL.createObjectURL(newBlob)
-
-        setDownloadPDFURL(newFileURL)
-
-        setLoadPDFDownload(true)
-        if (typeof data !== "undefined") {
-          console.log("Failed to load data try again!")
-        }
-      }
-
-      handleSubmit()
-
-      // setDownload(true)
-      // setLoadDownload(true)
     }
+    // else if (newTypes === "pdf") {
+    //   pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 
-    // setNewFields([])
-    // setNewTypes("")
+    //   async function handleSubmit() {
+    //     const resp = await fetch("/api/doc/", {
+    //       method: "GET",
+    //     })
+
+    //     const file = await resp.json()
+    //     const bearer = file.access_token
+    //     const clientID = file.client_id
+
+    //     const id = data?.download
+    //     const pollURL = `https://cpf-ue1.adobe.io/ops/id/${id}`
+    //     const authorization = `Bearer ${bearer}`
+
+    //     const resp2 = await fetch(pollURL, {
+    //       method: "GET",
+    //       headers: {
+    //         "x-api-key": clientID,
+    //         Authorization: authorization,
+    //       },
+    //     })
+
+    //     const blob = await resp2.blob()
+
+    //     const newBlob = new Blob([blob], { type: "application/pdf" })
+    //     const newFileURL = URL.createObjectURL(newBlob)
+
+    //     setDownloadPDFURL(newFileURL)
+
+    //     setLoadPDFDownload(true)
+    //     if (typeof data !== "undefined") {
+    //       console.log("Failed to load data try again!")
+    //     }
+    //   }
+
+    //   handleSubmit()
+    // }
   }
 
   const resetDownload = async () => {
