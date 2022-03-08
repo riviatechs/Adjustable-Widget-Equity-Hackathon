@@ -82,16 +82,24 @@ const MyTextField = styled(TextField)({
   },
 })
 
-function downloadLink(name, uri) {
-  fetch(uri).then((response) => {
-    response.blob().then((blob) => {
-      let url = window.URL.createObjectURL(blob)
-      let a = document.createElement("a")
-      a.href = url
-      a.download = `${name}`
-      a.click()
-    })
-  })
+async function downloadLink(name, uri) {
+  // await fetch(uri).then((response) => {
+  //   response.blob().then((blob) => {
+  //     let url = window.URL.createObjectURL(blob)
+  //     let a = document.createElement("a")
+  //     a.href = url
+  //     a.download = `${name}`
+  //     a.click()
+  //   })
+  // })
+
+  const resp = await fetch(uri)
+  const blob = await resp.blob()
+  let url = window.URL.createObjectURL(blob)
+  let a = document.createElement("a")
+  a.href = url
+  a.download = `${name}`
+  a.click()
 }
 
 function ExportModal(props) {
@@ -106,46 +114,76 @@ function ExportModal(props) {
 
   const exportOptions = ["csv", "pdf"]
 
-  const [fields, setFields] = React.useState([])
-  const [type, setType] = React.useState(null)
-  const [downloadUsed, setDownload] = React.useState(false)
-  const [loadDownload, setLoadDownload] = React.useState(false)
+  const [fields, setFields] = React.useState(fieldOptions)
+  const [newFields, setNewFields] = React.useState([])
+  const [types, setTypes] = React.useState(exportOptions)
+  const [newTypes, setNewTypes] = React.useState([])
+
+  const [loadCSVDownload, setLoadCSVDownload] = React.useState(false)
+  const [CSVDownload, setCSVDownload] = React.useState(false)
+
+  const [loadPDFDownload, setLoadPDFDownload] = React.useState(false)
   const [links, setLinks] = React.useState("")
   const [downloadPDFURL, setDownloadPDFURL] = React.useState("")
 
   const [sendData, { loading, error, data }] = useLazyQuery(FILTER_EXPORT_QUERY)
 
-  React.useEffect(() => {
-    const timer = setTimeout(() => {
-      if (typeof data !== "undefined" && downloadUsed && type === "csv") {
-        downloadLink("bank_statements.csv", data.download)
-        setLoadDownload(false)
-      }
+  // if (loading) {
+  //   return <p>loading!!</p>
+  // }
 
-      if (type === "pdf" && typeof data !== "undefined" && downloadUsed) {
-        setLinks(data.download)
-        downloadLink("bank_statements.pdf", downloadPDFURL)
-        setLoadDownload(false)
-      }
-    }, 2000)
-    return () => clearTimeout(timer)
-  }, [data, type, downloadUsed, loadDownload, downloadPDFURL])
+  const [downloadData, setDownloadData] = React.useState(data)
+
+  React.useEffect(() => {
+    setDownloadData(data)
+    console.log("Refreshed!!")
+  }, [data])
+
+  // React.useEffect(() => {
+  //   setDownloadData(data)
+  //   if (typeof downloadData !== "undefined" && loadCSVDownload) {
+  //     setTimeout(() => {
+  //       console.log("CSV Download accessed!", downloadData.download)
+  //       downloadLink("bank_statements.csv", downloadData.download)
+  //       setLoadCSVDownload(false)
+  //       // setDownloadData("")
+  //     }, 3000)
+  //   }
+
+  // return () => {
+
+  // }
+  // }, [downloadData, data, loadCSVDownload])
+
+  // React.useEffect(() => {
+  //   if (typeof data !== "undefined" && downloadPDFURL) {
+  //     setTimeout(() => {
+  //       console.log("PDF Download accessed!", data.download)
+  //       setLinks(data.download)
+  //       downloadLink("bank_statements.pdf", downloadPDFURL)
+  //     }, 3000)
+  //   }
+
+  //   return () => {
+  //     setLoadPDFDownload(false)
+  //   }
+  // }, [data, downloadPDFURL])
 
   if (error) console.log(error)
 
-  const onSelectFieldsHandler = (e) => {
-    if (e.target.textContent !== "") {
-      setFields((prev) => [...prev, e.target.textContent])
-    }
+  const onSelectFieldsHandler = (event, value, reason) => {
+    setNewFields(value)
   }
 
-  const onSelectTypesHandler = (e) => {
-    if (e.target.textContent !== "") setType(e.target.textContent)
+  const onSelectTypesHandler = (event, value, reason) => {
+    setNewTypes(value)
   }
 
   const onSubmitHandler = (e) => {
     e.preventDefault()
-    const sends = [...new Set(fields)]
+    const sends = [...new Set(newFields)]
+
+    console.log(sends, newTypes)
 
     const fieldsToSend = sends.map((field) => {
       let fd = ""
@@ -172,23 +210,29 @@ function ExportModal(props) {
 
     let obj = {}
 
+    console.log(fieldsToSend, newTypes)
+
     fieldsToSend.forEach((element) => {
       Object.assign(obj, element)
     })
+
+    console.log(obj)
 
     sendData({
       variables: {
         input: {
           fields: obj,
-          downLoadType: type,
+          downLoadType: types[0],
         },
       },
     })
 
-    if (type === "csv") {
-      setLoadDownload(true)
-      setDownload(true)
-    } else if (type === "pdf") {
+    if (newTypes === "csv") {
+      setLoadCSVDownload(true)
+      if (typeof downloadData === "undefined") {
+        console.log("Failed to load data try again!")
+      }
+    } else if (newTypes === "pdf") {
       pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 
       async function handleSubmit() {
@@ -197,12 +241,10 @@ function ExportModal(props) {
         })
 
         const file = await resp.json()
-        console.log(file)
-
         const bearer = file.access_token
         const clientID = file.client_id
 
-        const id = links
+        const id = data?.download
         const pollURL = `https://cpf-ue1.adobe.io/ops/id/${id}`
         const authorization = `Bearer ${bearer}`
 
@@ -220,13 +262,27 @@ function ExportModal(props) {
         const newFileURL = URL.createObjectURL(newBlob)
 
         setDownloadPDFURL(newFileURL)
+
+        setLoadPDFDownload(true)
+        if (typeof data !== "undefined") {
+          console.log("Failed to load data try again!")
+        }
       }
 
       handleSubmit()
 
-      setDownload(true)
-      setLoadDownload(true)
+      // setDownload(true)
+      // setLoadDownload(true)
     }
+
+    // setNewFields([])
+    // setNewTypes("")
+  }
+
+  const resetDownload = async () => {
+    setLoadCSVDownload(false)
+    await downloadLink("bank_statements.csv", downloadData?.download)
+    setDownloadData(null)
   }
 
   return (
@@ -266,7 +322,7 @@ function ExportModal(props) {
                     <label className={styles.label}>Choose Fields</label>
                     <Autocomplete
                       multiple
-                      options={fieldOptions}
+                      options={fields}
                       disableCloseOnSelect
                       onChange={onSelectFieldsHandler}
                       getOptionLabel={(option) => option}
@@ -294,9 +350,10 @@ function ExportModal(props) {
                   <div className={styles.inputSelect}>
                     <label className={styles.label}>Export Format</label>
                     <Autocomplete
-                      options={exportOptions}
+                      options={types}
                       getOptionLabel={(option) => option}
                       onChange={onSelectTypesHandler}
+                      // value={newTypes}
                       renderOption={(props, option, { selected }) => (
                         <li {...props}>
                           <Checkbox
@@ -322,7 +379,11 @@ function ExportModal(props) {
                   <Button type="submit" className="button1">
                     Export
                   </Button>
-                  {loading || loadDownload ? <span>Exporting...</span> : ""}
+                  {loading ? (
+                    <span>Exporting...</span>
+                  ) : (
+                    downloadData?.download && loadCSVDownload && resetDownload()
+                  )}
                 </form>
               </div>
             </div>
