@@ -41,16 +41,6 @@ function Filter(props) {
     props.onFilterAmountRange(newAmount)
     props.onFilterDateRange(newDateRange)
     props.onFilterDate(newDate)
-
-    console.log(viewPeriod)
-
-    // if (viewPeriod) {
-    //   props.onFilterDateRange(newDateRange)
-    //   props.onFilterDate(newDateRange)
-    // } else if (!viewPeriod) {
-    //   props.onFilterDate(newDate)
-    //   props.onFilterDateRange(newDateRange)
-    // }
   }
 
   return (

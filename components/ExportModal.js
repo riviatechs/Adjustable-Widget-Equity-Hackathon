@@ -1,13 +1,13 @@
 import * as React from "react"
 
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded"
-import EventAvailableTwoToneIcon from "@mui/icons-material/EventAvailableTwoTone"
 import FileDownloadTwoToneIcon from "@mui/icons-material/FileDownloadTwoTone"
 import { styled, Box } from "@mui/system"
 import Fade from "@mui/material/Fade"
 import ModalUnstyled from "@mui/base/ModalUnstyled"
 import Divider from "@mui/material/Divider"
-import { Document, Page, pdfjs } from "react-pdf"
+import { pdfjs } from "react-pdf"
+import ClipLoader from "react-spinners/ClipLoader"
 
 import { useLazyQuery } from "@apollo/client"
 import { Button } from "@mui/material"
@@ -93,56 +93,6 @@ async function downloadLink(name, uri) {
   a.href = url
   a.download = `${name}`
   a.click()
-
-  // return a
-}
-
-async function handleSubmit(docID) {
-  const resp = await fetch("api/doc/", {
-    method: "GET",
-  })
-
-  console.log(docID)
-
-  // console.log(docID)
-
-  const file = await resp.json()
-
-  const bearer = file.access_token
-  const clientID = file.client_id
-
-  const pollURL = `https://cpf-ue1.adobe.io/ops/id/${docID}`
-  const authorization = `Bearer ${bearer}`
-
-  let status
-  let resp2
-  while (status !== 200) {
-    resp2 = await fetch(pollURL, {
-      method: "GET",
-      headers: {
-        "x-api-key": clientID,
-        Authorization: authorization,
-      },
-    })
-
-    status = resp2.status
-  }
-
-  const blob = await resp2.blob()
-
-  console.log("BLOB 1")
-  console.log(blob)
-
-  const newBlob = new Blob([blob], { type: "application/pdf" })
-  const newFileURL = URL.createObjectURL(newBlob)
-
-  console.log("newBlob")
-  console.log(newBlob)
-
-  let a = document.createElement("a")
-  a.href = newFileURL
-  a.download = "statements.pdf"
-  a.click()
 }
 
 function ExportModal(props) {
@@ -163,23 +113,16 @@ function ExportModal(props) {
   const [newTypes, setNewTypes] = React.useState([])
 
   const [loadCSVDownload, setLoadCSVDownload] = React.useState(false)
-  const [CSVDownload, setCSVDownload] = React.useState(false)
-
   const [loadPDFDownload, setLoadPDFDownload] = React.useState(false)
-  const [links, setLinks] = React.useState(null)
-
-  const [downloadPDFURL, setDownloadPDFURL] = React.useState(null)
 
   const [sendData, { loading, error, data }] = useLazyQuery(FILTER_EXPORT_QUERY)
+  const [loadingPDFFromServer, setLoadingPDFFromServer] = React.useState(false)
 
   const [downloadData, setDownloadData] = React.useState(null)
 
   React.useEffect(() => {
     setDownloadData(data)
   }, [data])
-
-  // React.useEffect(() => {
-  // }, [downloadData?.download])
 
   if (error) console.log(error)
 
@@ -222,13 +165,9 @@ function ExportModal(props) {
 
     let obj = {}
 
-    console.log(fieldsToSend, newTypes)
-
     fieldsToSend.forEach((element) => {
       Object.assign(obj, element)
     })
-
-    console.log(obj)
 
     sendData({
       variables: {
@@ -242,9 +181,49 @@ function ExportModal(props) {
     if (newTypes === "csv") {
       setLoadCSVDownload(true)
     } else if (newTypes === "pdf") {
-      // handleSubmit()
       setLoadPDFDownload(true)
     }
+  }
+
+  async function handleSubmit(docID) {
+    setLoadingPDFFromServer(true)
+    const resp = await fetch("api/doc/", {
+      method: "GET",
+    })
+
+    const file = await resp.json()
+
+    const bearer = file.access_token
+    const clientID = file.client_id
+
+    const pollURL = `https://cpf-ue1.adobe.io/ops/id/${docID}`
+    const authorization = `Bearer ${bearer}`
+
+    let status
+    let resp2
+    while (status !== 200) {
+      resp2 = await fetch(pollURL, {
+        method: "GET",
+        headers: {
+          "x-api-key": clientID,
+          Authorization: authorization,
+        },
+      })
+
+      status = resp2.status
+    }
+
+    const blob = await resp2.blob()
+
+    const newBlob = new Blob([blob], { type: "application/pdf" })
+    const newFileURL = URL.createObjectURL(newBlob)
+
+    let a = document.createElement("a")
+    a.href = newFileURL
+    a.download = "statements.pdf"
+    a.click()
+
+    setLoadingPDFFromServer(false)
   }
 
   const resetCSVDownload = async () => {
@@ -255,10 +234,7 @@ function ExportModal(props) {
 
   const resetPDFDownload = async () => {
     setLoadPDFDownload(false)
-    console.log(downloadData?.download)
-
     await handleSubmit(downloadData?.download)
-
     setDownloadData(null)
   }
 
@@ -352,21 +328,24 @@ function ExportModal(props) {
                     />
                   </div>
 
-                  <Button type="submit" className="button1">
-                    Export
-                  </Button>
-                  {loading ? (
-                    <span>Exporting...</span>
-                  ) : (
-                    downloadData?.download &&
-                    loadCSVDownload &&
-                    resetCSVDownload()
-                  )}
-
-                  {downloadData?.download &&
-                    loadPDFDownload &&
-                    resetPDFDownload() &&
-                    !loading}
+                  <div className={styles.button}>
+                    <Button type="submit" className="button1 export">
+                      Export
+                    </Button>
+                    {loading || loadingPDFFromServer ? (
+                      <span className="loader">
+                        <ClipLoader />
+                      </span>
+                    ) : (
+                      downloadData?.download &&
+                      loadCSVDownload &&
+                      resetCSVDownload()
+                    )}
+                    {downloadData?.download &&
+                      loadPDFDownload &&
+                      resetPDFDownload() &&
+                      !loading}
+                  </div>
                 </form>
               </div>
             </div>

@@ -13,11 +13,6 @@ function ChipsSection(props) {
     props.onClickFilters("active-1")
   }
 
-  const recentFilter = () => {
-    setNewActive("active-2")
-    props.onClickFilters("active-2")
-  }
-
   const moneyInFilter = () => {
     setNewActive("active-3")
     props.onClickFilters("active-3")
@@ -39,15 +34,6 @@ function ChipsSection(props) {
         label="All"
         onClick={allFilter}
       />
-      {/* <Chip
-        clickable
-        className={
-          styles.chip + " " + (newActive === "active-2" ? styles.active : " ")
-        }
-        variant="outlined"
-        onClick={recentFilter}
-        label="Recent"
-      /> */}
       <Chip
         clickable
         className={

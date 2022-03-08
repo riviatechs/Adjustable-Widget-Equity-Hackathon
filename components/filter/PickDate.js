@@ -156,7 +156,6 @@ function PickDate(props) {
   }, [props.filterDate, props.filterDateRange, props.isPeriod])
 
   const setViewPeriodHandler = (event) => {
-    // event === 0 ? setViewPeriod(false) : setViewPeriod(true)
     if (event === 0) {
       setViewPeriod(false)
     } else {
@@ -181,7 +180,7 @@ function PickDate(props) {
 
   return (
     <Box className={styles.pickDateContainer}>
-      <CustomSelect defaultValue={0} onChange={setViewPeriodHandler}>
+      <CustomSelect defaultValue={1} onChange={setViewPeriodHandler}>
         <StyledOption value={0}>By Date</StyledOption>
         <StyledOption value={1}>By Period</StyledOption>
       </CustomSelect>
