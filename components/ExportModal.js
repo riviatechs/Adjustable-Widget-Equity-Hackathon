@@ -88,7 +88,6 @@ async function downloadLink(name, uri) {
   const resp = await fetch(uri)
   const blob = await resp.blob()
   let url = window.URL.createObjectURL(blob)
-  console.log(url)
   let a = document.createElement("a")
   a.href = url
   a.download = `${name}`
@@ -160,8 +159,6 @@ function ExportModal(props) {
       )
     } else {
       const sends = [...new Set(newFields)]
-
-      console.log(sends, newTypes)
 
       const fieldsToSend = sends.map((field) => {
         let fd = ""

@@ -6,7 +6,7 @@ import ClipLoader from "react-spinners/ClipLoader"
 import { getDate } from "../../util/util"
 import { useQuery } from "@apollo/client"
 import { FILTER_QUERY } from "../../queries/TRANSACTION_BY_AMOUNT.JS"
-import { Skeleton } from "@mui/material"
+import { Alert, Skeleton, Snackbar } from "@mui/material"
 
 import styles from "../../styles/components/Transactions.module.css"
 import Link from "next/link"
@@ -20,12 +20,27 @@ export default function Transactions(props) {
   const [dateRange, setDateRange] = useState(props.dateRange)
   const [date, setDate] = useState(props.date)
 
+  const [open, setOpen] = React.useState(true)
+
+  const handleClick = () => {
+    setOpen(true)
+  }
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return
+    }
+
+    setOpen(false)
+  }
+
   useEffect(() => {
     setAmount(props.amountToFilter)
     setTransactionType(props.tt)
     setDateRange(props.dateRange)
     setDate(props.date)
-  }, [props.amountToFilter, props.tt, props.dateRange, props.date])
+    setOpen(open)
+  }, [props.amountToFilter, props.tt, props.dateRange, props.date, open])
 
   const {
     data: slsByAmountData,
@@ -97,6 +112,21 @@ export default function Transactions(props) {
 
   return (
     <Box className={styles.transactionsContainer}>
+      <Box class={styles.transactionNumber}>
+        {slsByAmountData.statementsFiltered.length !== 0 ? (
+          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+            <Alert
+              onClose={handleClose}
+              severity="success"
+              sx={{ width: "100%" }}
+            >
+              Total of {slsByAmountData.statementsFiltered.length} transactions
+            </Alert>
+          </Snackbar>
+        ) : (
+          ""
+        )}
+      </Box>
       {slsByAmountData.statementsFiltered.map((MT940) => {
         const transDate = getDate(MT940.DateTime)
         return (

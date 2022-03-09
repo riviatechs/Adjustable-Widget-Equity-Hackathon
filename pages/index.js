@@ -1,13 +1,14 @@
 import Header from "../components/Header"
 import styles from "../styles/Home.module.css"
 import Appbar from "../components/Appbar"
-import { Box, Button, styled, TextField } from "@mui/material"
+import { Box, Button, IconButton, styled, TextField } from "@mui/material"
 import FileDownloadIcon from "@mui/icons-material/FileDownload"
 import FilterAltIcon from "@mui/icons-material/FilterAlt"
 import Transactions from "../components/transactions/Transactions"
 import Filter from "../components/filter/Filter"
 import { useEffect, useRef, useState } from "react"
 import Link from "next/link"
+import SearchIcon from "@mui/icons-material/Search"
 import ChipsSection from "../components/filter/ChipsSection"
 import ExportModal from "../components/ExportModal"
 
@@ -28,6 +29,28 @@ const MyTextField = styled(TextField)({
     },
     "&.Mui-focused fieldset": {
       borderColor: "#a42d2d",
+    },
+  },
+})
+
+const MyTextFieldSearch = styled(TextField)({
+  "& label.Mui-focused": {
+    color: "#a42d2d",
+  },
+  "& .MuiInput-underline:after": {
+    borderBottomColor: "#a42d2d30",
+  },
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      borderColor: "#00000033",
+      borderRadius: "50px 0 0 50px",
+    },
+    "&:hover fieldset": {
+      borderColor: "#000000",
+    },
+    "&.Mui-focused fieldset": {
+      border: "1px solid #a42d2d",
+      borderRight: 0,
     },
   },
 })
@@ -147,12 +170,18 @@ export default function HomePage() {
         >
           <h1 className={styles.h1}>Transaction History</h1>
           <Box className={styles.searchBox}>
-            <MyTextField
-              size="small"
-              fullWidth
-              className={styles.search}
-              placeholder="Search by Name or Account No"
-            />
+            <Box className={styles.search}>
+              <MyTextFieldSearch
+                size="small"
+                fullWidth
+                placeholder="Search by Name or Account No"
+              />
+            </Box>
+            <Box className={styles.searchIcon}>
+              <IconButton>
+                <SearchIcon sx={{ color: "white" }} />
+              </IconButton>
+            </Box>
           </Box>
 
           <ChipsSection

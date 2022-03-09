@@ -12,8 +12,6 @@ export default async function handler(req, res) {
     access_token: accessToken,
   }
 
-  console.log(data)
-
   res.status(200).json(data)
 }
 
@@ -22,10 +20,6 @@ async function GetExchangeToken() {
   const clientID = process.env.ADOBE_CLIENT_ID
   const clientSecret = process.env.ADOBE_CLIENT_SECRET
   const jwtToken = GetJWT()
-  console.log(jwtToken)
-
-  console.log("jwtToken")
-  console.log(jwtToken)
 
   const params = new URLSearchParams()
   params.append("client_id", clientID)

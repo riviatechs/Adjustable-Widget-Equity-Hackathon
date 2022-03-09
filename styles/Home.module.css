@@ -14,6 +14,17 @@
   margin-top: 0;
 }
 
+.search {
+  width: 100% !important;
+}
+
+.searchIcon {
+  /* background: #00000033; a42d2d */
+  background: #a42d2d;
+  color: #ffffff;
+  border-radius: 0 50px 50px 0;
+}
+
 .filterSection {
   width: 300px;
 }
@@ -24,9 +35,10 @@
 }
 
 .searchBox {
-  width: 300px !important;
+  width: initial !important;
   display: flex !important;
   align-items: center !important;
+  justify-content: space-between;
 }
 
 .dropUpButton {
@@ -87,7 +99,7 @@
 
 @media only screen and (max-width: 1270px) {
   .searchBox {
-    width: 100%;
+    width: 100% !important;
     margin: 0;
   }
 

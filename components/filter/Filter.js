@@ -15,7 +15,7 @@ function Filter(props) {
   const [newDateRange, setDateRange] = useState(props.filterDateRange)
   const [newDate, setDate] = useState(props.filterDate)
   const [viewPeriod, setViewPeriod] = React.useState(true)
-  const [reset, setReset] = React.useState(false)
+  // const [reset, setReset] = React.useState(false)
 
   useEffect(() => {
     setNewAmount(props.filterAmount)
@@ -38,13 +38,6 @@ function Filter(props) {
   const getPeriodStatusHandler = (prd) => {
     setViewPeriod(prd)
   }
-
-  // const resetFilters = () => {
-  // setNewAmount([0, 100000000])
-  // setDateRange(["2018-01-01T00:00:00.000Z", new Date().toISOString()])
-  // setDate("NONE")
-  // setReset(true)
-  // }
 
   const applyFilters = () => {
     props.onFilterAmountRange(newAmount)
