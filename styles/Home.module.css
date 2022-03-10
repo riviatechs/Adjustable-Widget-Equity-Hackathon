@@ -86,44 +86,13 @@
   display: none !important;
 }
 
-/* @media only screen and (max-width: 1400px) {
+@media only screen and (max-width: 1368px) {
   .contentSection {
-    width: 61%;
-  }
-
-  .mobileFilterButton {
-    display: none !important;
+    width: 60%;
   }
 }
 
-@media only screen and (max-width: 1270px) {
-  .searchBox {
-    width: 100% !important;
-    margin: 0;
-  }
-
-  .filterSection {
-    width: 28%;
-    display: none;
-  }
-
-  .contentSection {
-    width: 100%;
-    position: relative;
-  }
-
-  .filterSection {
-    display: none;
-  }
-
-  .exportButton {
-    right: 15px !important;
-    bottom: 80px !important;
-  }
-
-} */
-
-@media only screen and (max-width: 1368px) {
+@media only screen and (max-width: 1200px) {
   .home {
     margin: 50px 1%;
   }
@@ -140,7 +109,65 @@
   }
 
   .filterSectionMobile {
-    width: 250px !important;
+    width: fit-content !important;
+    margin: 0 auto;
+    display: flex;
+  }
+
+  .contentSectionMobile {
+    display: none !important;
+  }
+
+  .contentSection {
+    width: 70%;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .h1 {
+    text-align: center;
+  }
+
+  .exportButton {
+    right: 15px !important;
+    bottom: 80px !important;
+  }
+
+  .mobileFilterButton {
+    display: flex !important;
+    right: 15px !important;
+    bottom: 15px !important;
+    width: fit-content !important;
+    position: fixed !important;
+  }
+
+  .exportButton:hover .exportSpan {
+    display: none !important;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .home {
+    margin: 50px 1%;
+  }
+  .searchBox {
+    width: 100%;
+  }
+
+  .line {
+    display: none;
+  }
+
+  .filterSection {
+    display: none;
+  }
+
+  .filterSectionMobile {
+    width: fit-content !important;
+    margin: 0 auto;
+    display: flex;
+    /* margin: 0; */
+    /* justify-content: center; */
   }
 
   .contentSectionMobile {
