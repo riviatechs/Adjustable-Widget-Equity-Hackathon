@@ -54,7 +54,7 @@ export default function Transactions(props) {
   )
 
   // When loading
-  // console.log(searchString)
+  console.log(dateRange, date)
 
   if (slsByAmountDataLoading) {
     return (

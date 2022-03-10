@@ -70,7 +70,7 @@ export default function HomePage() {
   const [activeFilter, setActiveFilter] = useState("active-1")
   const [searchInput, setSearchInput] = useState("")
   const [searchInputData, setSearchInputData] = useState("")
-  const [showFilterMobile, setShowFilterMobile] = useState(true)
+  const [showFilterMobile, setShowFilterMobile] = useState(false)
 
   const [open, setOpen] = useState(false)
 
@@ -127,7 +127,6 @@ export default function HomePage() {
 
   const getDate = (dt) => {
     setDate(dt)
-    console.log("NO PERIOD")
   }
 
   const onSearchInput = (e) => {
@@ -136,13 +135,11 @@ export default function HomePage() {
 
   const onSearchEnter = (event) => {
     if (event.key === "Enter") {
-      // console.log(searchInput)
       setSearchInputData(searchInput)
     }
   }
 
   const onSearchIconClick = () => {
-    // console.log(searchInput)
     setSearchInputData(searchInput)
   }
 

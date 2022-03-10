@@ -51,10 +51,7 @@ function Filter(props) {
   }
 
   return (
-    <Box
-      display={props.showFilterMobile ? "block" : { xs: "none" }}
-      className={styles.filterContainer}
-    >
+    <Box className={styles.filterContainer}>
       <h2 className={styles.h1}>Filter</h2>
       <PickDate
         filterDateRange={newDateRange}
