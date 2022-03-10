@@ -145,7 +145,7 @@ export default function Transactions(props) {
               onClose={handleClose}
               severity="success"
               elevation={2}
-              sx={{ width: "100%" }}
+              sx={{ width: "70%" }}
             >
               Total of {slsByAmountData.statementsFiltered.length} transactions
             </Alert>
