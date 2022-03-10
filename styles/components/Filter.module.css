@@ -10,3 +10,10 @@
 .h1 {
   margin: 0;
 }
+
+@media only screen and (max-width: 600px) {
+  .filterContainer {
+    position: relative;
+    width: fit-content;
+  }
+}

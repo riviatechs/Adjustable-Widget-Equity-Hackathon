@@ -65,11 +65,12 @@ export default function HomePage() {
     todayDate,
   ])
 
-  const [openFilter, setOPenFilter] = useState(false)
+  // const [openFilter, setOPenFilter] = useState(false)
   const [transType, setTransType] = useState("ALL")
   const [activeFilter, setActiveFilter] = useState("active-1")
   const [searchInput, setSearchInput] = useState("")
   const [searchInputData, setSearchInputData] = useState("")
+  const [showFilterMobile, setShowFilterMobile] = useState(true)
 
   const [open, setOpen] = useState(false)
 
@@ -129,10 +130,6 @@ export default function HomePage() {
     console.log("NO PERIOD")
   }
 
-  const handleOpenFilter = () => {
-    setOPenFilter(true)
-  }
-
   const onSearchInput = (e) => {
     setSearchInput(e.target.value)
   }
@@ -154,6 +151,10 @@ export default function HomePage() {
     setSearchInputData("")
   }
 
+  const removeFilterMobile = () => {
+    setShowFilterMobile((prev) => !prev)
+  }
+
   return (
     <Box className={styles.home}>
       <Header />
@@ -171,7 +172,7 @@ export default function HomePage() {
       <Box className={styles.body}>
         <Box
           className={
-            openFilter ? styles.filterSectionMobile : styles.filterSection
+            showFilterMobile ? styles.filterSectionMobile : styles.filterSection
           }
         >
           <Box className={styles.growAnimation}>
@@ -182,13 +183,17 @@ export default function HomePage() {
               onFilterDateRange={getDateRange}
               onFilterAmountRange={getFilteredAmount}
               onFilterDate={getDate}
+              showFilterMobile={showFilterMobile}
+              removeFilterMobile={removeFilterMobile}
             />
           </Box>
         </Box>
 
         <Box
           className={
-            openFilter ? styles.contentSectionMobile : styles.contentSection
+            showFilterMobile
+              ? styles.contentSectionMobile
+              : styles.contentSection
           }
         >
           <h1 className={styles.h1}>Transactions History</h1>
@@ -228,7 +233,7 @@ export default function HomePage() {
       </Box>
 
       <Button
-        onClick={handleOpenFilter}
+        onClick={removeFilterMobile}
         className={`button2 ${styles.mobileFilterButton}`}
       >
         <FilterAltIcon fontSize="medium" />

@@ -54,7 +54,7 @@ export default function Transactions(props) {
   )
 
   // When loading
-  console.log(searchString)
+  // console.log(searchString)
 
   if (slsByAmountDataLoading) {
     return (
@@ -173,29 +173,6 @@ export default function Transactions(props) {
               {slsByAmountData.statementsFiltered.length}{" "}
             </Box>
             result(s)
-            <IconButton onClick={props.resetSearch}>
-              <CloseIcon />
-            </IconButton>
-          </Box>
-        ) : (
-          ""
-        )}
-      </Box>
-
-      <Box>
-        {searchString !== "" && slsByAmountData.statementsFiltered === null ? (
-          <Box
-            sx={{
-              fontWeight: "thin",
-              fontStyle: "italic",
-              display: "flex",
-              width: "250px",
-              justifyContent: "space-around",
-              alignItems: "center",
-              mx: { xs: "auto" },
-            }}
-          >
-            Clear Search
             <IconButton onClick={props.resetSearch}>
               <CloseIcon />
             </IconButton>

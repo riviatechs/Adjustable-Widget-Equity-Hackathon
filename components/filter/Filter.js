@@ -14,7 +14,10 @@ function Filter(props) {
   const [newAmount, setNewAmount] = useState(props.filterAmount)
   const [newDateRange, setDateRange] = useState(props.filterDateRange)
   const [newDate, setDate] = useState(props.filterDate)
-  const [viewPeriod, setViewPeriod] = React.useState(true)
+  const [viewPeriod, setViewPeriod] = useState(true)
+  // const [showFilterMobile, setShowFilterMobile] = useState(
+  //   props.showFilterMobile
+  // )
   // const [reset, setReset] = React.useState(false)
 
   useEffect(() => {
@@ -40,13 +43,18 @@ function Filter(props) {
   }
 
   const applyFilters = () => {
+    // setShowFilterMobile(false)
+    props.removeFilterMobile(true)
     props.onFilterAmountRange(newAmount)
     props.onFilterDateRange(newDateRange)
     props.onFilterDate(newDate)
   }
 
   return (
-    <Box className={styles.filterContainer}>
+    <Box
+      display={props.showFilterMobile ? "block" : { xs: "none" }}
+      className={styles.filterContainer}
+    >
       <h2 className={styles.h1}>Filter</h2>
       <PickDate
         filterDateRange={newDateRange}

@@ -42,7 +42,7 @@ export default function Transaction(props) {
   const amount = priceSeparator(transData.amount)
 
   return (
-    <Box className={styles.transactionBox}>
+    <Box className={styles.transactionBox} my={0}>
       <Paper elevation={1} className={styles.transaction}>
         <Avatar className={pickAvatarStyle(transData.mark)}>
           {getAvatarLetter(transData.partyBName)}
