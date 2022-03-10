@@ -205,33 +205,6 @@ export default function Transactions(props) {
         )}
       </Box>
 
-      <Box>
-        {searchString !== "" ? (
-          <Box
-            sx={{
-              fontWeight: "thin",
-              fontStyle: "italic",
-              display: "flex",
-              width: "250px",
-              justifyContent: "space-around",
-              alignItems: "center",
-              mx: { xs: "auto" },
-            }}
-          >
-            Showing
-            <Box sx={{ fontWeight: "bold" }}>
-              {slsByAmountData.statementsFiltered.length}
-            </Box>
-            result(s)
-            <IconButton onClick={props.resetSearch}>
-              <CloseIcon />
-            </IconButton>
-          </Box>
-        ) : (
-          ""
-        )}
-      </Box>
-
       {slsByAmountData.statementsFiltered.map((MT940) => {
         const transDate = getDate(MT940.DateTime)
         return (
