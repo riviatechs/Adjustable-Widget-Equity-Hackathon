@@ -22,10 +22,6 @@ export default function Transactions(props) {
 
   const [open, setOpen] = React.useState(true)
 
-  const handleClick = () => {
-    setOpen(true)
-  }
-
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return
@@ -39,8 +35,8 @@ export default function Transactions(props) {
     setTransactionType(props.tt)
     setDateRange(props.dateRange)
     setDate(props.date)
-    setOpen(open)
-  }, [props.amountToFilter, props.tt, props.dateRange, props.date, open])
+    setOpen(true)
+  }, [props.amountToFilter, props.tt, props.dateRange, props.date])
 
   const {
     data: slsByAmountData,
