@@ -15,10 +15,6 @@ function Filter(props) {
   const [newDateRange, setDateRange] = useState(props.filterDateRange)
   const [newDate, setDate] = useState(props.filterDate)
   const [viewPeriod, setViewPeriod] = useState(true)
-  // const [showFilterMobile, setShowFilterMobile] = useState(
-  //   props.showFilterMobile
-  // )
-  // const [reset, setReset] = React.useState(false)
 
   useEffect(() => {
     setNewAmount(props.filterAmount)
@@ -43,7 +39,6 @@ function Filter(props) {
   }
 
   const applyFilters = () => {
-    // setShowFilterMobile(false)
     props.removeFilterMobile(true)
     props.onFilterAmountRange(newAmount)
     props.onFilterDateRange(newDateRange)

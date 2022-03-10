@@ -11,9 +11,10 @@
   margin: 0;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 1200px) {
   .filterContainer {
     position: relative;
-    width: fit-content;
+    width: 100%;
+    margin: 0;
   }
 }
