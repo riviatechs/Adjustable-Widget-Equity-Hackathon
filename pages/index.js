@@ -68,6 +68,8 @@ export default function HomePage() {
   const [openFilter, setOPenFilter] = useState(false)
   const [transType, setTransType] = useState("ALL")
   const [activeFilter, setActiveFilter] = useState("active-1")
+  const [searchInput, setSearchInput] = useState("")
+  const [searchInputData, setSearchInputData] = useState("")
 
   const [open, setOpen] = useState(false)
 
@@ -131,6 +133,27 @@ export default function HomePage() {
     setOPenFilter(true)
   }
 
+  const onSearchInput = (e) => {
+    setSearchInput(e.target.value)
+  }
+
+  const onSearchEnter = (event) => {
+    if (event.key === "Enter") {
+      // console.log(searchInput)
+      setSearchInputData(searchInput)
+    }
+  }
+
+  const onSearchIconClick = () => {
+    // console.log(searchInput)
+    setSearchInputData(searchInput)
+  }
+
+  const resetSearch = () => {
+    setSearchInput("")
+    setSearchInputData("")
+  }
+
   return (
     <Box className={styles.home}>
       <Header />
@@ -168,17 +191,20 @@ export default function HomePage() {
             openFilter ? styles.contentSectionMobile : styles.contentSection
           }
         >
-          <h1 className={styles.h1}>Transaction History</h1>
+          <h1 className={styles.h1}>Transactions History</h1>
           <Box className={styles.searchBox}>
             <Box className={styles.search}>
               <MyTextFieldSearch
                 size="small"
                 fullWidth
+                value={searchInput}
+                onChange={onSearchInput}
+                onKeyDown={onSearchEnter}
                 placeholder="Search by Name or Account No"
               />
             </Box>
             <Box className={styles.searchIcon}>
-              <IconButton>
+              <IconButton onClick={onSearchIconClick}>
                 <SearchIcon sx={{ color: "white" }} />
               </IconButton>
             </Box>
@@ -195,6 +221,8 @@ export default function HomePage() {
             date={date}
             tt={transType}
             amountToFilter={amount}
+            searchString={searchInputData}
+            resetSearch={resetSearch}
           />
         </Box>
       </Box>

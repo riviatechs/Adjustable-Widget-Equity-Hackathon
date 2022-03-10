@@ -6,7 +6,8 @@ import ClipLoader from "react-spinners/ClipLoader"
 import { getDate } from "../../util/util"
 import { useQuery } from "@apollo/client"
 import { FILTER_QUERY } from "../../queries/TRANSACTION_BY_AMOUNT.JS"
-import { Alert, Skeleton, Snackbar } from "@mui/material"
+import { Alert, IconButton, Skeleton, Snackbar } from "@mui/material"
+import CloseIcon from "@mui/icons-material/Close"
 
 import styles from "../../styles/components/Transactions.module.css"
 import Link from "next/link"
@@ -19,6 +20,7 @@ export default function Transactions(props) {
   const [transactionType, setTransactionType] = useState(props.tt)
   const [dateRange, setDateRange] = useState(props.dateRange)
   const [date, setDate] = useState(props.date)
+  const [searchString, setSearchString] = useState(props.searchString)
 
   const [open, setOpen] = React.useState(true)
 
@@ -29,6 +31,10 @@ export default function Transactions(props) {
 
     setOpen(false)
   }
+
+  useEffect(() => {
+    setSearchString(props.searchString)
+  }, [props.searchString])
 
   useEffect(() => {
     setAmount(props.amountToFilter)
@@ -44,10 +50,11 @@ export default function Transactions(props) {
     error: slsByAmountDataError,
   } = useQuery(
     FILTER_QUERY,
-    retType(transactionType, amountRange, dateRange, date)
+    retType(transactionType, amountRange, dateRange, date, searchString)
   )
 
   // When loading
+  console.log(searchString)
 
   if (slsByAmountDataLoading) {
     return (
@@ -98,6 +105,29 @@ export default function Transactions(props) {
   if (!slsByAmountData.statementsFiltered)
     return (
       <Box className={styles.transactionsContainer}>
+        <Box>
+          {searchString !== "" &&
+          slsByAmountData.statementsFiltered === null ? (
+            <Box
+              sx={{
+                fontWeight: "thin",
+                fontStyle: "italic",
+                display: "flex",
+                width: "250px",
+                justifyContent: "space-around",
+                alignItems: "center",
+                mx: { xs: "auto" },
+              }}
+            >
+              0 results
+              <IconButton onClick={props.resetSearch}>
+                <CloseIcon />
+              </IconButton>
+            </Box>
+          ) : (
+            ""
+          )}
+        </Box>
         <Box className={styles.noDataContainer}>
           Sorry! No Transactions Available!
         </Box>
@@ -108,12 +138,13 @@ export default function Transactions(props) {
 
   return (
     <Box className={styles.transactionsContainer}>
-      <Box class={styles.transactionNumber}>
+      <Box className={styles.transactionNumber}>
         {slsByAmountData.statementsFiltered.length !== 0 ? (
-          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
             <Alert
               onClose={handleClose}
               severity="success"
+              elevation={2}
               sx={{ width: "100%" }}
             >
               Total of {slsByAmountData.statementsFiltered.length} transactions
@@ -123,6 +154,84 @@ export default function Transactions(props) {
           ""
         )}
       </Box>
+
+      <Box>
+        {searchString !== "" ? (
+          <Box
+            sx={{
+              fontWeight: "thin",
+              fontStyle: "italic",
+              display: "flex",
+              width: "250px",
+              justifyContent: "space-around",
+              alignItems: "center",
+              mx: { xs: "auto" },
+            }}
+          >
+            Showing{" "}
+            <Box sx={{ fontWeight: "bold" }}>
+              {slsByAmountData.statementsFiltered.length}{" "}
+            </Box>
+            result(s)
+            <IconButton onClick={props.resetSearch}>
+              <CloseIcon />
+            </IconButton>
+          </Box>
+        ) : (
+          ""
+        )}
+      </Box>
+
+      <Box>
+        {searchString !== "" && slsByAmountData.statementsFiltered === null ? (
+          <Box
+            sx={{
+              fontWeight: "thin",
+              fontStyle: "italic",
+              display: "flex",
+              width: "250px",
+              justifyContent: "space-around",
+              alignItems: "center",
+              mx: { xs: "auto" },
+            }}
+          >
+            Clear Search
+            <IconButton onClick={props.resetSearch}>
+              <CloseIcon />
+            </IconButton>
+          </Box>
+        ) : (
+          ""
+        )}
+      </Box>
+
+      <Box>
+        {searchString !== "" ? (
+          <Box
+            sx={{
+              fontWeight: "thin",
+              fontStyle: "italic",
+              display: "flex",
+              width: "250px",
+              justifyContent: "space-around",
+              alignItems: "center",
+              mx: { xs: "auto" },
+            }}
+          >
+            Showing
+            <Box sx={{ fontWeight: "bold" }}>
+              {slsByAmountData.statementsFiltered.length}
+            </Box>
+            result(s)
+            <IconButton onClick={props.resetSearch}>
+              <CloseIcon />
+            </IconButton>
+          </Box>
+        ) : (
+          ""
+        )}
+      </Box>
+
       {slsByAmountData.statementsFiltered.map((MT940) => {
         const transDate = getDate(MT940.DateTime)
         return (
@@ -149,20 +258,13 @@ export default function Transactions(props) {
   )
 }
 
-const retType = (transType, amntRange, dtRange, dt) => {
-  if (transType === "ALL") {
-    if (dt === "NONE" || Array.isArray(dt)) {
+const retType = (transType, amntRange, dtRange, dt, search) => {
+  if (search !== "") {
+    if (transType === "ALL") {
       return {
         variables: {
           input: {
-            amountRange: {
-              lower: amntRange[0].toString(),
-              upper: amntRange[1].toString(),
-            },
-            period: {
-              start: dtRange[0],
-              end: dtRange[1],
-            },
+            search: search,
           },
         },
       }
@@ -170,48 +272,76 @@ const retType = (transType, amntRange, dtRange, dt) => {
       return {
         variables: {
           input: {
-            amountRange: {
-              lower: amntRange[0].toString(),
-              upper: amntRange[1].toString(),
-            },
-            period: {
-              date: dt,
-            },
+            tt: transType,
+            search: search,
           },
         },
       }
     }
   } else {
-    if (dt === "NONE" || Array.isArray(dt)) {
-      return {
-        variables: {
-          input: {
-            amountRange: {
-              lower: amntRange[0].toString(),
-              upper: amntRange[1].toString(),
+    if (transType === "ALL") {
+      if (dt === "NONE" || Array.isArray(dt)) {
+        return {
+          variables: {
+            input: {
+              amountRange: {
+                lower: amntRange[0].toString(),
+                upper: amntRange[1].toString(),
+              },
+              period: {
+                start: dtRange[0],
+                end: dtRange[1],
+              },
             },
-            period: {
-              start: dtRange[0],
-              end: dtRange[1],
-            },
-            tt: transType,
           },
-        },
+        }
+      } else {
+        return {
+          variables: {
+            input: {
+              amountRange: {
+                lower: amntRange[0].toString(),
+                upper: amntRange[1].toString(),
+              },
+              period: {
+                date: dt,
+              },
+            },
+          },
+        }
       }
     } else {
-      return {
-        variables: {
-          input: {
-            amountRange: {
-              lower: amntRange[0].toString(),
-              upper: amntRange[1].toString(),
+      if (dt === "NONE" || Array.isArray(dt)) {
+        return {
+          variables: {
+            input: {
+              amountRange: {
+                lower: amntRange[0].toString(),
+                upper: amntRange[1].toString(),
+              },
+              period: {
+                start: dtRange[0],
+                end: dtRange[1],
+              },
+              tt: transType,
             },
-            period: {
-              date: dt,
-            },
-            tt: transType,
           },
-        },
+        }
+      } else {
+        return {
+          variables: {
+            input: {
+              amountRange: {
+                lower: amntRange[0].toString(),
+                upper: amntRange[1].toString(),
+              },
+              period: {
+                date: dt,
+              },
+              tt: transType,
+            },
+          },
+        }
       }
     }
   }

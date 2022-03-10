@@ -64,7 +64,7 @@ export default function Transaction(props) {
           </Box>
 
           <Box className={styles.statementLower}>
-            <Box className={styles.partAAccount}>{transData.partAAccount}</Box>
+            <Box className={styles.partAAccount}>{transData.partyBAccount}</Box>
 
             <Box className={styles.dateTime}>
               {extractTimeFromDate(transData.dateTime)}

@@ -279,6 +279,7 @@ function ExportModal(props) {
     a.click()
 
     setLoadingPDFFromServer(false)
+    console.log("download successful!!")
   }
 
   const resetCSVDownload = async () => {
@@ -324,7 +325,9 @@ function ExportModal(props) {
               <Divider className={styles.hr} orientation="vertical" flexItem />
 
               <div className={styles.rightSide}>
-                <h2>Export Statements</h2>
+                <Box display={{ lg: "none" }}>
+                  <h2>Export Statements</h2>
+                </Box>
                 <form onSubmit={onSubmitHandler}>
                   <div className={styles.inputSelect}>
                     <label className={styles.label}>Choose Fields</label>
