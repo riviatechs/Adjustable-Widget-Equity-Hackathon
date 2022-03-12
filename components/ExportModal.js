@@ -114,10 +114,15 @@ function ExportModal(props) {
   const [loadCSVDownload, setLoadCSVDownload] = React.useState(false)
   const [loadPDFDownload, setLoadPDFDownload] = React.useState(false)
 
-  const [sendData, { loading, error, data }] = useLazyQuery(FILTER_EXPORT_QUERY)
+  const [sendDataCSV, { loading: CSVloading, error: CSVError, data: CSVData }] =
+    useLazyQuery(FILTER_EXPORT_QUERY)
+  const [sendDataPDF, { loading: PDFloading, error: PDFError, data: PDFData }] =
+    useLazyQuery(FILTER_EXPORT_QUERY)
+
   const [loadingPDFFromServer, setLoadingPDFFromServer] = React.useState(false)
 
-  const [downloadData, setDownloadData] = React.useState(null)
+  const [downloadPDFData, setDownloadPDFData] = React.useState(null)
+  const [downloadCSVData, setDownloadCSVData] = React.useState(null)
 
   const [amountRange, setAmount] = React.useState(props.amountToFilter)
   const [transactionType, setTransactionType] = React.useState(props.tt)
@@ -133,12 +138,15 @@ function ExportModal(props) {
   }, [props.amountToFilter, props.tt, props.dateRange, props.date])
 
   React.useEffect(() => {
-    setDownloadData(data)
-  }, [data])
+    setDownloadPDFData(PDFData)
+  }, [PDFData])
 
-  // console.log(amountRange, transactionType, dateRange, date)
+  React.useEffect(() => {
+    setDownloadCSVData(CSVData)
+  }, [CSVData])
 
-  if (error) console.log(error)
+  if (PDFError) console.log(PDFError)
+  if (CSVError) console.log(CSVError)
 
   const onSelectFieldsHandler = (event, value, reason) => {
     setNewFields(value)
@@ -189,51 +197,90 @@ function ExportModal(props) {
         Object.assign(obj, element)
       })
 
-      if (transactionType === "ALL") {
-        sendData({
-          variables: {
-            input: {
-              fields: obj,
-              downLoadType: newTypes,
-              filters: {
-                amountRange: {
-                  lower: amountRange[0].toString(),
-                  upper: amountRange[1].toString(),
-                },
-                period: {
-                  start: dateRange[0],
-                  end: dateRange[1],
-                },
-              },
-            },
-          },
-        })
-      } else {
-        sendData({
-          variables: {
-            input: {
-              fields: obj,
-              downLoadType: newTypes,
-              filters: {
-                amountRange: {
-                  lower: amountRange[0].toString(),
-                  upper: amountRange[1].toString(),
-                },
-                period: {
-                  start: dateRange[0],
-                  end: dateRange[1],
-                },
-                tt: transactionType,
-              },
-            },
-          },
-        })
-      }
-
       if (newTypes === "csv") {
         setLoadCSVDownload(true)
+        if (transactionType === "ALL") {
+          sendDataCSV({
+            variables: {
+              input: {
+                fields: obj,
+                downLoadType: newTypes,
+                filters: {
+                  amountRange: {
+                    lower: amountRange[0].toString(),
+                    upper: amountRange[1].toString(),
+                  },
+                  period: {
+                    start: dateRange[0],
+                    end: dateRange[1],
+                  },
+                },
+              },
+            },
+          })
+        } else {
+          sendDataCSV({
+            variables: {
+              input: {
+                fields: obj,
+                downLoadType: newTypes,
+                filters: {
+                  amountRange: {
+                    lower: amountRange[0].toString(),
+                    upper: amountRange[1].toString(),
+                  },
+                  period: {
+                    start: dateRange[0],
+                    end: dateRange[1],
+                  },
+                  tt: transactionType,
+                },
+              },
+            },
+          })
+        }
       } else if (newTypes === "pdf") {
         setLoadPDFDownload(true)
+        if (transactionType === "ALL") {
+          sendDataPDF({
+            variables: {
+              input: {
+                fields: obj,
+                downLoadType: newTypes,
+                filters: {
+                  amountRange: {
+                    lower: amountRange[0].toString(),
+                    upper: amountRange[1].toString(),
+                  },
+                  period: {
+                    start: dateRange[0],
+                    end: dateRange[1],
+                  },
+                },
+              },
+            },
+          })
+        } else {
+          sendDataPDF({
+            variables: {
+              input: {
+                fields: obj,
+                downLoadType: newTypes,
+                filters: {
+                  amountRange: {
+                    lower: amountRange[0].toString(),
+                    upper: amountRange[1].toString(),
+                  },
+                  period: {
+                    start: dateRange[0],
+                    end: dateRange[1],
+                  },
+                  tt: transactionType,
+                },
+              },
+            },
+          })
+        }
       }
 
       setErrorValue(null)
@@ -284,14 +331,14 @@ function ExportModal(props) {
 
   const resetCSVDownload = async () => {
     setLoadCSVDownload(false)
-    await downloadLink("bank_statements.csv", downloadData?.download)
-    setDownloadData(null)
+    await downloadLink("bank_statements.csv", downloadCSVData?.download)
+    setDownloadCSVData(null)
   }
 
   const resetPDFDownload = async () => {
     setLoadPDFDownload(false)
-    await handleSubmit(downloadData?.download)
-    setDownloadData(null)
+    await handleSubmit(downloadPDFData?.download)
+    setDownloadPDFData(null)
   }
 
   return (
@@ -392,19 +439,19 @@ function ExportModal(props) {
                     <Button type="submit" className="button1 export">
                       Export
                     </Button>
-                    {loading || loadingPDFFromServer ? (
+                    {CSVloading || loadingPDFFromServer ? (
                       <span className="loader">
                         <ClipLoader />
                       </span>
                     ) : (
-                      downloadData?.download &&
+                      downloadCSVData?.download &&
                       loadCSVDownload &&
                       resetCSVDownload()
                     )}
-                    {downloadData?.download &&
+                    {downloadPDFData?.download &&
                       loadPDFDownload &&
                       resetPDFDownload() &&
-                      !loading}
+                      !PDFloading}
                   </div>
                 </form>
               </div>
