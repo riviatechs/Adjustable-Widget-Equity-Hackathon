@@ -202,86 +202,168 @@ function ExportModal(props) {
       if (newTypes === "csv") {
         setLoadCSVDownload(true)
         if (transactionType === "ALL") {
-          sendDataCSV({
-            variables: {
-              input: {
-                fields: obj,
-                downLoadType: newTypes,
-                filters: {
-                  amountRange: {
-                    lower: amountRange[0].toString(),
-                    upper: amountRange[1].toString(),
-                  },
-                  period: {
-                    start: dateRange[0],
-                    end: dateRange[1],
+          if (date === "NONE" || Array.isArray(date)) {
+            sendDataCSV({
+              variables: {
+                input: {
+                  fields: obj,
+                  downLoadType: newTypes,
+                  filters: {
+                    amountRange: {
+                      lower: amountRange[0].toString(),
+                      upper: amountRange[1].toString(),
+                    },
+                    period: {
+                      start: dateRange[0],
+                      end: dateRange[1],
+                    },
                   },
                 },
               },
-            },
-          })
+            })
+          } else {
+            sendDataCSV({
+              variables: {
+                input: {
+                  fields: obj,
+                  downLoadType: newTypes,
+                  filters: {
+                    amountRange: {
+                      lower: amountRange[0].toString(),
+                      upper: amountRange[1].toString(),
+                    },
+                    period: {
+                      date: date,
+                    },
+                  },
+                },
+              },
+            })
+          }
         } else {
-          sendDataCSV({
-            variables: {
-              input: {
-                fields: obj,
-                downLoadType: newTypes,
-                filters: {
-                  amountRange: {
-                    lower: amountRange[0].toString(),
-                    upper: amountRange[1].toString(),
+          if (date === "NONE" || Array.isArray(date)) {
+            sendDataCSV({
+              variables: {
+                input: {
+                  fields: obj,
+                  downLoadType: newTypes,
+                  filters: {
+                    amountRange: {
+                      lower: amountRange[0].toString(),
+                      upper: amountRange[1].toString(),
+                    },
+                    period: {
+                      start: dateRange[0],
+                      end: dateRange[1],
+                    },
+                    tt: transactionType,
                   },
-                  period: {
-                    start: dateRange[0],
-                    end: dateRange[1],
-                  },
-                  tt: transactionType,
                 },
               },
-            },
-          })
+            })
+          } else {
+            sendDataCSV({
+              variables: {
+                input: {
+                  fields: obj,
+                  downLoadType: newTypes,
+                  filters: {
+                    amountRange: {
+                      lower: amountRange[0].toString(),
+                      upper: amountRange[1].toString(),
+                    },
+                    period: {
+                      date: date,
+                    },
+                    tt: transactionType,
+                  },
+                },
+              },
+            })
+          }
         }
       } else if (newTypes === "pdf") {
         setLoadPDFDownload(true)
         if (transactionType === "ALL") {
-          sendDataPDF({
-            variables: {
-              input: {
-                fields: obj,
-                downLoadType: newTypes,
-                filters: {
-                  amountRange: {
-                    lower: amountRange[0].toString(),
-                    upper: amountRange[1].toString(),
-                  },
-                  period: {
-                    start: dateRange[0],
-                    end: dateRange[1],
+          if (date === "NONE" || Array.isArray(date)) {
+            sendDataPDF({
+              variables: {
+                input: {
+                  fields: obj,
+                  downLoadType: newTypes,
+                  filters: {
+                    amountRange: {
+                      lower: amountRange[0].toString(),
+                      upper: amountRange[1].toString(),
+                    },
+                    period: {
+                      start: dateRange[0],
+                      end: dateRange[1],
+                    },
                   },
                 },
               },
-            },
-          })
+            })
+          } else {
+            sendDataPDF({
+              variables: {
+                input: {
+                  fields: obj,
+                  downLoadType: newTypes,
+                  filters: {
+                    amountRange: {
+                      lower: amountRange[0].toString(),
+                      upper: amountRange[1].toString(),
+                    },
+                    period: {
+                      date: date,
+                    },
+                  },
+                },
+              },
+            })
+          }
         } else {
-          sendDataPDF({
-            variables: {
-              input: {
-                fields: obj,
-                downLoadType: newTypes,
-                filters: {
-                  amountRange: {
-                    lower: amountRange[0].toString(),
-                    upper: amountRange[1].toString(),
+          if (date === "NONE" || Array.isArray(date)) {
+            sendDataPDF({
+              variables: {
+                input: {
+                  fields: obj,
+                  downLoadType: newTypes,
+                  filters: {
+                    amountRange: {
+                      lower: amountRange[0].toString(),
+                      upper: amountRange[1].toString(),
+                    },
+                    period: {
+                      start: dateRange[0],
+                      end: dateRange[1],
+                    },
+                    tt: transactionType,
                   },
-                  period: {
-                    start: dateRange[0],
-                    end: dateRange[1],
-                  },
-                  tt: transactionType,
                 },
               },
-            },
-          })
+            })
+          } else {
+            sendDataPDF({
+              variables: {
+                input: {
+                  fields: obj,
+                  downLoadType: newTypes,
+                  filters: {
+                    amountRange: {
+                      lower: amountRange[0].toString(),
+                      upper: amountRange[1].toString(),
+                    },
+                    period: {
+                      date: date,
+                    },
+                    tt: transactionType,
+                  },
+                },
+              },
+            })
+          }
         }
       }
 
