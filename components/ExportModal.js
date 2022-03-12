@@ -87,10 +87,12 @@ const MyTextField = styled(TextField)({
 async function downloadLink(name, uri) {
   const resp = await fetch(uri)
   const blob = await resp.blob()
-  let url = window.URL.createObjectURL(blob)
+  const newBlob = new Blob([blob], { type: "text/csv;charset=utf-8" })
+  let url = URL.createObjectURL(newBlob)
   let a = document.createElement("a")
   a.href = url
   a.download = `${name}`
+  document.body.appendChild(a)
   a.click()
 }
 

@@ -36,8 +36,14 @@ export const priceSeparator = (numb) => {
 
 // Get first letter of each word in a sentence
 
-export const getAvatarLetter = (name) => {
-  return name.match(/(?<!\p{L}\p{M}*|[\p{N}\p{Pc}])\p{L}/gu).join("")
+export const getAvatarLetter = (string) => {
+  const names = string.split(" "),
+    initials = names[0].substring(0, 1).toUpperCase()
+
+  if (names.length > 1) {
+    initials += names[names.length - 1].substring(0, 1).toUpperCase()
+  }
+  return initials
 }
 
 export const extractTimeFromDate = (dateString) => {
