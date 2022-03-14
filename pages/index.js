@@ -187,6 +187,7 @@ export default function HomePage() {
         </Box>
 
         <Box
+          // className={styles.contentSection}
           className={
             showFilterMobile
               ? styles.contentSectionMobile
