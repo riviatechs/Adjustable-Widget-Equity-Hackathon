@@ -35,6 +35,12 @@ url: [https://mt940-website-s47opgtmgq-uc.a.run.app](https://mt940-website-s47op
 
 ### Production
 
+#### Link to the app
+
+- [https://equity.riviatechs.com](https://equity.riviatechs.com)
+
+- [Setting-up-a-global-https-load-balancer](2)
+
 - External IP addresses
 
 name: mt940-website-ip
@@ -67,3 +73,7 @@ name: mt940-website-target-https-proxy
 name: mt940-website-forwarding-rule
 
 - Update your load balancer with SSL certificate
+  [Redirect-HTTP-to-HTTPS](1)
+
+[1]: https://cloud.google.com/load-balancing/docs/https/setting-up-http-https-redirect#console "Redirect HTTP to HTTPS"
+[2]: https://cloud.google.com/load-balancing/docs/https/setting-up-https-serverless#gcloud_1 "Setting up a global external HTTP(S) load balancer (classic) with Cloud Run"
