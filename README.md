@@ -1,36 +1,28 @@
 # MT940(Customer Message Statement)
 
-This purely for the front-end development checkout [https://github.com/riviatechs/mt940_server](https://github.com/riviatechs/mt940_server) for the server details.
+![Screenshot-of-the-web-app](social-preview.png)
 
-Enjoy!!
+Access the site at [https://equity.riviatechs.com](https://equity.riviatechs.com)
 
-## Run
+Submission solution for the equity hackathon.  
+For full information about the challenge visit [https://github.com/riviatechs/equity-report](https://github.com/riviatechs/equity-report).
 
-After cloning the repo run the series of the below commands to be up and running, within the root project folder.
+This solutions meets the following the following objectives:-
 
-```bash
-# for npm users
+1. Develop a configurable widget to download MT940s in various formats e.g xls, pdf, or free formats that allows selection and formatting of columns(column layout, content, etc)
 
-npm install
-# and
-npm run dev
+2. A widget which the bank would then consume from within equity platform via API calls.
 
-# or
-yarn install
-# and
-yarn dev
+3. Users to be able to select the columns and layout from the raw format via a simple UI
 
-# for yarn users
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Easily download the selected MT940 data and corresponding columns in various file types
 
 ## Deployment
 
 ### Staging
 
-service-name: mt940-website
-Region: us-central1
+service-name: mt940-website  
+Region: us-central1  
 url: [https://mt940-website-s47opgtmgq-uc.a.run.app](https://mt940-website-s47opgtmgq-uc.a.run.app)
 
 ### Production
@@ -43,12 +35,12 @@ url: [https://mt940-website-s47opgtmgq-uc.a.run.app](https://mt940-website-s47op
 
 - External IP addresses
 
-name: mt940-website-ip
+name: mt940-website-ip  
 address: 34.110.166.190
 
 - Create a serverless NEG
 
-name: mt940-website-neg
+name: mt940-website-neg  
 cloud-run-service: mt940-website
 
 - Create a backend service
@@ -61,7 +53,7 @@ name: mt940-website-url-map
 
 - To create a Google-managed SSL certificate resource
 
-name: mt940-website-ssl
+name: mt940-website-ssl  
 domain: equity.riviatechs.com
 
 - Create a target HTTP(S) proxy to route requests to your URL map
@@ -72,7 +64,7 @@ name: mt940-website-target-https-proxy
 
 name: mt940-website-forwarding-rule
 
-- Update your load balancer with SSL certificate
+- Update your load balancer with SSL certificate  
   [Redirect-HTTP-to-HTTPS](1)
 
 [1]: https://cloud.google.com/load-balancing/docs/https/setting-up-http-https-redirect#console "Redirect HTTP to HTTPS"
