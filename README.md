@@ -69,3 +69,5 @@ name: mt940-website-forwarding-rule
 
 [1]: https://cloud.google.com/load-balancing/docs/https/setting-up-http-https-redirect#console "Redirect HTTP to HTTPS"
 [2]: https://cloud.google.com/load-balancing/docs/https/setting-up-https-serverless#gcloud_1 "Setting up a global external HTTP(S) load balancer (classic) with Cloud Run"
+[3]: https://codeburst.io/next-js-on-cloud-functions-for-firebase-with-firebase-hosting-7911465298f2
+[4]: https://github.com/vercel/next.js/tree/canary/examples/with-firebase-hosting
